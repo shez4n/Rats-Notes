@@ -1,0 +1,635 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Rat&#x27;s mobile methodology</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3adef0ef-48cb-4a47-9ac8-bf1242be6957" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🐀</span></div><h1 class="page-title">Rat&#x27;s mobile methodology</h1></header><div class="page-body"><nav id="d0368f1d-49f1-4aa8-a654-505a5219099e" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5678a6aa-7cdd-4615-926f-56ad30f22c1f">What is it?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#625fb9b5-a1d9-46e8-a028-15e88bb70525">The methodology</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6f9eb381-cec5-4853-8f11-f2aff7f00baf">Picking a platform</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#df5408ba-a160-41b0-b71c-b0f3e9814cfd">Intigriti</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#54150335-e40c-4e4b-ab6c-3b288e999080">Hackerone</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d2f2349e-a693-48fc-812d-e0e1dc151bec">Bugcrowd</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fce93c65-7e99-45b7-91da-d6dd2e29bf76">Picking a program</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#803cb63c-5472-4b83-9192-003cf059ca9f">VDP or paid?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6f70c51d-59ef-4d9e-aac7-188c823a7929">Uncle Rat&#x27;s attack strategy</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#8176d180-5223-47e7-9a12-293a324f6f4e">Starting out</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#5eb8a710-8302-49eb-95a5-69bbb3defd4d">Manually exploring the application</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#962838f5-714f-4e96-a8dc-2026f80d90cf">PoC || GTFO</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7427b116-effd-4074-87cc-d537727b8946">Exploring the requests in burp suite</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2676aff5-a9c6-4cf8-b317-61feac5c871f">What parameters do i test for what vulnerabilities?</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#bee303a2-8d27-4df3-9162-eebdde3d601f">Automated testing</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#358fb792-f44c-4535-baed-a42a129f6260">General tips</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#302aa980-e224-4005-b361-7b72942d7498">Video&#x27;s</a></div></nav><h1 id="5678a6aa-7cdd-4615-926f-56ad30f22c1f" class="">What is it?</h1><p id="1d398b8c-69ff-4861-877c-016da1814d4d" class="">Over time i ran into some issues when i was following other people&#x27;s methodologies. I was testing like my mentors and my hero&#x27;s but it never felt like their way of testing quite fitted my way of life and i never found any bugs doing that. </p><p id="6b02b621-ef9e-43f1-b472-8635dd5a83b8" class="">I am a stubborn rat. When i can&#x27;t find a way i make my own. I&#x27;ve developed a methodology that i think minimizes dupes beause i focus on out-thinking the competition instead of being the first to find a new subdomain or asset and testing it. I love leftovers 🙃.</p><h1 id="625fb9b5-a1d9-46e8-a028-15e88bb70525" class="">The methodology</h1><h2 id="6f9eb381-cec5-4853-8f11-f2aff7f00baf" class="">Picking a platform</h2><p id="435c74c0-2d53-4396-8d4d-63ba0a31b904" class="">This is very important in my opinion. There are 3 major players that i focussed on with each having their own unique advantages and disadvantages. I personally will always recommend Intigriti but that&#x27;s a personal preference and you will see why. </p><p id="73a00825-fb91-49d9-93b1-2358e93ffafd" class="">All these points are based on my opinion. Opinions can change and alter over time, make up your own mind. You need to pick the program that is right for you and i encourage you to fact check these bullet points and even investigate a little for your own. </p><p id="74497c3b-51c5-471d-8aeb-c1cc63a93429" class="">You have several options here. You can either go with one of the major platforms or try your hand at some google dorking to find a good bug bounty program to fit your needs.</p><ul id="cca7234c-577e-4e70-87c1-80327e9c3848" class="bulleted-list"><li>Intigriti</li></ul><ul id="1626a29a-e2fa-4280-b2d2-31d1a5f1b24b" class="bulleted-list"><li>HackerOne</li></ul><ul id="66969e28-5499-473d-ad1c-79824f75ed40" class="bulleted-list"><li>Bugcrowd</li></ul><ul id="81447889-95ff-427b-8e7e-7888e0287075" class="bulleted-list"><li>Synack (You need to apply)</li></ul><ul id="db791238-687f-45d2-b28a-f33566b1d91c" class="bulleted-list"><li>yeswehack</li></ul><ul id="438a0a82-7b35-40f5-8bf3-b9009066f229" class="bulleted-list"><li>Google dorking: </li></ul><figure id="025a7e82-9ce7-49a2-b24d-f9ba70e00c5e"><a href="https://github.com/sushiwushi/bug-bounty-dorks" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">sushiwushi/bug-bounty-dorks</div><div class="bookmark-description">List of Google Dorks to search for companies that have a responsible disclosure program or bug bounty program which are not affiliated with known bug bounty platforms such as HackerOne or Bugcrowd.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/sushiwushi/bug-bounty-dorks</div></div><img src="https://avatars2.githubusercontent.com/u/45194995?s=400&amp;v=4" class="bookmark-image"/></a></figure><h3 id="df5408ba-a160-41b0-b71c-b0f3e9814cfd" class="">Intigriti</h3><p id="b98b7628-0f74-41fd-812a-56a6bea0550c" class="">This is of course my preferred platform as i have been hunting on it for a while so i&#x27;ll have a bit more to inform about when it comest to this platform.</p><p id="440b656a-e01d-45d7-a8b0-e7a2706249a2" class=""><span style="border-bottom:0.05em solid"><strong>➕ Positive items</strong></span></p><ul id="8e0cf74e-b91e-406c-8484-30065e4e5072" class="bulleted-list"><li>Less crowded</li></ul><ul id="19d7b04f-97a9-42a9-b9c2-c0c023e3ee5c" class="bulleted-list"><li>Amazing triagers that will go out of their way to help you</li></ul><ul id="4e45e30d-7c0d-4033-b167-ef1f5d224c5d" class="bulleted-list"><li>After reporting a few good valid bugs, you can get invited to the Initigriti slack workspace where the community manager and triagers are always there and ready to help with your questions</li></ul><ul id="92c37aff-6cbd-4ba5-819a-e1f3eeeb6475" class="bulleted-list"><li>Wide range of programs to pick from (mobile, web, vps hosters,...) </li></ul><ul id="99d6a50a-510c-4106-a668-4b4b78b00ec1" class="bulleted-list"><li>They do not punish you for reporting an invalid bug unlike other platforms where you get negative karma</li></ul><p id="cf4aa7bb-90d6-436e-8b0a-6ac551961464" class=""><span style="border-bottom:0.05em solid"><strong>➖ Negative Items</strong></span></p><ul id="9e4db69b-ae86-4852-8602-aef8ef9c983b" class="bulleted-list"><li>They have a smaller amount of programs when you compare them to other big platforms such as hackerone or bugcrowd</li></ul><ul id="39112001-63d6-4269-a060-5d83c75b8789" class="bulleted-list"><li>Most programs are in Dutch or some other EU language. This can be an advantage however if you just install a translate plugin. It&#x27;s a barrier and every barrier drops off some other hackers so we can use these to our advantage if we are willing to go a bit further.</li></ul><ul id="ed5c24f6-6857-4ef9-b424-6273c5c55e31" class="bulleted-list"><li>There could be more public programs. You would do well picking a VPD ( less competition ) over a paid program and reporting a few bugs. This will get you invites to private programs which Intigriti has plenty off.</li></ul><h3 id="54150335-e40c-4e4b-ab6c-3b288e999080" class="">Hackerone</h3><p id="3215cbfc-0675-4716-a88d-7b81957c0193" class="">I don&#x27;t have much experience with this platform so i won&#x27;t have as much to say but i did form an opinion in my time using the platform.</p><p id="2497d62b-1513-45cf-b818-b8a56ca6ea95" class=""><span style="border-bottom:0.05em solid"><strong>➕ Positive items</strong></span></p><ul id="38a0dc09-483f-441a-bc74-7ca710a31f82" class="bulleted-list"><li>The host CTFs that give you private invites when you find flags</li></ul><ul id="9a97c030-1e11-4af7-b47c-b3254576d194" class="bulleted-list"><li>They have a huge selection of programs</li></ul><ul id="1c75b7c8-4ec5-46c3-ab10-78814d1f91d8" class="bulleted-list"><li>They have great triagers who will help you out when you write an invalid report by adding useful comments</li></ul><ul id="4cdf2b5b-ca7f-41a8-bece-3354ae23cf86" class="bulleted-list"><li>They organise regular event to improve the community knowledge </li></ul><p id="cfa928cc-15df-4fd7-b4d2-2c61e3f5732b" class=""><span style="border-bottom:0.05em solid"><strong>➖ Negative Items</strong></span></p><ul id="bcd67339-2f72-4a18-966e-8e5fe80ccc54" class="bulleted-list"><li>If you create an invalid report, you will get negative karma, get too much negative karma and you will have to prove yourself in a trial period where you can&#x27;t submit to some programs and have to wait 30 days before you can make any submission at all</li></ul><ul id="5c382efd-09c1-409c-9ca8-41cd0b41ccfa" class="bulleted-list"><li> Since this is the biggest bounty platform out there, there is a lot of competition but there is also a lot more programs to distribute the competing hackers upon</li></ul><h3 id="d2f2349e-a693-48fc-812d-e0e1dc151bec" class="">Bugcrowd</h3><p id="18c772ba-3540-48ff-9d6f-26623bb89b55" class="">I have not hacked much on bugcrowd either so i can&#x27;t tell you much about them, here&#x27;s what i can tell.</p><p id="28e5ca1e-6a24-4e5b-b935-c40b91ad9918" class=""><span style="border-bottom:0.05em solid"><strong>➕ Positive items</strong></span></p><ul id="dbc2a337-7428-442a-a6e3-d6c281a919ba" class="bulleted-list"><li>They have a huge selection of programs</li></ul><ul id="25a9dfca-4525-41cb-bf67-3a26ae9134e2" class="bulleted-list"><li>They have great triagers who will help you out when you write an invalid report by adding useful comments</li></ul><ul id="59127173-8839-499e-85a2-d4d4244b3a34" class="bulleted-list"><li>They have the bugcrowd academy where you can learn about all the vulnerabiities</li></ul><p id="da7a8dcd-e428-4736-92c5-5d610d5af701" class=""><span style="border-bottom:0.05em solid"><strong>➖ Negative Items</strong></span></p><ul id="df030211-d39a-4449-8a25-fbf97218400c" class="bulleted-list"><li> Since this is the biggest bounty platform out there, there is a lot of competition but there is also a lot more programs to distribute the competing hackers upon</li></ul><h2 id="fce93c65-7e99-45b7-91da-d6dd2e29bf76" class="">Picking a program</h2><p id="f63dba65-f900-453b-bcb0-d3f3f56c5ece" class="">Picking a program is like picking a shoe, make sure you pick a program that fits you and that you enjoy hacking on. For the purposes of this chapter, i always try to go for applications where i can create users with different levels of privilege. I love testing on those programs because they contain a fair bit of business logic and we all know where this can lead you to. Examples of these programs are:</p><ul id="3739e982-a561-4b2f-8756-8d0b34084ba5" class="bulleted-list"><li><a href="https://app.intigriti.com/programs/suivo/suivoweb/detail">https://app.intigriti.com/programs/suivo/suivoweb/detail</a></li></ul><ul id="09889568-eab2-436a-bbc7-e1f15939cf8c" class="bulleted-list"><li><a href="https://app.intigriti.com/programs/sentiance/sentiance/detail">https://app.intigriti.com/programs/sentiance/sentiance/detail</a></li></ul><ul id="6a6de18e-59fd-4fbf-b813-c1dc0110d79c" class="bulleted-list"><li><a href="https://app.intigriti.com/programs/hoplr/hoplr/detail">https://app.intigriti.com/programs/hoplr/hoplr/detail</a></li></ul><p id="ebb03e28-c1d1-4027-88b2-135733722f3a" class="">
+</p><p id="9b9aa6dc-5859-48a9-9b25-41c793b8cd28" class="">I also have some general tips for you as well. A lot of people will have the general tendency to go for a target with a very broad scope. This is a very bad idea if you ask me, let me explain why.</p><p id="a8ee130c-b25a-4fd0-9802-9760b9322371" class="">Recon only serves to help you find a target where you can apply your main methodology. After the recon you still need to hack and this is what a lot of people forget. After you spend hours doing your recon, all that work will just be to get you started. This is why i would recommend you try and fine tune your attack strategy on main apps first (No *.target.com domains) </p><h3 id="803cb63c-5472-4b83-9192-003cf059ca9f" class="">VDP or paid?</h3><p id="912fd0c7-0d89-4886-8150-d2b083667b52" class="">VDP - vulnerability disclosure program (points or swag, no pay)</p><p id="a97539f9-ec08-41ab-abb3-1423b63e0d78" class="">I would highly recommend people to start out on VDP programs, i have several reasons for this recommendation:</p><ul id="0f691529-8b28-4330-95b5-41d097288ce9" class="bulleted-list"><li>VDP programs will be less crowded, no pay = less hackers</li></ul><ul id="62df259b-f4e9-41e9-b25c-249359ef0d17" class="bulleted-list"><li>VDP programs might be less hardened due to their nature. Since they do not require payouts, they can spend a bit less on bug bounties and risk a bit more</li></ul><ul id="ac4a130e-47ed-406d-967d-0875e5d04101" class="bulleted-list"><li>Points will get you invites to private programs, these will contains less hackers and they might be paid</li></ul><p id="e4389dba-fdb4-413c-8dcc-7ae73e7959c9" class="">Fine tune your strategy and i assure you that the money will follow but you need to give it time! Rome was not built in one day either.</p><h2 id="6f70c51d-59ef-4d9e-aac7-188c823a7929" class="">Uncle Rat&#x27;s attack strategy</h2><h3 id="8176d180-5223-47e7-9a12-293a324f6f4e" class="">Starting out</h3><p id="51814abe-9ef7-4113-a069-f3498837969e" class="">My mobile testing strategy is very similar to my web application testing strategy. I don&#x27;t really participate in static code analysis and rather keep myself entertained with the dynamic testing. (running the application and analyzing the communication with the server.</p><p id="0684b719-b514-4903-bdce-cd4c016a718c" class="">As far as methodologies, we can opt to either focus on the API that the mobile application is interacting with or the security model of the application itself and i always prefer the API interactions since i am convinced that mobile applications are reasonably secure due to the nature of mobile operating systems like android. That being said, vulnerabilities may still exist in the security models of the apps but i chose not to focus on those.</p><p id="b0ab7e83-19b9-4a12-b600-30a86b2c4884" class="">When you first start attacking your target i want you to keep the following in mind:</p><ul id="fcca132a-4b28-46fd-ba28-e4f9cd38821d" class="bulleted-list"><li>Start out with registering an account if possible or editing your account, make sure you include the following:<ul id="64a7966f-163d-4f38-a5d5-3942c616ba75" class="bulleted-list"><li>Where-ever possible, insert both XSS attack vectors. This will be carried throuhgout your manual testing and might expose integrations issues that are hard to spot otherwise</li></ul><ul id="258f5839-edaf-4867-ba93-956edb85f999" class="bulleted-list"><li>Attack vector example: &lt;img src=x onerror=alert()&gt;</li></ul><ul id="3ed48319-30fe-4a47-a00e-59fe946ff6c5" class="bulleted-list"><li>Insert that attack vector into every possible field, even mobile applications can be built on webviews which can contain XSS attack vectors</li></ul><ul id="465dcac9-36cc-4965-be34-1a6ddfcdee60" class="bulleted-list"><li>Create your own attack vector!</li></ul></li></ul><ul id="331bb433-7a37-439a-8baa-39e90fb92c57" class="bulleted-list"><li>After registering, explore the website like any normal user would</li></ul><ul id="75d6eab3-243e-43f6-ba2d-61b096f45ae7" class="bulleted-list"><li>Make a mindmap of the functionality</li></ul><ul id="78f45f9a-7014-4d26-8818-452571931c38" class="bulleted-list"><li>Keep Burp suite proxy open in the background</li></ul><h3 id="5eb8a710-8302-49eb-95a5-69bbb3defd4d" class="">Manually exploring the application</h3><p id="a03dc26b-b2ee-4066-a6f7-50367507a83a" class="">So now we have picked a platform, we have a program, now we finally get to the juicy part.</p><p id="4e7afce5-4675-4e51-82b4-f283c4dc6d0d" class="">When i approach a new target the very first thing i do is get to know my target. I need to know all the functionality that&#x27;s available and i do that by registering an account and using the application like a normal user would. while i do this i pay special attention to the privilege levels that are available and the functionality that was added on later like import or export functions. Any function that&#x27;s added on top of another function brings an integration point because the two functions need to communicate. Often the original feature might be well secured but the additional functionality might not contain the same security features as the original.</p><p id="046cc688-cfdf-4755-bba6-6a2b7354c7f6" class="">While i explore manually i will have burp open and my scope set properly, this will populate the site map while i use the application. I need that for later. I can also read the manual (If there is none, it try google dorking). Reading the manual is very important, we are bug bounty hunters and we are at war with out targets. The manual is like a blue print of the application and in war information is power. As a last thing we can also read the api documentation if there is any or read the swagger docs.</p><p id="352c8fe0-698e-4afd-ae48-30114284b7f2" class="">I&#x27;ll make sure to insert a <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/XSS%200ad0878f33094ea6b8ac90e94c2b0dc2.html"><span class="icon">🥬</span>XSS</a> attack vector as soon as i create an account wherever possible to give myself the biggest chance of popping an XSS attack later down the line when i use the application.</p><p id="3a0e46e1-d0f7-411d-ba0d-485ffcad8cc9" class="">This whole process of exploring my target and information gathering takes a couple of days easily. I want to know the enemy i am at war with. If it helps you, create a mindmap of your target using xmind.</p><p id="dc3bec1e-a9dd-4ac0-8027-9761995f7e3b" class=""> </p><figure id="986d7250-59df-4421-a8e5-17ed84c308b9"><a href="https://www.xmind.net/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">XMind - Full-featured mind mapping and brainstorming tool.</div><div class="bookmark-description">XMind is the most professional and popular mind mapping tool. Millions of people use XMind to clarify thinking, manage complex information, brainstorming, get work organized, remote and work from home WFH.</div></div><div class="bookmark-href"><img src="https://www.xmind.net/webapp-icon/icon_48.png" class="icon bookmark-icon"/>https://www.xmind.net/</div></div><img src="https://www.xmind.net/og-images/home-en@3x.png" class="bookmark-image"/></a></figure><h3 id="962838f5-714f-4e96-a8dc-2026f80d90cf" class="">PoC || GTFO</h3><p id="e3b68017-6d7c-4922-b19b-d72280986629" class="">When you are doing your initial recon, and especially if you use burp suite pro, you might find a lot of alarms going off. Say for example you use Burp Suite Pro, it might return some issues that it&#x27;s found. Do not get too excited though, these vulnerabilities are often false positives. It is very important that you confirm ANY finding from ANY tool manually.</p><p id="7cffb41b-5833-4ced-87c4-720371c3ec49" class="">In bug bounties we have a saying &quot;PoC || GTFO&quot; which means you need to prove impact or Get The F** out. We say this because it matters, some reports might be totally unexploitable or not even impactful for the companies.</p><h3 id="7427b116-effd-4074-87cc-d537727b8946" class="">Exploring the requests in burp suite</h3><p id="2483325a-41d6-4de4-b7e4-779b66a21f47" class="">After i know how my applications works, i am ready and armed with knowledge that will help me recognise vulnerabilities faster. I need to know how my application is supposed to work before i can start attacking it and now that we have a surface level map of our application, we need to go deeper. It&#x27;s time to go to burp where our site map has been filling.</p><figure id="fc3de019-72c7-4f0a-906f-c2849ebae5c1" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled.png"><img style="width:1532px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled.png"/></a></figure><p id="23634c90-6748-4432-8608-68976724fb64" class="">Burp suite has some amazing tricks in store for us. We can apply a filter so burp will only show us the parameterised requests in the site map. Navigate to the site map tab and click the big square box at the top to apply a filter and now click the checkbox next to &quot;show only parametrised requests&quot;.</p><p id="68a6d75d-d5c2-42f0-8082-a178d26b776c" class="">
+</p><figure id="8dc92072-ca0f-44b5-975f-b4afc9149165" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%201.png"><img style="width:1532px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%201.png"/></a></figure><p id="c2198f09-8147-401c-91d0-dbc835e10bd6" class="">As a bug bounty my next step would be to go through these requests and see if i can find any interesting parameters i can tamper with. It comes down to common sense which parameters you investigate manually but it goes without saying parameters like &quot;view=week&quot; in a calender are not that interesting to us. We are looking for requests with parameters that trigger some business logic.</p><p id="54afe0e3-08e2-4bc7-93cb-80d3009f2ff4" class="">An example i am going to give is facebook, we all know facebook and facebook has several features we can use. We will focus on making a post, imagine we have the following requests in our burp window:</p><ul id="7d9ff226-4e01-41e3-a278-04fcea761e4c" class="bulleted-list"><li>POST /CreatePost<ul id="a8b503f2-cd36-48cc-8a7f-304c897e967f" class="bulleted-list"><li>{Content=text}</li></ul></li></ul><ul id="f312fffa-2820-4979-9106-2589a3c7df0c" class="bulleted-list"><li>GET /comments</li></ul><ul id="2ed3eb6e-f47d-4d99-bc8c-d53acbe67cfc" class="bulleted-list"><li>GET /post</li></ul><ul id="571266f7-528e-4788-bbe0-69b454e61988" class="bulleted-list"><li>POST /comment<ul id="fd00ed1f-bcea-4438-bb86-63aef41442eb" class="bulleted-list"><li>{Content=text}</li></ul></li></ul><ul id="91e92741-0281-4f77-a37c-46cf539ae413" class="bulleted-list"><li>POST /Like<ul id="dbbdf9bd-5150-4089-9240-bc44134c98e4" class="bulleted-list"><li>{PostID=id}</li></ul></li></ul><ul id="249013b7-4f4b-473e-b5b0-0f7ba796a782" class="bulleted-list"><li>POST /Unlike<ul id="1bd70e9b-6477-4085-a47d-fb3f38804f1c" class="bulleted-list"><li>{PostID=id}</li></ul></li></ul><p id="4ca9912e-9011-4b87-8009-713b5172d60a" class="">When someone makes a POST /CreatePost request we can try several things like XSS, SSTI,... on the Content parameter those are certainly interesting attack surfaces we can explore. </p><p id="befa5c50-ef72-413a-a271-a95ee571ef59" class="">
+</p><figure id="71aeadcc-6624-4aad-8976-af29bbb1bfe8" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%202.png"><img style="width:952px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%202.png"/></a></figure><p id="5c8bf8a7-6b80-46f6-8062-1eb198613d27" class="">But those might have a bigger chance of duplicates because they are obivious. If you like a post however, a POST /Like request is being sent. If you can manipulate how many likes a post gets, that would be a valid vulnerability so let&#x27;s investigate this call further. </p><p id="5c45b911-7cb0-447f-ae72-3ea7e7b8f95e" class="">The call was being sent when we clicked the like button and then the button turned blue and when we clicked it again a POST /Unlike request gets sent to the server so the amount of likes is added by 1 if you click the like button and subtracted by one if you click it again. </p><p id="c33d8018-0498-4c42-98e2-5092592984fa" class="">
+</p><figure id="b82bfa86-aa64-4b89-bf22-7d13dc27aa10" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%203.png"><img style="width:952px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%203.png"/></a></figure><p id="27222b5d-cf51-4806-b416-eb2a3b5c9d34" class="">
+</p><figure id="19d535b7-5e46-4289-93d6-666a077cd939" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%204.png"><img style="width:952px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%204.png"/></a></figure><figure id="940a618c-a675-4ff0-9833-1702eb40ea31" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%205.png"><img style="width:952px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%205.png"/></a></figure><p id="902e4ce7-9677-4558-8a1c-6f9da34d1302" class="">
+</p><figure id="540b50c2-b9cc-47dc-8bda-2264fefc7dd0" class="image"><a href="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%206.png"><img style="width:952px" src="../Rat&#x27;s%20methodology%20e728e0cffd8d429e8f9a1317b05feadf/Untitled%206.png"/></a></figure><p id="902e15fb-1834-4ac6-b86b-fde34421b433" class="">A smart hunter would send the POST /Like request to the repeater in burp and try to send it a couple of times and see if the amount of likes keeps going up. If it does, we have a vulnerability.</p><h3 id="2676aff5-a9c6-4cf8-b317-61feac5c871f" class="">What parameters do i test for what vulnerabilities?</h3><p id="d1c062ca-75c1-4d7a-809c-fd2cf440aef5" class="">I will try to go through all the requests and see if I can find any interesting parameters. A parameter looks interesting to me in the following cases:</p><ul id="e6369589-a169-4b83-b63d-1664f26344ff" class="bulleted-list"><li>If it will seem to interact with the logic of the webapplication (This is why it is so important to know the application properly)</li></ul><ul id="462cedcf-1d27-492b-b55e-5b15b34991fa" class="bulleted-list"><li>Any parameters that seems to contain a URL. If the target resolves the URL that i enter, it might be vulnerable to <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/SSRF%20810a9009d00349518ca3c663f36100ea.html"><span class="icon">💚</span>SSRF</a> </li></ul><ul id="48ffc476-72f1-4da0-bb92-fdbda42416a2" class="bulleted-list"><li>Any parameter that appears to grab files from the local file system such as images being stored on the HDD of the webserver and being refered to as image=file.png. This might be vulnerable to LFI/RFI</li></ul><ul id="7ea750b3-7fa6-417b-9a25-9319cf912792" class="bulleted-list"><li>Any <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/CSRF%209bfcc03c9ce246a58d4815982e85bc18.html"><span class="icon">📗</span>CSRF</a> parameter</li></ul><ul id="71064015-28e7-4154-9346-4fc6f530de7f" class="bulleted-list"><li>I will try to save my account settings, personal settings and any other settings i can find and look for hidden parameters</li></ul><h3 id="bee303a2-8d27-4df3-9162-eebdde3d601f" class="">Automated testing</h3><p id="1df052a8-c0a1-4cd2-a403-a8d59e9a9aad" class="">This will constist of me testing for <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/IDOR%20bb563c4b361c417cb6e3ec4268889a83.html"><span class="icon">💚</span>IDOR</a> but my methods differ. I try to pick a target where i can invite users within the account and I can also create user of different priviledge levels. This way i can:</p><ul id="2c84c741-1353-4248-8add-6f87c38282d4" class="bulleted-list"><li>Create two accounts and test for <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/IDOR%20bb563c4b361c417cb6e3ec4268889a83.html"><span class="icon">💚</span>IDOR</a> </li></ul><ul id="b85c03c3-9955-4f31-a227-336f1f633625" class="bulleted-list"><li>Create two users in one account of <strong><span style="border-bottom:0.05em solid">the same</span></strong> priviledge levels and test for <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/IDOR%20bb563c4b361c417cb6e3ec4268889a83.html"><span class="icon">💚</span>IDOR</a> </li></ul><ul id="a1147830-fe54-41c0-bc0e-f4faed15af3c" class="bulleted-list"><li>Create two users in one account of <strong><span style="border-bottom:0.05em solid">different</span></strong> priviledge levels and test for <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/BAC%20f2481eba6f7c4873b99b33739bb87033.html"><span class="icon">💚</span>BAC</a> </li></ul><p id="f4737f8c-b4d6-4fb9-a81e-db3f10f3b428" class="">Make sure you test ALL the priviledge levels and if you can create your own, make sure to do so.</p><p id="ec15e3af-4b1f-4410-90f1-dd2f2e6e825f" class="">Some targets will call this &quot;roles&quot; others might call it &quot;groups&quot; but as long as you can set different levels of priviledges; you will be fine.</p><p id="2e54ffda-4a8a-47c7-abb4-3d0eb228a4b5" class="">After all is said and done i&#x27;ll try to fuzz some endpoints for <a href="../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36.html"><span class="icon">💚</span>Command injection</a> and i&#x27;ll try to identify some other endpoints to attack.</p><h1 id="358fb792-f44c-4535-baed-a42a129f6260" class="">General tips</h1><ul id="d8c09c4a-d251-4b1a-aa25-9809b95f137d" class="bulleted-list"><li>Get to know your application, spend some time on using it normally but keep burp open</li></ul><ul id="d8b4b42f-ece7-4a59-82d2-ae326289b39e" class="bulleted-list"><li>Start with XSS as early as possible if in scope, insert them into every field you see</li></ul><ul id="47b8a0e3-13f5-4c0c-a8f9-d8db28d54ad2" class="bulleted-list"><li>Create your own fuzzing lists</li></ul><ul id="140ecec5-ec30-42f4-ae6b-ad6d68aa2ef5" class="bulleted-list"><li>Expand this list with your own findings</li></ul><ul id="75990428-abba-4a39-a45a-6164be70239d" class="bulleted-list"><li>VDP over paid if you want less competition</li></ul><ul id="a8e50ee8-dc47-4bfc-ad7a-43d689bc34d9" class="bulleted-list"><li>PoC or GTFO</li></ul><ul id="01b7910d-97bf-434e-aac4-08317ad08f46" class="bulleted-list"><li>Prove your impact</li></ul><h1 id="302aa980-e224-4005-b361-7b72942d7498" class="">Video&#x27;s</h1><p id="ee556e1e-7a79-4f17-aa2b-840b26be90fa" class="">
+</p><figure id="6c8efb9c-d233-4308-8e6f-b2ce5e799a8f"><div class="source"><a href="https://youtu.be/Lxc-xb6xUk4">https://youtu.be/Lxc-xb6xUk4</a></div></figure><figure id="785504d0-ccb5-4033-a009-7a1761d738eb"><div class="source"><a href="https://youtu.be/4q22s743hrI">https://youtu.be/4q22s743hrI</a></div></figure><p id="47a913fb-cc4d-41f9-a22a-3aa91978c840" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

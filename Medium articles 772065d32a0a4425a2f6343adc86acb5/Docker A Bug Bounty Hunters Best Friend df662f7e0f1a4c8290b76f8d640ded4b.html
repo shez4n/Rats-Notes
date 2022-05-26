@@ -1,0 +1,631 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Docker: A Bug Bounty Hunters Best Friend</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="df662f7e-0f1a-4c82-90b7-6f8d640ded4b" class="page sans"><header><h1 class="page-title">Docker: A Bug Bounty Hunters Best Friend</h1></header><div class="page-body"><h1 id="06ce6e5a-8429-4fec-9bc4-0be1bef0673c" class="">Intro</h1><p id="67f9af1c-bf37-4b11-9058-577a8b905e81" class=""> Recently I’ve seen the question pop-up a lot: Do you use your native operating system for hacking or a VM? The answer might surprise you dear hacker, i use neither. What i use is containers.</p><h1 id="b9a3ce3a-4462-4ccc-897a-2bce611b0ced" class="">What is docker?</h1><p id="bae1060d-9d10-4be1-9acc-515825d91194" class="">Docker enables you to seperate your applications from your infrastructures. It consists of a daemon that manages several components of the docker ecosystem. This consists of:</p><ul id="d34b7bf6-304d-4b85-863c-fe6a591acede" class="bulleted-list"><li>Network componenets</li></ul><ul id="fc943568-2d7a-4cf6-a347-d56a4d24c345" class="bulleted-list"><li>Containers</li></ul><ul id="3270bb01-cbc5-47d2-a185-179c4202e950" class="bulleted-list"><li>Images</li></ul><ul id="7ff17438-9680-44df-982e-a0f686592137" class="bulleted-list"><li>Data volumes for storage</li></ul><p id="b1c14f12-cdf3-4f50-95f9-2b1457dedc57" class="">
+</p><figure id="8be3b932-a179-4d2c-9839-35aac5174331" class="image"><a href="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/05C5F6F5-4262-4DFD-B4BA-8583D3051CDD.png"><img style="width:492px" src="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/05C5F6F5-4262-4DFD-B4BA-8583D3051CDD.png"/></a></figure><p id="9965c6d9-8313-48b5-b55f-76562ff6d0ab" class="">The daemon manage these components via a REST api. We can use a docker client to communicate with the daemon, which does all the heavy lifting for us. Keen eyed readers might notice that this resembles a client-server architecture and they would be right, that’s exactly what docker is trying to implement.</p><p id="7b603e96-4b0d-4605-a56b-b3344fd500f5" class="">The Docker client and daemon CAN run on the same server but they don’t have to. </p><p id="7eead540-d3ac-4208-80db-06dfab68c14f" class="">
+</p><figure id="ef206689-060e-40ab-8fc0-9955f99e8e99" class="image"><a href="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/603D9F12-65F0-4FFC-A2F7-58AF6B4BDEF0.png"><img style="width:325px" src="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/603D9F12-65F0-4FFC-A2F7-58AF6B4BDEF0.png"/></a></figure><h1 id="84c909b9-c41e-4a6b-b52b-16892ad08d67" class="">Docker components</h1><p id="8cee44c1-f033-4607-b616-033cdde5a880" class="">Before we go any further it’s important we go over some terms. These terms are docker specific and will help us understand the architecture and how we can use docker.</p><h2 id="ed33b9e4-7b53-470d-a2dc-c22c4c29b260" class="">Daemon</h2><p id="3e1b0944-a0a2-4b07-91b2-a5ba229b84d7" class="">The daemon takes input from the docker client. When docker users run a command like docker run, it gets sent from the client to the daemon which carries them out. The daemon does this using the docker API.</p><p id="d87927a6-32b9-48e3-9d57-ad55e4a60555" class="">A docker daemon can also communicate with other daemons on the same server or on the network.</p><h2 id="3475269e-06d1-4238-8cfd-b52f8d047c7b" class="">Docker Client</h2><p id="cab749e2-a518-4ef9-ae85-6d4e99fb7087" class="">This is the primary way that docker users can use to communicate with the daemon. </p><p id="8cae7053-60c9-4a41-ad8d-48690e6383e9" class="">The docker client can communicate with more than 1 daemon.</p><h2 id="8d39ef7d-f33e-498d-b252-a642a398152b" class="">Docker registery</h2><p id="5ef39e29-6629-47f7-9f28-96747c55a4f4" class="">Linux users and programmers will undoubteably have heard of repositories. For those of you who have not, a repository is a collection of code or applications that we can use to download or upload code or applications to or from. I know i am grossly oversimplifying this but at the risk of making a lot of people angry, i want to make people understand just enough to where they can follow. </p><p id="58de9100-2098-4c81-b345-f040ae63b334" class="">We can basically see the docker registery as a big repository of images (See below). Docker is configured to look in the docker hub by default but you can even run your own registries.</p><p id="9ab713ac-7e0a-4d5c-9d70-d74f492e7cf1" class="">When you use the “docker pull” command or the “docker run” command, the required images are pulled from their respective registery.</p><p id="94c8ed86-3fb4-483d-ab6b-93d3056c4ba6" class="">“Docker push” will push your image into your configured registry.</p><h2 id="48ea7e1f-93c8-45f1-9279-8e17c436421d" class="">Docker Objects</h2><h3 id="f5bebe0b-6604-4bde-af2c-e5cee9c13c17" class="">Images</h3><p id="1623c53c-5b95-4224-ad4d-29ca0224295b" class="">An image is a read only template that describes what is required to build up a container (See below). Often images build upon eachother, for example, you may create an image that builds on the ubuntu image with additional customisations such as apache and your application installed and configured. </p><p id="9900c394-320f-4aa9-a910-36d24272e8ca" class="">You might want to create your own images or use the ones that are available and built by others. If we want to build our own image, all we have to do is create a docker file that contains the steps required to build our image. Each instruction will create a new layer in our image. This allows us to speed up our development because if we make a change to our dockerfile and rebuild our Image, only the layers that have changed need to be rebuilt.</p><h3 id="1e60f123-1ba0-44fe-98ac-e057f92f46d3" class="">Container</h3><p id="d44108e4-c4a9-413c-a67c-5e31ef8a1de3" class="">A container is a runnable instance of an image. This simply means that we can stop, start or restart our containers based on our images using the docker client which will send our commands to the daemon to be executed.</p><p id="b7846f95-3a22-48d9-a57a-3b66d6df28d3" class="">We can connect our containers to one or more networks, storage solutions or even create a new image based on it’s state.</p><p id="d804f926-2903-46c7-a73d-c7d70036e68a" class="">By default, containers are very well isolated as the name suggest from other containers and the host system. This means that by default you can not access files on your host system from within the container and vica versa. You can however control this behaviour and modify it. </p><p id="601c0fb0-207d-4883-a627-34f9d01983b8" class="">A container is defined by it’s image and any configuration properties you define for it. It is important to know that containers are not persistent, which means that if you make a change and restart your container, that change will be gone.</p><h1 id="38c651f5-9185-4d0c-b503-96de6d4ad6a1" class="">Installing docker</h1><p id="e35fb4b6-43cd-4f5b-a517-6bb3ae50543a" class="">This step is as simple as it can get, all you need is root or admin access to your host OS. </p><figure id="59cea816-8cd2-4de6-b6b9-57ed78e97505"><div class="source"><a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></div></figure><p id="402c075e-4d5c-41f8-aec4-f1d1741c594d" class=""><a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></p><p id="4ac71e08-9da5-4114-af8b-872b590947b7" class="">
+</p><figure id="ec9ae24b-58b4-498c-8c9c-512c399ef803" class="image"><a href="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/84591517-86DD-4538-84FA-23E99431FB1F.jpeg"><img style="width:712px" src="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/84591517-86DD-4538-84FA-23E99431FB1F.jpeg"/></a></figure><p id="0b46a644-d0a5-45b5-b7f2-a3156cf2f8cc" class="">You need to download the desktop client on the docker website. After installing it, all you need to do is start up the docker desktop client and you are all set. In the background a docker daemon will start and a client which we can interact with.</p><h2 id="978f185d-61a5-4380-821c-c2e3f1a92e6b" class="">Pulling an image and running it</h2><p id="6655cb09-b433-46a3-acca-f1840f47fb0d" class="">Go to google, look up the tool you want together with docker hub, example “nikto docker hub”. This will bring you to the docker hub page for that application which will usually have a docker pull command. Execute this command to pull the image. To run the image we can use the docker run command which is usually described on the docker hub page.</p><p id="a53bf35a-c768-427a-89b2-af2dacae60e4" class="">If you want to mount a volume, you will need the -v parameter which will look like this:</p><p id="baefa867-b7df-4e2c-90cd-a004cfb66095" class="">-v /tmp/localpath:/container/path</p><p id="2f9e6535-f8ec-4014-af59-10d5a5842fcb" class="">
+</p><figure id="b1de6eb8-eaa5-4532-9ce1-5c3a39e85fac" class="image"><a href="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/D973DC7A-046A-4223-A315-5B1A3AE06058.jpeg"><img style="width:750px" src="Docker%20A%20Bug%20Bounty%20Hunters%20Best%20Friend%20df662f7e0f1a4c8290b76f8d640ded4b/D973DC7A-046A-4223-A315-5B1A3AE06058.jpeg"/></a></figure></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

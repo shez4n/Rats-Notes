@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>How to become a hacker</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2cecb0bb-861f-47e0-81a4-0246e1e43b47" class="page sans"><header><h1 class="page-title">How to become a hacker</h1></header><div class="page-body"><p id="5021ba27-73e7-4985-9b33-028bff85eb94" class="">People have asked me this question several times so here’s my attempt at answering my number one question: How do you get into hacking?</p><h1 id="bc1adece-0397-435e-9bc0-5b308f619e40" class="">What is hacking?</h1><p id="19730921-40f8-4b63-8963-6dbb19e70b9c" class="">To answer the original question, we first need to define what we see as hacking. I agree in general that the answer to this question will differ for each and every one of you, but i also think there will be some similarities. </p><p id="863addab-7300-49cf-b32a-4699b1e879d9" class="">For me hackers are people who like to use tools others use to construct things in a way which helps them figure out how things work. While this definition may seem broad, i believe hacking is a very broad term. </p><p id="76f0ceb7-c4f9-4eb0-8a10-b86d9648756f" class="">Using things in an unintended way is the one thing all hackers share in my humble opinion, and it’s what connects us all.</p><h1 id="0be1b10a-69d5-434c-9005-796aa46ece0c" class="">What are the first steps?</h1><p id="2c2cb761-ef1f-4b33-99fb-a9d0b40f85d3" class="">It was important to define what a hacker is because if we are expected to use things in an unintended manner, we are supposed to know how they work first.</p><p id="4a45e038-6dde-4a01-b671-5f0c6dcca3e3" class="">For the sake of this video, i will assume we all want to become some kind of general IT/ software hackers. This is important because we will be using this as a general guideline for what to learn.</p><p id="b17c2f05-71e9-4fd6-adbc-7c9905a2d888" class="">For all of the following techniques, if you want to learn them, the best way is to simply think of a useful project and get to designing. We will go over an attack strategy later on.</p><p id="95e97d7c-0f88-4cf2-97af-f80be6ef5e76" class="">We need to get started somewhere and in my opinion, the best place to start is to learn HTML, CSS and javascript.</p><p id="8b3aa710-33b0-45f8-b006-4d9ed1ade5b0" class="">This will teach you the basics of scripting/ markup languages and also some solid javascript which will help when it comes to things like cross site scripting and finding other vulnerabilities related to javascript. </p><h1 id="67066528-6683-44a5-a3c9-43b89bbe8530" class="">Where do i go from here?</h1><p id="4545c5ea-34ec-4818-8d29-1cdb7377d1fb" class="">So you know how to make a basic website with some cool javascript, now its time to make it interactive. I’m going to make some enemies by saying this but i think you should learn PHP. A lot of people are against PHP because it is old and insecure, that doesn’t matter much for our cause.</p><p id="f85929f7-5783-42d6-b53d-6e8c4bf85c36" class="">So why should you pick up PHP? It’s simply easy. We want to get you started with the concepts of programming but not burden you with dependencies and complexity. This will make it easier to persevere because the timeline is not looking too optimistic. More about that later.</p><p id="18b0cf04-85e4-439f-89f9-d31634a74d0f" class="">Now as for the project, we want to make something useful. PHP will help make something useful non-static quick and all you need is a text editor and a PHP server. The PHP theory is out of the scope of this video however :).</p><p id="d7156948-96e3-423e-9a22-7c1f5dc73173" class="">Do not involve databases yet or local storage systems unless you feel adventurous.</p><h1 id="f2a0e95e-ab1f-41a0-9e0f-5aa6fd0684ae" class="">Storing your data</h1><p id="58720ce2-14ae-47aa-a487-c9f6845e44c2" class="">Whenever user input is involved, hackers run their hands... these points of interaction are usually where we can find our entry points for attack but before you can attack something, you need to know how to build it.</p><p id="588c8aa6-c201-4375-a211-a51560e39b0a" class="">The reason i would advice you to learn about databases is because networking AND databases will come into play, which togheter with programming, make up a lot of the core concepts of hacking IT systems.</p><p id="eb69c99e-bd9f-4e9f-9692-0bf4b448d7c5" class="">Look up why user input is insecure and how you can prevent insertion of insecure data. If you have this working, put your database onto a different computer and connect it up to your project. </p><h1 id="1aeb7854-b687-4650-b073-75600b794b07" class="">Am i finally ready to become a hacker?</h1><p id="78f7dd7d-93ea-4c65-85e5-efda7958cf7e" class="">You are getting close. Spend more time looking at CISCO materials. Look up how networks work and firewalls.</p><p id="6b336238-58a8-434f-ba24-29c7241d457f" class="">It will also pay off to look into operating systems like Linux and other scripting languages like python, ruby or go.</p><p id="4d960521-f757-4323-8645-983e2d34d6a9" class="">Bash scripting will also help you a ton but don’t go overboard. Gain a working knowledge and move on, you will get enough time to practice while you hack.</p><p id="0bbf9837-3413-49b5-b8f9-4778d11f6502" class="">Getting to know some real programming languages like java will also help a ton to get to grips with programming concepts.</p><p id="c5e768a7-9273-4c17-bc06-0e8897eb0258" class="">Now you can start looking into some hacking methodologies.</p><h1 id="e8fb3b23-3894-4b8e-8136-0c280e9e7876" class="">What have i learned so far?</h1><p id="9478bea8-7017-450b-b24a-86873c0f1837" class="">You should now have a working knowledge of:</p><ul id="8f37c84f-8253-4693-8904-303266219baa" class="bulleted-list"><li>Networking</li></ul><ul id="63edba24-76b2-417c-9c1a-7d7e5327c4bf" class="bulleted-list"><li>Programming</li></ul><ul id="941b75f1-0d91-4571-8f3c-f42b262a636d" class="bulleted-list"><li>Scripting</li></ul><ul id="db0b5c81-2581-436b-8d82-1f1989d9ab6b" class="bulleted-list"><li>Linux</li></ul><ul id="c0ffe93f-39eb-42a9-9c1b-f58c26169b12" class="bulleted-list"><li>Security systems</li></ul><ul id="876eed62-2ac2-44a0-9920-da479028d2ef" class="bulleted-list"><li>Databases</li></ul><h1 id="a1e22288-daea-45d5-8325-c07e5b20da68" class="">How should i learn all these skills</h1><p id="3b8be7d4-1831-4c00-9376-3bfeaaa94dab" class="">It’s very important that you take your time. I have had 8 years of general IT experience (i am not even mentioning the years i spent as a kid making crappy websites) and allow yourself to make mistakes. This is very important because the only way you can learn is by making mistakes. After all, another word for mistake is just experience.  </p><p id="ac5bfbb5-9a08-41bd-b829-9c595c40d3c7" class="">Some people are faster, some are slower but this should also give you a general idea of the timeline.</p><p id="8ac995c1-66f7-4a85-9fc3-475d811e9623" class="">The best way to learn any skill is to make a project that you need in real life. Do not overcomplicate the project, try to create some small things that will improve your life and design your plan well. I always say 70% of your time should be spent on preparing your project and the reason i do that is because a well thought out project is worth 10 crappy ones that never get finished.</p><ul id="d83275f9-9fcd-4a62-994a-20ae774af95d" class="bulleted-list"><li>Write down the requirements</li></ul><ul id="533cd271-b106-45e7-abec-9fccfdde8438" class="bulleted-list"><li>Review them</li></ul><ul id="1098815f-7a12-48a3-818b-027f3472faa7" class="bulleted-list"><li>Have someone you trust review them</li></ul><ul id="3daf8aab-a407-400e-b89e-5418bf5d68ed" class="bulleted-list"><li>Create some test cases for them</li></ul><ul id="18744b6c-13ec-4dcc-815e-8d383093efcd" class="bulleted-list"><li>Write the code</li></ul><ul id="5bb7ee01-875f-40dc-b41b-e99881f10514" class="bulleted-list"><li>Test the code</li></ul><ul id="46e9e1d2-bfea-440e-beed-c322be2fd074" class="bulleted-list"><li>Refactor the code</li></ul></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>
