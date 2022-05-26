@@ -1,0 +1,660 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Creating our list of subdomains</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="380c3bc8-b568-4610-8ce7-8f0062bed869" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🎶</span></div><h1 class="page-title">1. Creating our list of subdomains</h1></header><div class="page-body"><nav id="9e381b1e-2c08-4a20-bbca-d77194a8fd2b" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8e2979b2-9ebb-43eb-b7e1-f91ba92d9c9d">Intro</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#163036f9-df20-4911-8a28-c3ce74c581c3">Installation and usage</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e9cd1175-7651-4b79-9eb0-2a4daf90b292">Amass</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4eb4eb2e-b6ba-48b4-943b-c1a175f7350f">DNSRecon</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5d665175-63f2-4a6d-8c9c-c8c3b2629a69">AltDNS</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e53ebfbd-bdf6-4c78-af8d-5e0ed1ac2c2d">Using the tools</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#1a49702d-f9f0-4009-bc61-51fc0944cbd2">Amass</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#4690a936-e25a-4651-a89b-376c9bf75b10">Certificate transparency automation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#66681a25-e568-4e08-b343-7cb3d0811087">DNSRecon</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#96a746d0-0ed8-4be5-b0cd-0849a3b6ac48">AltDNS</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d5af72a3-6465-43e5-bc54-f91d31483a05">Finishing touches</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e47ff7fc-cbe6-4bb2-8381-4f73abaf8d67">Results</a></div></nav><h1 id="8e2979b2-9ebb-43eb-b7e1-f91ba92d9c9d" class="">Intro</h1><p id="2284727c-4ad7-4abf-8b0e-53a8b84fa7e2" class="">Now that we know why we need to know subdomain enumeration, we need to string it all together to create a list of subdomains that we can use in further steps, but we need to make some attunements along the way. Some tools grab more subdomains than others, some are faster than others. We want to use them all! Yes that&#x27;s right, as many tools as possible. The bigger our list of subdomains the better.</p><p id="2e46b244-fd1d-4c67-81a0-11555df195a0" class="">We will be using the following tools but please note that these are not the only tools by far. Our friends at <a href="https://pentester.land/">https://pentester.land/</a> have done an amazing job setting up a cheat sheet for you that you can find here: <a href="https://pentester.land/cheatsheets/2018/11/14/subdomains-enumeration-cheatsheet.html#online-tools">https://pentester.land/cheatsheets/2018/11/14/subdomains-enumeration-cheatsheet.html#online-tools</a></p><p id="3f7de069-6478-4710-972b-59389eac5d15" class="">While this is an EXCELLENT resource, it orders the tools alphabetically which is not the best approach for a course. We are going to chain together all these tools in an order that we need. </p><h1 id="163036f9-df20-4911-8a28-c3ce74c581c3" class="">Installation and usage</h1><h3 id="e9cd1175-7651-4b79-9eb0-2a4daf90b292" class="">Amass</h3><p id="286bc9bf-6180-4bff-8ada-e47e2f097a24" class="">First we needs brew. I&#x27;m going to assume you are all working on a linux machine or OSX machine, if not, you can download WSL. </p><pre id="11ae77e8-af0a-4fa5-992e-864e45f6230f" class="code"><code>/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;</code></pre><p id="64079ea2-c6a7-42de-b873-9dd83075d85b" class="">Sometimes the installation might give you an error:</p><p id="843b8b9f-7fd4-4d27-8c00-68b6540fc074" class="">Warning: /home/linuxbrew/.linuxbrew/bin is not in your PATH.</p><p id="dc8e4996-8dd2-4d36-a23c-938951b319a9" class="">Make sure you do the following:</p><pre id="c07ceb98-9f8d-4635-bdd7-b9448daaa9cb" class="code"><code>export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin</code></pre><p id="0ff6b188-9b28-41fa-b39a-f8356c01059c" class="">If your path is different, ofcourse change it.</p><p id="fa0a3899-dddb-4ac2-a796-c0067eee2c0a" class="">Now we can finally run brew to install amass</p><pre id="20cf67fb-835e-42db-8a19-21b0654197aa" class="code"><code>brew tap caffix/amass
+brew install amass</code></pre><h3 id="4eb4eb2e-b6ba-48b4-943b-c1a175f7350f" class="">DNSRecon</h3><pre id="cc9aeaff-e69b-4514-8be0-7320480eaf7b" class="code"><code>wget https://github.com/darkoperator/dnsrecon/archive/refs/heads/master.zip
+cd dnsrecon-master/
+sudo python3 setup.py install
+pip3 install -r requirements.txt
+
+IF you get an error:
+WARNING: The script netaddr is installed in &#x27;/home/USER/.local/bin&#x27; which is not on PATH.
+
+Then you need to:
+export PATH=$PATH:/home/USER/.local/bin</code></pre><h3 id="5d665175-63f2-4a6d-8c9c-c8c3b2629a69" class="">AltDNS</h3><pre id="f7f7a138-fbae-4bd5-a552-9e4626628793" class="code"><code>pip install py-altdns</code></pre><h2 id="e53ebfbd-bdf6-4c78-af8d-5e0ed1ac2c2d" class="">Using the tools</h2><h3 id="1a49702d-f9f0-4009-bc61-51fc0944cbd2" class="">Amass</h3><p id="68d745d2-e2ba-4b0c-b92b-164d115a79a1" class="">Intell is the option where we use Amass to Perform OSINT for us. We have several options available to use such as running the found results through a reverse whois domain.</p><pre id="2ec3ba13-3cd3-42cd-b65a-aec3784c6b14" class="code"><code>Simple Enum:
+ amass enum -d example.com &gt;&gt; domains-google.com.txt
+
+Intel:
+ amass intel -org google
+This will result in CIDR records:
+ amass intel -ip -src -cidr IP.IP.IP.IP  &gt;&gt; domains-google.com.txttes</code></pre><p id="8a950adc-470a-4bcd-b5fc-68dfe3abdd8c" class="">The &gt;&gt; will send the subdomains to a file</p><p id="521db9ef-420f-4240-8288-7059ec827920" class="">
+</p><figure id="fca6eeec-d775-4992-817c-8e372e27fcbd" class="image"><a href="1%20Creating%20our%20list%20of%20subdomains%20380c3bc8b56846108ce78f0062bed869/Untitled.png"><img style="width:559px" src="1%20Creating%20our%20list%20of%20subdomains%20380c3bc8b56846108ce78f0062bed869/Untitled.png"/></a></figure><p id="7d0b45cf-8ed5-4c08-832a-d76f8be8ed3c" class="">We also have the enum mode where amass will enumerate a lot of subdomains.</p><pre id="75073b45-7f7c-49fd-9fb7-e94c39d8e2f9" class="code"><code>amass enum -d google.com &gt;&gt; domains-google.com.txt</code></pre><p id="7148826f-7d93-4807-bfda-c0a6db183487" class="">We can also add the passive flag to force off passive scans</p><pre id="5506b861-e16b-43f1-95f5-5c42d3abb25a" class="code"><code>amass enum-d owasp.org -passive &gt;&gt; domains-google.com.txt</code></pre><p id="798880ff-9902-4813-bb14-a7b25cf1d8b6" class="">Amass has a lot more flags an options that i encourage you to look at!</p><p id="c5c7859b-7c43-4860-b60f-8e77bbdee2d6" class=""><a href="https://github.com/OWASP/Amass/blob/master/doc/user_guide.md">https://github.com/OWASP/Amass/blob/master/doc/user_guide.md</a></p><h3 id="4690a936-e25a-4651-a89b-376c9bf75b10" class="">Certificate transparency automation</h3><p id="f8b6284a-4e7d-456b-9b5b-54e10c025d9e" class="">Our good friends over at &quot;The art of subdomain enumeration&quot; have forseen several scripts to helps us scrape the websites that have been made available to us:</p><p id="72658056-1e4c-4e46-b65c-d1d30cfcfdbb" class=""><a href="https://github.com/appsecco/the-art-of-subdomain-enumeration">https://github.com/appsecco/the-art-of-subdomain-enumeration</a></p><pre id="0c26edda-afe7-46ae-87c7-404756f05526" class="code"><code>sudo apt-get install unzip
+sudo apt install python-pip
+
+wget https://github.com/appsecco/the-art-of-subdomain-enumeration/archive/refs/heads/master.zip
+unzip master.zip
+cd the-art-of-subdomain-enumeration-master
+pip install -r requirements.txt</code></pre><h3 id="66681a25-e568-4e08-b343-7cb3d0811087" class="">DNSRecon</h3><p id="93d13b03-0ef6-467d-a650-d06dc40d74d7" class="">We need to first change into the directory that we downloaded dnsrecon into. Ones there, we can run the DNSRecon tool with <span style="border-bottom:0.05em solid"><strong>python 3.6+</strong></span></p><pre id="3c7ac190-8756-4463-8e7a-4518791b4ab2" class="code"><code>python3 dnsrecon.py -d google.com -D subdomains-top1mil-5000.txt -t brt</code></pre><p id="f06af747-5ea9-447b-bd9e-5b82a9358153" class="">Several wordlists are included with DNSRecon but it pays off to learn how to create your own that&#x27;s tuned to your target.</p><p id="d99fcd2a-cb08-4f50-8b9f-76eefe72258c" class=""> - D will tell DNSRecon which list of subdomains to use</p><figure id="c696ac4b-0c7d-4a5e-a199-9459c244ee2d" class="image"><a href="1%20Creating%20our%20list%20of%20subdomains%20380c3bc8b56846108ce78f0062bed869/Untitled%201.png"><img style="width:240px" src="1%20Creating%20our%20list%20of%20subdomains%20380c3bc8b56846108ce78f0062bed869/Untitled%201.png"/></a></figure><p id="915f573c-b776-4ab8-be43-e185abf193f4" class=""> - t type of resolution to try</p><p id="09ac6174-9648-47a8-8747-46d6015c3c06" class="">Possible types:
+std:      SOA, NS, A, AAAA, MX and SRV.
+rvl:      Reverse lookup of a given CIDR or IP range.
+brt:      Brute force domains and hosts using a given dictionary.
+srv:      SRV records.
+axfr:     Test all NS servers for a zone transfer.
+bing:     Perform Bing search for subdomains and hosts.
+yand:     Perform Yandex search for subdomains and hosts.
+crt:      Perform <a href="http://crt.sh/">crt.sh</a> search for subdomains and hosts.
+snoop:    Perform cache snooping against all NS servers for a given domain, testing
+all with file containing the domains, file given with -D option.</p><h3 id="96a746d0-0ed8-4be5-b0cd-0849a3b6ac48" class="">AltDNS</h3><p id="d882bb60-c75f-4dc0-8022-4d741c2922a7" class="">We need to generate a new list of subdomains and try to resolve them.</p><p id="632976c9-d221-4fa4-8d44-bdec8fb1dfe1" class=""> - i A list of know subdomains that altDNS uses to create it&#x27;s permutations from</p><p id="22ad3eba-796f-4253-be0f-499287c2fd30" class=""> - o The output</p><p id="4e8e0217-f25b-4078-843e-ec31c1a546ab" class=""> - r altDNS will try to resolve all the generated domains</p><p id="15870235-7275-49db-a942-40f32a68e73c" class=""> - s The output of the resolution of the generated domains</p><pre id="d77837cb-7220-4f4a-b875-fbadce90b7ef" class="code"><code>./altdns.py -i known-subdomains.txt -o new_subdomains.txt -r -s domains-google.com.AltDNS.txt</code></pre><h2 id="d5af72a3-6465-43e5-bc54-f91d31483a05" class="">Finishing touches</h2><p id="629ce486-19b6-4d75-bd84-175c4459bed2" class="">We can run other tools like SubFinder, FinDomain, dnssearch,... to complete our list, for those see the github pages. (See List of tools for those). We also need to merge all our lists and remove any duplicates we have in there.</p><p id="f75b2147-1490-41c0-ae04-18a3af0c61fd" class="">We need to also make sure none of these subdomains containt a protocol (http:// or https://), the tool we will use in the next step will be adding that automatically.</p><h1 id="e47ff7fc-cbe6-4bb2-8381-4f73abaf8d67" class="">Results</h1><p id="04fc2b15-d259-41d5-b5c7-e14e80226af7" class="">We are now left with a GIANT file that contains a list of subdomains, but we are not even sure if they are alive so we will need to check which domains are actually useful to us.</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>
