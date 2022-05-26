@@ -1,0 +1,628 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Directory brute forcing</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="920e9042-b90c-4238-a213-b6ea71f5215b" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">⚙️</span></div><h1 class="page-title">Directory brute forcing</h1></header><div class="page-body"><nav id="53ed6a4d-0b87-43b5-b15b-5fc209dd239c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ed587eb8-010d-499c-9fd4-af8b095ba457">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5c9118ea-f0f2-4dbe-8609-6ed49e921d25">Attack strategies</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c22ea879-8468-4286-b46c-cdd6741a5a41">Non recursive vs recursive scanning</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#24bc2824-87f9-4b73-b8b4-16c160a11e4b">Content discovery</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2e486c1c-aa6f-4ab6-88a7-3f6b57ba5918">Size does matter</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f0e78d84-9cb9-472a-882c-726ed0cb020d">Single target vs a list of targets</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2acf3cc3-1902-4bcc-9424-b11ecaf6af20">Parameter fuzzing, content discovery or directory brute forcing? HELP!</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e7612a3a-d6d1-4f92-855e-e7fb9bd8ad7a">vHost brute forcing</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1fdb15a4-3dc0-43ed-bc59-d2a2cb8ce098">Tools</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#de743cca-31c3-4ba7-b71d-bec7aca3cbd4">BURP SUITE PRO: Burp suite content discovery</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8ee0dc81-4f4c-4471-b2e9-02c52413e947">Wfuzz</a></div></nav><h1 id="ed587eb8-010d-499c-9fd4-af8b095ba457" class="">Introduction</h1><p id="bf0c5d98-90d3-4555-8d3b-c7081007f174" class="">When we talk about directory brute forcing we are in essence trying to guess the directories of our target&#x27;s webserver. We know that there is a webserver running and we might even have access to certain pages like /login.php which is guarding some juicy loot or we might just see that there is an IIS server running and we want to explore it some more. Whatever the case may be, we can approach this issue using several attack strategies. </p><p id="8293216a-be48-408c-8edb-5b0cbb63afc7" class="">This is something that we always do automated as trying to guess possibly millions of directories and check them manually can take quite a while as you might imagine. You might also be able to image that if i ask you to check 10 directories that it would take you a lot less time than checking 100000 directories. I bring this to your imagination because even though it&#x27;s normal and logical, the same goes for automated scanners. The quality of your wordlist will determine the quality of your results but the same is true for the length of your wordlist determining the runtime of your attack.</p><h1 id="5c9118ea-f0f2-4dbe-8609-6ed49e921d25" class="">Attack strategies</h1><h2 id="c22ea879-8468-4286-b46c-cdd6741a5a41" class="">Non recursive vs recursive scanning</h2><p id="bd6e2f8d-7f74-4d75-b8d8-902fc871837e" class="">It does not matter what we want to fuzz, whether it be directories, content or even vhosts, when we scan non recursively, we are referring to whether or not the crawler should follow the links that it finds.</p><p id="e2826d90-2547-4137-abdd-47f767441abe" class="">The crawler is the robot that will make the requests that we set it up to create based on our wordlists. </p><p id="77a519f2-b19f-4f7f-8476-f085bfafac8e" class="">In non recursive scanning we do not allow this crawler to follow any links at all. We want the crawler to only make the requests that we tell it to and if it find a link we want the crawler to ignore that link. </p><p id="1757a396-b26c-432d-ac93-8cdd74f32574" class="">Recursive scanning however will allow the crawler to follow these links that it finds. In recursive crawling we can also set the depth which will determine how deep the crawler will follow those links. Sometimes the crawler might follow a link and find even more links on that page, we can set it up to follow those links or just got 1 level deep.</p><h2 id="24bc2824-87f9-4b73-b8b4-16c160a11e4b" class="">Content discovery</h2><p id="e8a741b4-e1ce-48a6-a11a-47092279634f" class="">When we talk about content discovery we can either talk about adding content discovery to our methodology or only doing file discovery. We can also do this recursively or non-recursively but whatever option we pick, the type of content we are looking for will also play a factor in the runtime of our tools. If you are looking for image files for example, you might be looking for JPG files but you might also want to add PNG and GIF to the mix which will triple the runtime of our tools since it has to check every request three times.</p><p id="4b3045d2-0bcf-44df-9b23-2fea897c5227" class="">When we fuzz for content discovery we can fuzz for several different things. I recommend that you have a specialised wordlist for every type of content because ofcourse fuzzing for pictures will probably require a different wordlist than fuzzing for documents.</p><ul id="bcf18410-b4bf-4b15-9694-97441b54ee0b" class="bulleted-list"><li>Pictures (jpg,png,gif,...)</li></ul><ul id="1b789ad1-9a35-4404-887b-92af13aa1f86" class="bulleted-list"><li>Scripts (js )</li></ul><ul id="eed05dc2-60b2-4aa4-b3be-6fbe4a1807d9" class="bulleted-list"><li>Documents (xls,xlsx,doc,docx,pdf,...)</li></ul><ul id="043dbf8e-91e6-4dd7-bff4-3269f5924fc7" class="bulleted-list"><li>Files/endpoints (asp, aspx, php , ...)</li></ul><ul id="962a7de2-18c5-417e-bb65-e7f5b5b162d8" class="bulleted-list"><li>Use your imagination!</li></ul><h2 id="2e486c1c-aa6f-4ab6-88a7-3f6b57ba5918" class="">Size does matter</h2><p id="17cc071d-d6d8-4ccf-b683-379a58054e70" class="">We&#x27;ve talked about runtime several times before in this document and that has a reason. Runtime is going to be one of the determening factors of a succesful attack. You can&#x27;t have a good directory brute force if it runs for 6 years! So you might be wondering, okay what wordlist exactly do i use uncle? I say pick one but make it count!</p><figure id="63880b26-db6d-49af-8ece-b9befb10f192"><a href="https://github.com/heilla/SecurityTesting/blob/master/wordlists/Collection%20of%20wordlists.md" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">heilla/SecurityTesting</div><div class="bookmark-description">Contribute to heilla/SecurityTesting development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/heilla/SecurityTesting/blob/master/wordlists/Collection%20of%20wordlists.md</div></div><img src="https://avatars.githubusercontent.com/u/2901706?s=400&amp;v=4" class="bookmark-image"/></a></figure><p id="1e717000-d724-4fc1-92d2-254fd30287cb" class="">Make sure you pick a list that fits your target and if you can&#x27;t find one then maybe you should make one. </p><p id="91961db7-cf68-41e8-9e04-70c50e9e6031" class="">There will be a video included in the course on what wordlists that i use.</p><h2 id="f0e78d84-9cb9-472a-882c-726ed0cb020d" class="">Single target vs a list of targets</h2><p id="c89fbf73-a377-42ba-b622-aa85ca15fcf7" class="">Some of these tools will allow us to check a whole list of URLs and do directory brute forcing on that list instead just checking one target at a time. Even if the tool we use does not allow us to do this, a simple command can be all that it takes to feed a list to our tool instead of a single URL. </p><p id="68577dfa-3203-4be2-9aba-3fb779b76af3" class="">In this case, we really need to make sure our wordlists are not too big because every single scan will be repeated and increase the scantime. I do not recommend this and i recommend only doing targetted directory brute forcing attacks. Especially on slow computers this will be a huge hassle to complete and we do not want to frustrate ourselves any more than we need to.</p><h2 id="2acf3cc3-1902-4bcc-9424-b11ecaf6af20" class="">Parameter fuzzing, content discovery or directory brute forcing? HELP!</h2><p id="c9b09555-14bb-4a94-93b7-397aca9d187c" class="">Besides the already known options of content discovery and directory brute forcing, there is also an option to perform parameter fuzzing. If you think about it, all that we are doing is just replacing a certain value in a URL up to this point, for example we can take this URL as input</p><p id="1c9efa91-556f-4630-a105-93a2f31d6906" class=""> </p><pre id="7f0a9491-29e9-46b9-9493-d083107b8deb" class="code"><code>https://example.com/FUZZ</code></pre><p id="07679628-3940-44f9-87bd-00e4c9def561" class="">And i can then replace the word FUZZ with every single word from my list and make the request. This can be either directories or files if i append a file extensions:</p><pre id="acf50271-fccf-4848-97d2-1a1e98762412" class="code"><code>https://example.com/FUZZ.php</code></pre><p id="eb0865b5-e363-44e9-8e0f-8fd31368abd3" class="">But what this also allows us to do is replace a certain GET parameter or POST value from our request with a value from our list:</p><pre id="73078dcf-3614-4220-aa0a-96444d343c8b" class="code"><code>https://example.com/index.php?FUZZ=1</code></pre><p id="4c673c64-e129-439c-832b-449b0778b3ef" class="">And yes ladies and gentlemen, it can get even stranger, we can fuzz subdomains:</p><pre id="c174df29-1d47-45a5-bc53-a98a1a71433e" class="code"><code>https://FUZZ.example.com/</code></pre><h2 id="e7612a3a-d6d1-4f92-855e-e7fb9bd8ad7a" class="">vHost brute forcing</h2><p id="b6175d50-453b-4048-9206-d1298a97b0ea" class="">vHost stands for virtual host. Virtual hosts are when multiple web applications are run on the same webserver. This is often done to save on having to setup and buy a seperate server but it is not recommended at all, this has never been a valid reason to let anyone stop them to from doing anything though and as you can imagine it does happen in production environments. </p><p id="187f1ce2-54c3-482d-ae61-59c16671cc33" class="">An example of this can be when a company decides to host the production server and the UAT server on the same webserver but on a different vhost.</p><p id="46a12404-737f-4e14-b6ae-c7f2fc79864a" class="">testing.google.com</p><p id="e917c952-3c96-4a77-a880-306262f1256e" class="">www.google.com</p><p id="da002823-ee6a-439f-a38c-5501ec409613" class="">Tidofjgdfg.hogfdpigdf.com</p><p id="9936c8b0-c4c0-4f79-a0d4-ab0fcf103249" class="">it doesn&#x27;t matter as long as they all resolve to the same IP adress, it means they are configured in the /etc/hosts file of that host. I only mention them briefly in this course as i think they are not as big of a security issue as people make them out to be in most situations as long as the seperation of flows is handled properly but there might be others that differ from this opinion.  </p><h1 id="1fdb15a4-3dc0-43ed-bc59-d2a2cb8ce098" class="">Tools</h1><h2 id="de743cca-31c3-4ba7-b71d-bec7aca3cbd4" class="">BURP SUITE PRO: Burp suite content discovery</h2><p id="59efbdc7-1af6-4cca-b3cc-4c4a50537815" class="">Burp suite pro users have a range of engagement tools available to them, one of them and a very important one for that matter would be the content discovery tool. This is one of the most sophisticated spiders i ever found and it&#x27;s the one i use most, however it is limited to content and directory brute forcing, it can not fuzz parameters.</p><figure id="a8dcd73f-adee-4307-8c4c-1c7c773d7e14" class="image"><a href="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled.png"><img style="width:583px" src="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled.png"/></a><figcaption>Burp Suite Pro version content discovery</figcaption></figure><figure id="fa0ffeb5-dead-4417-9a51-271f57f897ae" class="image"><a href="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled%201.png"><img style="width:1919px" src="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled%201.png"/></a></figure><figure id="c17e53ac-5f29-4965-b80c-8c6252fd4472" class="image"><a href="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled%202.png"><img style="width:1919px" src="Directory%20brute%20forcing%20920e9042b90c4238a213b6ea71f5215b/Untitled%202.png"/></a></figure><p id="521a492b-dea8-4306-a59c-c515f08fd842" class="">There are a lot of options in here that most people don&#x27;t ever touch which is a big shame! Ofcourse the default options are fine, but i am a big proponent of tweaking your attack strategy for every target. This includes setting custom settings for our attack tools, blindly running the same tool against a range of different targets is not a good idea. Let&#x27;s have a look at what we can tweak here. </p><ul id="0d8d8c4a-add9-4066-aef0-795f9069f33a" class="bulleted-list"><li>Start directory: We can play with this if we don&#x27;t want to test the root of a website for example</li></ul><ul id="ec3fb51d-f0b6-4715-9086-4ed8080b3f63" class="bulleted-list"><li>Discover: Here we can pick if we want to find only files, directories or both (Default option), The recursive subdirectories option allows us to set how deep the spider will crawl. By default if the spider has gone 16 links deep into a website it will stop but we can tweak this.</li></ul><ul id="097de55a-e7b7-45ca-9031-7c764c6475f1" class="bulleted-list"><li>Filenames: Burp suite has some filename lists built in by default and it will use the short and long list by default which makes the scan quite lengthy if the spider can go 16 levels deep. I usually start out with the small list and if i don&#x27;t find what i need, i will go on to the big list, and ofcourse we can never forget about custom lists either. They are the diesel to our engines!</li></ul><ul id="b633306f-e62d-4101-95d0-8628d2955e2f" class="bulleted-list"><li>File extensions is something you ALWAYS have to tune to your target, just open it, open wappalyzer(browser plugin) and see what server is running. Don&#x27;t waste time trying to brute force ASPX servers with PHP files. Don&#x27;t be a dumbass.</li></ul><ul id="32d60ee3-0cfd-46b0-bd2a-1b26aaf986e4" class="bulleted-list"><li>Discovery engine: This will determine how the crawler engine will behave towards your target. The default options are good here unless you know for sure your target is case (in)sensitive. The number of threads determine how many children burp suite will spawn (that sounds brutal) to start crawling and discovering content. If your target requires you to keep it low and slow, ofcourse do change these values.</li></ul><p id="1124c9aa-26e8-49f9-8928-f74639cb4468" class="">When everything is configured correctly, burp suite can start running.</p><h2 id="8ee0dc81-4f4c-4471-b2e9-02c52413e947" class="">Wfuzz</h2><p id="39ee54a9-8110-4f1f-822f-672c2d002bb9" class="">Wfuzz is a fuzzer that provides us with a multitude of useful options. We will go over the most useful ones. We can do this either in the CLI in a command or we can import it into our python scripts but we will be focussing on the CLI option. It is important to know that wfuzz can do much more than just fuzzing. It has </p><ul id="7cce8fed-86cb-4f1b-9634-eb378b98ecf9" class="bulleted-list"><li>A payload generator</li></ul><ul id="051ba5fc-8543-4d19-8ca8-e4e6b73b4582" class="bulleted-list"><li>Encoder/decoder</li></ul><ul id="6cfa9aa4-9c6e-4d93-865f-374e8c3ef0d1" class="bulleted-list"><li>Library for python</li></ul><p id="06f641a8-6b64-4321-906a-a4cb413af443" class="">I will not explain the basic usage as it&#x27;s self explanatory  over at <a href="https://wfuzz.readthedocs.io/en/latest/user/basicusage.html#fuzzing-paths-and-files">https://wfuzz.readthedocs.io/en/latest/user/basicusage.html#fuzzing-paths-and-files</a></p><pre id="cebd57a2-d252-4ace-bad5-d80e5aa1b8b0" class="code"><code>$ wfuzz -w wordlist/general/common.txt --hc 404 http://testphp.vulnweb.com/FUZZ</code></pre><p id="bacccbeb-440e-466f-a387-c04a5bce47e5" class="">Where the —hc flag stands for which status code mean an error. If you see that you are constantly getting 500 error codes, wfuzz will not block them by default and you&#x27;d have to change the command</p><pre id="19412a9a-c941-4733-a450-4b0687fe505c" class="code"><code>$ wfuzz -w wordlist/general/common.txt --hc 404,500 http://testphp.vulnweb.com/FUZZ</code></pre><p id="5843d6c9-7359-4675-adcf-f1c457784170" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

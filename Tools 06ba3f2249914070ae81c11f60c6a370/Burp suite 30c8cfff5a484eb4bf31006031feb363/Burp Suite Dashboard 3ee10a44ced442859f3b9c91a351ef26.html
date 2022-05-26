@@ -1,0 +1,635 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Burp Suite: Dashboard</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3ee10a44-ced4-4285-9f3b-9c91a351ef26" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤖</span></div><h1 class="page-title">Burp Suite: Dashboard</h1></header><div class="page-body"><nav id="2becca25-4105-434e-8216-b08908d7334c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3995e091-2d6a-4c63-a83b-de556cef4e29">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5949e2c3-1865-424f-a9b6-0e8965139ef5">Event log</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3724406d-1ba2-491b-ae42-6a0e481966d4">Scans</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3ebd9095-4b20-47fb-b905-fa20e8d67bf8">Scan details</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#b47cfeb9-260c-434d-b647-01a06aac65ac">Scan types - Crawl</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#047ede26-28c3-44d4-8e34-cfec370088bb">Scan types - Crawl and audit</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#997bddf8-7634-4d8f-96fa-ca06fb756dd0">Scan types - Audit selected items</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#68e0720c-716f-4f39-83f2-ea0b44e5b474">Protocol settings</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5619f52e-3070-4287-82ae-fca2b47de49f">Scan configurations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8251f935-c7dd-4e6b-86e7-7141054e85dd">Application login</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fb7522e4-13b3-4987-b535-2e4b261d6e8d">Resource pool</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b79a260c-7a2f-4c95-9af4-b64d5828cb73">Live task</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#56b2df45-b398-40fa-82a5-71088a688852">Issue activity + Advisory</a></div></nav><h1 id="3995e091-2d6a-4c63-a83b-de556cef4e29" class="">Introduction</h1><figure id="83a268bf-e08c-452d-afe1-307ab44cb06f" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled.png"><img style="width:1918px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled.png"/></a></figure><p id="8e137c7d-eaa9-4c35-ad0d-fd676cb1dc8d" class="">Burp suite has many useful features in store for us, even right after starting up. As a user of the community version of burp, your options here will be somewhat limited but still useful in debugging our project. We will start with one of the few free options available to us.</p><h1 id="5949e2c3-1865-424f-a9b6-0e8965139ef5" class="">Event log</h1><p id="c836baf7-e242-47dd-b41c-5fe24edcbc96" class="">This will display any event occuring in burp suite while we run it, this can range from errors to information to things we print out with our custom written extensions.</p><p id="d9aa5006-0489-4e01-b4c6-db16653abc80" class="">If you ever have issues intercepting traffic or decoding it, this is the first place i would look.</p><h1 id="3724406d-1ba2-491b-ae42-6a0e481966d4" class="">Scans</h1><p id="33f1905b-579d-4af1-b05b-488d19210129" class="">We can diffirentiate between 3 different types of scans here, all 3 have their unique properties which we will go over in detail.</p><h2 id="3ebd9095-4b20-47fb-b905-fa20e8d67bf8" class="">Scan details</h2><h3 id="b47cfeb9-260c-434d-b647-01a06aac65ac" class="">Scan types - Crawl</h3><p id="3cb4903b-2ea2-47e1-92ac-b9d92feb5dda" class="">Crawling a website allows burp to automatically look for any URL or link it finds on the webpage that you give it and then attempt to surf there and it will repeat the same actions. This can take one or multiple URLs as a starting point and go from there. Please note that this does not serve the purpose of auditing those found items. </p><p id="49fd56cd-1ac7-4b61-8b05-b8377abf46e1" class="">The depth of this crawling and any other options can be set in the &#x27;Scan configurations&#x27; which we will go over in the next section.</p><h3 id="047ede26-28c3-44d4-8e34-cfec370088bb" class="">Scan types - Crawl and audit</h3><p id="83a995ab-eb65-4bf3-b17b-2d6d84d69228" class="">We can also audit the crawled items directly which will analyse the results and do things like static or dynamic code analysis (based on our settings in the Scan configurations).</p><h3 id="997bddf8-7634-4d8f-96fa-ca06fb756dd0" class="">Scan types - Audit selected items</h3><p id="52fe35d6-8b40-4740-985f-7f2f3071046e" class="">This option is only availble if we select several urls from the sitemap and right click them. </p><p id="0d7dc50a-4a19-4863-b8a9-4da21915f14f" class="">
+</p><figure id="19a1e51c-0185-4873-be51-1bd8a018106e" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%201.png"><img style="width:384px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%201.png"/></a></figure><p id="39e5041e-0e81-4688-a88a-42dda4306c71" class="">
+</p><figure id="604194e8-0202-4756-a93a-1668fee5d187" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%202.png"><img style="width:976px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%202.png"/></a></figure><h3 id="68e0720c-716f-4f39-83f2-ea0b44e5b474" class="">Protocol settings</h3><p id="e210e615-a362-4eb8-b5ef-17988b025267" class="">Here we can define wheter we want to test for both HTTPS and HTTP or if we want to define which protocols to test for.</p><h2 id="5619f52e-3070-4287-82ae-fca2b47de49f" class="">Scan configurations</h2><figure id="727a9856-1f98-4b44-9f32-0be00d8bea49" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%203.png"><img style="width:974px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%203.png"/></a></figure><p id="6ae20236-9dd7-4068-8134-f72083acbfcb" class="">In here we define rules for our scan. Every line in here can consist of one or several rules and can be combined. For example we can choose to do all the audits except for the javascript analysis and also we might want to limit or crawling to 30 minutes max. This can easily be done by adding some built-in rules. </p><p id="2796759b-3e4d-4576-ad5c-5b819cbdd019" class="">
+</p><figure id="a7949459-4470-4647-b80e-1c09ae53e576" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%204.png"><img style="width:976px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%204.png"/></a></figure><p id="6c3cce27-0200-4077-9b0c-229af1404279" class="">But we can also build our own rules here by pressing the &quot;New...&quot; button. This will give us a choice between crawling and auditing. If you set audit rules on a crawler only jobs, that&#x27;s ofcourse not going to have any effect. </p><p id="c02a15a3-6be4-4e15-8df3-6ae1fecf6933" class="">
+</p><figure id="68278afe-f727-43bf-9f86-f641338b4131" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%205.png"><img style="width:1012px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%205.png"/></a></figure><p id="f0001dcd-57fb-4479-8b71-dea4d4e5d1fb" class="">It really pays off to name your rules propperly if you ever want to reuse them. This is a very confusing part and having ambigous names for rulesets can be very confusing.</p><p id="e77a7e6c-0adf-40d1-bb40-f576871cbf0d" class="">Next we want to set up the different options we have. If we want to enable a rule, we need to click open the respective section and the rule will automatically be enabled if it is filled in.</p><figure id="8816a2a1-aa0e-4e66-bffa-5062a931e61c" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%206.png"><img style="width:988px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%206.png"/></a></figure><p id="c115dd12-34a9-49eb-af7b-e6dbbc3091ae" class="">Most of these settings speak for themselves but we will going over each and every one of them in a seperate video so we don&#x27;t have to interrupt the flow of the course. </p><p id="12d8f5b4-f747-4d97-abea-8f709d89fadf" class="">We can also save our rules in the library, this will enable us to reuse them later on. </p><h2 id="8251f935-c7dd-4e6b-86e7-7141054e85dd" class="">Application login</h2><p id="8ba4461d-e18c-4bc5-8904-3323c3fa26a2" class="">Sometimes when crawling, burp will encounter a login screen. If we have credentials available we can enter them here, allowing for an authenticated crawling. This will expose a lot more functionality to us but is not foolproof as burp sometimes doesn&#x27;t recognize the login pages, however it is still much better than never being able to crawl a website authenticated.</p><p id="901d67e0-418b-4d5f-a772-b9fa81ce0ee5" class="">
+</p><figure id="82fdcdb8-4ad1-42f7-8ec2-d2db6804982b" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%207.png"><img style="width:977px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%207.png"/></a></figure><p id="10fddc56-4d84-4afe-aac6-73ebd3520559" class="">You can give a label to the credentials which are just to make it easier to recognize which credentials you have in front of you.</p><h2 id="fb7522e4-13b3-4987-b535-2e4b261d6e8d" class="">Resource pool</h2><p id="e5545f70-70e6-4f9f-9a99-2e9c0f1a6adb" class="">This allows us to create &quot;resource pools&quot; which are just variables to which we assign a certain value of maximum concurrent requests, delay between those requests and other options. </p><p id="32797e22-e4da-4084-91fe-d8aa9a0bc582" class="">We can then use specific resource pools for specific jobs. </p><p id="aa5fca7d-6578-491c-8966-970d8750ca30" class="">
+</p><figure id="dd6796cb-3e8c-4a62-9892-e54b94011faf" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%208.png"><img style="width:977px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%208.png"/></a></figure><h1 id="b79a260c-7a2f-4c95-9af4-b64d5828cb73" class="">Live task</h1><p id="4fbfd2f0-1d24-44ea-9bb7-ba3a32af75b3" class="">Live scanning can perform the same auditing actions as the crawling and auditing can do, but this will happen on all the requests you are executing or that are coming in while you are manually exploring the website.</p><h1 id="56b2df45-b398-40fa-82a5-71088a688852" class="">Issue activity + Advisory</h1><p id="fa4895a6-9337-447b-ae38-e4d8ef6eec14" class="">When scanning, burp will come across some issues. Whenever it does, it will display them here. </p><p id="43263383-93c9-4985-8bc6-74c37a17bc0e" class="">Everything here pretty much speaks for itself and burp will explain things in the &quot;Advisory&quot; section when we click on an issue in the &quot;Issue activity&quot; window.</p><p id="8a876839-c093-4e3c-beb2-8d077d4d67f6" class="">
+</p><figure id="6fff8736-3a20-47c5-a7c7-3967b9fd1c74" class="image"><a href="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%209.png"><img style="width:956px" src="Burp%20Suite%20Dashboard%203ee10a44ced442859f3b9c91a351ef26/Untitled%209.png"/></a></figure><p id="5bfb46aa-b4ef-4dfe-a62a-e201cca8ce8d" class="">The most useful part here are the filters, they allow us to show specific vulnerability types, making it easier to distinguish between the ones we care about and the ones we do not. I&#x27;ve found that almost none of the issues in here are worth it to investigate when i am doing bug bounties.</p><p id="ac86d68f-7dc7-45f7-9277-0a674f087b4a" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

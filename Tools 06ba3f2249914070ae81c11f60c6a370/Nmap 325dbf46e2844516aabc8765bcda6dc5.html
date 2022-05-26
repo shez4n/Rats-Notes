@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Nmap</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="325dbf46-e284-4516-aabc-8765bcda6dc5" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🗺️</span></div><h1 class="page-title">Nmap</h1></header><div class="page-body"><nav id="9fe22245-7a0e-446d-a04f-7337b964785e" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0d75c291-5f9d-4d62-a87e-818d61df7a0e">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c94052fe-8097-4fe4-ab23-87241cba40cc">Ports</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d1e1d7a4-566b-4808-b6b2-35e69dd91263">Status of the ports</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7105e14b-0b96-4cc2-a600-1380e6431c3e">Open</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#1de4ecc2-1a7b-4ccc-a86b-c645961d5f33">Closed</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#69002c31-842f-4c81-bfd0-47d70041376e">Filtered</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a5af511d-bb16-4650-89b2-e98fd497fb15">Others</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5c1bcaf0-2616-4116-8ab5-b2a8839c0bf5">Basic nmap scan</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#13cdd0fe-23ee-4601-8f7c-15bcb08b3492">Show me your secrets</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#50be9381-2b79-489c-b988-5817072c67ac">Scripting the night away</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4a919c44-7853-426b-ae48-ad47df49cea4">Expanding our scans</a></div></nav><h1 id="0d75c291-5f9d-4d62-a87e-818d61df7a0e" class="">Introduction</h1><p id="2db29ee4-d5c8-420a-83e0-5fd10e9bc27d" class="">Nmap= network mapper </p><p id="f094b63b-1e45-4c4b-88af-73d8b35f8431" class="">Nmap is a free and open source tool that many hackers keep handy in their tool belts. It&#x27;s often our first weapon of choice as recon is very important and we can&#x27;t know what to investigate if we don&#x27;t even know what ports are open on our server. </p><h1 id="c94052fe-8097-4fe4-ab23-87241cba40cc" class="">Ports</h1><p id="a1670e7a-0689-4769-8688-0301c9265cb0" class="">When i talk about ports, i can talk about both UDP and TCP ports. There is a big difference between these two protocols but to keep it simple, UDP packages always give a confirmation making it so that every package surely gets delivers. This takes time as the server has to wait for the confirmation for every single package. TCP tries to get rid of that by simply sending the packages and not waiting for confirmation. </p><p id="fc12a9ac-1cc6-408a-acaa-2090ebc7d278" class="">UDP is often used in applications where it&#x27;s very important all packages get delivered in the exact order. For example if you download a file, that will probably be done in the UDP protocol whereas a youtube video will probably be sent through a port via TCP.</p><p id="245b7d19-5aae-4f64-a222-f1b24d4930f8" class="">I keep talking about everything but Nmap it seems but to understand what it does, we need to understand these basic concepts first. It&#x27;s really important to know there are 65,535 ports that a server can have in use. </p><h2 id="d1e1d7a4-566b-4808-b6b2-35e69dd91263" class="">Status of the ports</h2><p id="6e225317-58a8-4ecb-a030-96302edc4a80" class="">These ports can have different statuses, just like ports in real life. They can be opened which is pretty self explanatory, it would be like an open gate where all the foot traffic would be allowed to go through as long as they follow the protocol that is bound to that port.</p><h3 id="7105e14b-0b96-4cc2-a600-1380e6431c3e" class="">Open</h3><p id="4e65aad2-51b4-4742-b617-c9eb559c1de3" class="">Every open port is going to form a risk in terms of attackers like us. We are trying to find open ports so we can possible find out what is running on that ports (For example a webserver or ssh) and then possibly try to find an exploit for it. Our biggest attack surface is going to be web in most cases which will be running on port 80 and/or 443. Don&#x27;t be fooled though, webservers can be configured to run on any port and both on the TCP/UDP protocols. More on this later in the &quot;flags&quot; chapter.</p><h3 id="1de4ecc2-1a7b-4ccc-a86b-c645961d5f33" class="">Closed</h3><p id="f9bfefaf-a410-4bfd-b771-a9a8c133b5a1" class="">A closed port is pretty useless to us as hackers, we can access it but there is nothing running it, basically an empty pit that we can stuff too.</p><h3 id="69002c31-842f-4c81-bfd0-47d70041376e" class="">Filtered</h3><p id="48452c43-6f3d-4ccc-85d9-ca50a0dd414a" class="">A filtered port is mostly a mystery to us. How Nmap works is it sends a probe to a port and waits for a reply but in case of a filtered port, a package filter is preventing our probe from reaching our target. These ports are very frustrating to an attacked because they provide very little information.</p><h3 id="a5af511d-bb16-4650-89b2-e98fd497fb15" class="">Others</h3><p id="f3a80fff-2039-4e44-9d3c-b4194c746284" class="">There are some other statuses as well but they are less prevalent while pentesting and can be found in the Nmap documentation or the help pages. </p><ul id="5d617b1b-7553-4d51-a74a-36118db7d01c" class="bulleted-list"><li>Unfiltered</li></ul><ul id="3026b3ee-ac13-4dbe-9602-7ce3c5c7bbc6" class="bulleted-list"><li>open|filtered</li></ul><ul id="f5878200-3622-48f8-893a-fb121c232a8a" class="bulleted-list"><li>closed|filtered</li></ul><p id="93eaa6f4-481a-459d-a1ef-f6473042176b" class=""><a href="https://nmap.org/book/man-port-scanning-basics.html">https://nmap.org/book/man-port-scanning-basics.html</a></p><h2 id="5c1bcaf0-2616-4116-8ab5-b2a8839c0bf5" class="">Basic nmap scan</h2><p id="047f4e5d-1b73-4063-8847-b5df33d78bda" class="">If we combine all this we can execute several useful nmap commands. Right now we have the basics ready where we can scan an IP adres or website(As these URLs also resolve to an IP, they can also be scanned but be mindful of things like loadbalancers here).</p><pre id="0a26d89f-a012-4b60-9ba9-891488071470" class="code"><code>nmap 10.10.10.10</code></pre><h2 id="13cdd0fe-23ee-4601-8f7c-15bcb08b3492" class="">Show me your secrets</h2><p id="ec5c64b5-3f2e-413a-90a5-bedc2478b3d8" class="">Knowing whether or not a port is open or closed is ofcourse useful information but what we really need to know is what software is listening on that port. This is where nmap starts to get interesting because we can work with flags.</p><pre id="4b340b5f-2362-4a15-b4bc-4be4c58ebb7d" class="code"><code>nmap -sV 10.10.10.10</code></pre><p id="b48359f5-eca1-4593-bd59-ccb9855cc77d" class="">When we add the -sV flag, Nmap will automatically try to grab the banners wherever possible. Every application that runs on a network port broadcasts a banner unless the administrators disabled it. Nmap will also try to grab the version of the software running to give you a better overview of where to look and how to exploit it possibly. We can use this data and go to exploit-db to find our exploit and execute a PoC.</p><pre id="f59ad850-0d42-4310-aa51-0ba639b80e37" class="code"><code>nmap -sV --version-intensity 9 10.10.10.10</code></pre><p id="7bcb96e3-a529-421a-b3ea-735a3d2c3c04" class="">If we add the --version-intensity flag, we can make Nmap&#x27;s version identifying probes either more or less likely to identify the correct version of software but ofcourse a higher level of intensity will take a lot longer. </p><h2 id="50be9381-2b79-489c-b988-5817072c67ac" class="">Scripting the night away</h2><p id="e6816a67-1a4e-456c-a6c3-fdd2e6cd5624" class="">Nmap also comes with a bunch of pre-installed scripts that you can run. By default it will not run these scripts but if we add the -sV flag, Nmap will execute the scripts that match the port it&#x27;s found. For example if it finds port 80 and then it will run all the scripts it has available for a webserver. </p><pre id="4219d8a7-4ceb-4fe7-abcc-fec9398ec392" class="code"><code>nmap -sC 10.10.10.10</code></pre><h2 id="4a919c44-7853-426b-ae48-ad47df49cea4" class="">Expanding our scans</h2><p id="b51e0c6e-d007-4249-b6ea-ad11153972c8" class="">By default nmap will scan only the top 1000 most popular post but there are so many more. It will also just scan UDP ports by default. If we want to add TCP we need to add another flag as well. </p><pre id="97276424-a5b4-4d3e-8656-c0b7a0731059" class="code"><code>nmap -p- 10.10.10.10</code></pre><pre id="808a1803-e84c-427d-ac4d-bf14dc67a56d" class="code"><code>nmap -sT 10.10.10.10</code></pre><pre id="609d25ae-baf7-4747-b447-50cc9d461660" class="code"><code>nmap -sT -p- 10.10.10.10</code></pre></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

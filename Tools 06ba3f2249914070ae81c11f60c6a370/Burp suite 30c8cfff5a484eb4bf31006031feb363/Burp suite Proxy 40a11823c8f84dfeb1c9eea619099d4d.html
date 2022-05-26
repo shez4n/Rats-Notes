@@ -1,0 +1,634 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Burp suite: Proxy</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="40a11823-c8f8-4dfe-b1c9-eea619099d4d" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤖</span></div><h1 class="page-title">Burp suite: Proxy</h1></header><div class="page-body"><nav id="9db47daa-a071-4860-a3f5-c14dceeb47d4" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5cdee751-4da4-4c07-9616-3ac37d019c26">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3bdded2f-e4bd-4165-b22a-8366d647eba9">Intercept</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5e209678-cc4c-44b9-ba82-44e5f12c5674">HTTP history</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#22df52be-64cf-4521-8490-b0f1af196da6">Filter</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a07b91b4-5a1a-411e-87ca-c412bd216b07">Websocket history</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e0342092-b252-42e2-92c9-32704980b48d">Filter</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#05ff8811-4f04-4543-8606-89880febaff3">Proxy options</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#da44ac93-e8ea-479d-ae43-7d1d567c0e37">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#50cbf95a-8361-4d02-b8ee-d7b822be591c">Proxy listeners</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#f3a544f2-2459-4aa1-a3a9-d8d354e23705">Adding proxy listeners</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#1d72f27a-1719-4e39-a989-37e1c61687e7">Editing/removing proxy listeners</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7ab03715-54cf-4bc9-8049-ffe61122b6f3">Import/Export CA certificate/Regenate CA certificate</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e8bdad98-0405-4223-95e2-713825c684c8">Response modifications</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#51189328-e7c4-40b3-9c06-9fee606421da">Match and replace</a></div></nav><h1 id="5cdee751-4da4-4c07-9616-3ac37d019c26" class="">Introduction</h1><p id="4ffc8820-506e-4c89-906b-6e5994e3b7a8" class="">The proxy tab is going to allow us to interact with requests and responses in real time and investigate the proxy history. This is the tab i will use most as it contains all of my latests requests and can also handle websockets in the pro version of burp. </p><h1 id="3bdded2f-e4bd-4165-b22a-8366d647eba9" class="">Intercept</h1><figure id="ddacc7f3-fe50-42e9-83fc-7b3df0796a91" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled.png"><img style="width:1034px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled.png"/></a></figure><p id="87e4be36-38ba-49f4-a398-2f6b1b15d92c" class="">This is the basic landing tab of the proxy page. In here we have several options</p><ul id="ddb25666-2ca7-41a4-a219-b5023464b4e9" class="bulleted-list"><li>Put intercept on/off, if we enable intercept it will stop any request (even the ones not in scope) and allow you to edit, forward or drop requests </li></ul><ul id="22bf3627-636a-4533-aaec-53c4ba9f5497" class="bulleted-list"><li>Action, which allows us to perform a selection of actions on the current request that is being held by the interceptor</li></ul><ul id="8b3610c0-9f9e-4fdb-ab93-536338e6b931" class="bulleted-list"><li>Open browser, which allows us to open a builtin chromium browser that will automatically have the proxy set propperly. One thing i don&#x27;t like about this browser is that it won&#x27;t remember any plugins you install or any passwords you save.</li></ul><h1 id="5e209678-cc4c-44b9-ba82-44e5f12c5674" class="">HTTP history</h1><p id="2e7a142d-027a-4735-9170-f6e6f2c2f7ca" class="">
+</p><figure id="6a56cca1-f386-4a9b-9211-671c826fffd2" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%201.png"><img style="width:1912px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%201.png"/></a></figure><h2 id="22df52be-64cf-4521-8490-b0f1af196da6" class="">Filter</h2><p id="84ba2b43-5c23-4873-9d62-b349710c311c" class="">
+</p><figure id="73e9525b-e2e6-4be8-8f1d-7f794566ea6c" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%202.png"><img style="width:1000px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%202.png"/></a></figure><p id="928ea1c8-5bee-45f3-b460-bb571a5d1a0b" class="">If we click the filter bar at the top of the screen, we can some very useful filters.</p><ol id="15f8aa99-3aee-4e78-8eef-ab5bff576c44" class="numbered-list" start="1"><li>Clicking the filter bar will open it for us</li></ol><ol id="af5ac349-7253-499a-9876-9e70821c4278" class="numbered-list" start="2"><li>Showing only the paramterised requests will show us all the requests that allow us some kind of interaction with the server. These are the requests that i care about mosts as they talk to the API.</li></ol><ol id="68b3cc52-2a50-4fb6-a573-c0b5624f13af" class="numbered-list" start="3"><li>Filtering by mime type allows us to include or exclude certain types of files such as scripts or CSS files by checking or unchecking the checkbox respectively.</li></ol><ol id="11867c67-3f7f-470e-9ccd-5c3a0b04b1f0" class="numbered-list" start="4"><li>If we want to show or hide certain status codes, that&#x27;s also possible like the 4xx status codes which are disabled by default</li></ol><ol id="3a7caef1-7365-4197-818e-f6bf9bbf8210" class="numbered-list" start="5"><li>If we want to search for specific terms, that also possible. We can do this in negative search as well, which would mean that we would <strong>exclude </strong>requests with the search term in it.</li></ol><ol id="e03bb560-998e-4bbe-9e9f-2512993ad65b" class="numbered-list" start="6"><li>If we want to hide or show certain file types, that&#x27;s also possible but we can&#x27;t use both together as they would cancel eachother out</li></ol><ol id="71ac6b4d-7da9-44e7-8e38-e36409a86b4b" class="numbered-list" start="7"><li>We can have multiple proxy listeners which listen for incoming traffic on different ports. We can also filter per port. More on this later on in the proxy options. </li></ol><p id="aacdcc75-c640-4280-af47-808adf9b982a" class="">We can also annote or comment certain requests by right clicking them in the site map, repeater or proxy history and then we can filter on those requests.</p><h1 id="a07b91b4-5a1a-411e-87ca-c412bd216b07" class="">Websocket history</h1><p id="0998afbc-82bd-45a7-9124-b096e4e10574" class="">Since recently, it&#x27;s also possible for Burp suite to process websocket messages such that we can edit and resend them. This is a very useful feature as before we would have to write our own python proxies to translate these WS messages into HTTP messages and back again that would act inbetween our target and burp.</p><p id="0a30ca05-4f26-4640-a87f-1a007399341a" class="">
+</p><figure id="2b74d4f4-e2cd-4d1a-ae73-cd009210de68" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%203.png"><img style="width:1212px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%203.png"/></a></figure><h2 id="e0342092-b252-42e2-92c9-32704980b48d" class="">Filter</h2><p id="945e4164-7f87-4d26-83c5-31a52e1e7b7a" class="">
+</p><figure id="27b6d053-496d-423a-b468-7aa1cd605498" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%204.png"><img style="width:888px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%204.png"/></a></figure><p id="752613db-ded8-4d44-b684-b51e5e65a376" class="">
+</p><p id="a931d0ce-b49c-4106-923a-00a348aa4101" class="">If we click the filter bar at the top of the screen, we can some very useful filters.</p><ol id="629f214e-af37-48db-b52a-bcd8930de3a1" class="numbered-list" start="1"><li>Clicking the filter bar will open it for us</li></ol><ol id="93aec312-f394-4cfe-a7bb-fcec3e0c1411" class="numbered-list" start="2"><li>In websockets, we can send messages to the server and it can respond but the server can also send messages to us and we can respond. To filter those messages we can hide outgoing or incoming messages</li></ol><ol id="3b7f708f-fe49-40bf-acbc-24cc315f1fd5" class="numbered-list" start="3"><li>If we want to search for specific terms, that also possible. We can do this in negative search as well, which would mean that we would <strong>exclude </strong>requests with the search term in it.</li></ol><ol id="12c467e8-446b-4da9-a81f-026446253801" class="numbered-list" start="4"><li>We can also annote or comment certain requests by right clicking them in the site map, repeater or proxy history and then we can filter on those requests.</li></ol><ol id="9b4d13da-3c4d-4689-a502-00ef92d1324b" class="numbered-list" start="5"><li>We can have multiple proxy listeners which listen for incoming traffic on different ports. We can also filter per port. More on this later on in the proxy options. </li></ol><h1 id="05ff8811-4f04-4543-8606-89880febaff3" class="">Proxy options</h1><h2 id="da44ac93-e8ea-479d-ae43-7d1d567c0e37" class="">Introduction</h2><p id="73b83151-886d-4fc4-adba-f17830bf4e31" class="">It may not seem like it but burp suite proxy options can have several useful things in store for us. It took me quite a while to figure this out but burp suite has has even more features then it may seem at first.</p><h2 id="50cbf95a-8361-4d02-b8ee-d7b822be591c" class="">Proxy listeners</h2><p id="fd02cc8e-9277-4353-a90d-cf53d3665816" class="">Several useful options exist in this section of the proxy options. We will be going through all of them.</p><figure id="132c0d96-6956-42df-9baf-0d4cac400f35" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%205.png"><img style="width:1251px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%205.png"/></a></figure><h3 id="f3a544f2-2459-4aa1-a3a9-d8d354e23705" class="">Adding proxy listeners</h3><p id="ffb10d82-25d0-4820-933f-7aaa52d2ed47" class="">We can add another proxy listener. This is just another proxy that we can send traffic throught and we can add one on another port or another ip adress. This can be very interesting in the following situations. </p><ul id="4c2d2b1c-670f-49a1-b5de-7a320535077f" class="bulleted-list"><li>If you want to test a mobile application and a web application at the same time you might want to have them enter at a different port</li></ul><ul id="0c7dfb8d-0a52-4681-aa57-5b7d77194eef" class="bulleted-list"><li>If you are testing multiple physical IoT devices, it might be useful to add another proxy listener to give all devices a seperate listener. </li></ul><ul id="63aad8e8-1bb1-4d72-95c8-7bba98f5fd3e" class="bulleted-list"><li>We might want to have burp suite listen on different ip adresses in network situations</li></ul><ul id="ff86fce0-5386-4b39-ae50-b1c697f1d2b0" class="bulleted-list"><li>...</li></ul><h3 id="1d72f27a-1719-4e39-a989-37e1c61687e7" class="">Editing/removing proxy listeners</h3><p id="18d6acbc-772a-4628-8762-7d0235244e4b" class="">If we made a mistake, we can edit or remove an existing proxy listener.</p><h3 id="7ab03715-54cf-4bc9-8049-ffe61122b6f3" class="">Import/Export CA certificate/Regenate CA certificate</h3><p id="6f936c0d-574a-4a58-bde9-d9500e09c48e" class="">We might need the CA certificate to add to windows so we can decrypt the HTTPS traffic coming from our browser. We might also need this certificate if we want to test mobile applications that communicate over HTTPS. This certificate can be exported here and imported into our testing client. We can also regenerate the certificate here should we need to.</p><h2 id="e8bdad98-0405-4223-95e2-713825c684c8" class="">Response modifications</h2><p id="a8af2b7e-6ca5-417f-bda1-30eab45b88df" class="">
+</p><figure id="1658e13e-4193-4c63-b878-c19dcd8851a2" class="image"><a href="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%206.png"><img style="width:576px" src="Burp%20suite%20Proxy%2040a11823c8f84dfeb1c9eea619099d4d/Untitled%206.png"/></a></figure><p id="01ec3e7d-c7c4-409f-9879-ca5eaac9eac9" class="">I usually unhide hidden form fields, that&#x27;s just a simple client side protection and usually hidden fields will contain valuable information.</p><p id="752e6945-c429-462a-879d-4c4c494dadda" class="">I will also prominitly highlights them, doing this makes it so that any hidden form field will have a large red border around it, making it more easily visible.</p><p id="e25bb56e-7577-4911-b053-d2120fe5f8c3" class="">I will also enable disabled form fields for the same reason as that i unhide hidden form fields.</p><p id="2bab7377-475a-453a-b672-c7bde73a67a7" class="">I will also remove any field lenght limits, this might trigger some API errors if i send more characters than the API allows but sometimes developers don&#x27;t even implement API checks and will only use front-end validation.</p><p id="7f7106e3-c399-4ffd-9df3-c72f4b6ce56d" class="">For the same reasons, I remove any javascript form validation. It&#x27;s all just client side. </p><p id="4e7b740a-2fcb-4f79-b57b-fa8d29b27c2a" class="">The other options i don&#x27;t enable as they are there to protect against things like XSS and we can&#x27;t just disable these fields on our victims browser. </p><h2 id="51189328-e7c4-40b3-9c06-9fee606421da" class="">Match and replace</h2><p id="980460f9-e211-4454-99de-02cb3f8cc908" class="">See the match and replace document.</p><p id="d5032b6d-0774-4c84-a60f-cb4a06314270" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

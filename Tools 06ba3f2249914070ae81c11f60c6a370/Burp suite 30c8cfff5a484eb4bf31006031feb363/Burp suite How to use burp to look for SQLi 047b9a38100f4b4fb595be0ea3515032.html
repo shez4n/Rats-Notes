@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Burp suite: How to use burp to look for SQLi</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="047b9a38-100f-4b4f-b595-be0ea3515032" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">👹</span></div><h1 class="page-title">Burp suite: How to use burp to look for SQLi</h1></header><div class="page-body"><h3 id="c16fb097-0ddf-4414-a748-73c088b7401e" class="">Introduction</h3><p id="e25345a5-2fce-4b15-8544-2d794f77ca0f" class="">Testing for SQLi using burp suite is not something that&#x27;s easy but burp suite does allow us several options to make it easier. The biggest problem with searching for SQLi is testing header values we can&#x27;t normally manipulate without burp suite for example.</p><h3 id="61627d2d-17c1-4fc1-a104-3f3a66c53303" class="">Testing blind SQLi in burp suite</h3><p id="5fc9608f-9961-498c-9e3b-f7e9725905a7" class="">Testing for SQLi might not always be very simple at all. Sometimes it can be as simple as inserting a single quote into every field you see that you suspect interacts with the database. Other times we will not get any feedback if a SQL error occurs so it might seem like the website is not vulnerable to SQLi while in actually it might still be.</p><p id="ce77968e-12aa-4e88-9e51-b1994043a35e" class="">In this example we are going to look at how to solve this lab first and then how we could expand on it.</p><figure id="7a0a81b4-ba0c-4710-b997-e283be078a44" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_00-59-59-e498248d996a199f19d688a795dd00f0.PNG?rOiLypvF-n1yA_SHt1Tal1sJ3orpZ_UVuKdWNhW8Ii1OiuSlvHIt4sYCd9n2Zoj-IYnK9IZiHgDPPXu59a0y23k7OYWx5TKHrV4CPhzZG5qpf5263i7LpMJh0Hi37ZGNox67o6b06EQFNvR6lZXvhZpX8xWE3I4Px2HhgB_yaTyKfS4nkCeqzRDX8uUg-_QgHBUAUg"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_00-59-59-e498248d996a199f19d688a795dd00f0.PNG?rOiLypvF-n1yA_SHt1Tal1sJ3orpZ_UVuKdWNhW8Ii1OiuSlvHIt4sYCd9n2Zoj-IYnK9IZiHgDPPXu59a0y23k7OYWx5TKHrV4CPhzZG5qpf5263i7LpMJh0Hi37ZGNox67o6b06EQFNvR6lZXvhZpX8xWE3I4Px2HhgB_yaTyKfS4nkCeqzRDX8uUg-_QgHBUAUg"/></a></figure><h3 id="2baef789-3291-42e9-b2c9-b484e8cc32e4" class="">Setting the scope</h3><p id="30e3b36e-3f4a-4cae-9d78-a893721d8b2e" class=""><em>Link will be in the downloadeable resource.</em></p><p id="e1aaa77d-76e4-4535-aa11-5c474d8f0e88" class="">To solve this lab we first have to set our scope correct ofcourse. When starting up the lab, we are given a URL. We can choose to only include this URL in scope or the domain name depending on what we want to do.</p><p id="28e4e851-36f3-459d-83fb-1033576d6390" class="">If we want to test for just this one lab we can keep the complete URL in scope.</p><figure id="0c4b494b-075c-423f-806d-2f0572de1581" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-03-59-3beebfbe1b5cc38ffee7421ac86520fd.PNG?20xacGX25PGSeNRNGUwjXQVtCKSD6E3UF4_XqFJ8_rVwAPf2qgzcmPcCqDBBL7EriXr5IKbHFwjMYp-RZXZcJwNxlMFWKTQ660NE07I65DX5JxEKxxYhvmM_pWnFGo_qE7BRs4fx-s7putNKsrJFUOvXkvXQtj4ACRFZyCbdkoURA4DCRmy9ZzyglxepARKV7rbSpg"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-03-59-3beebfbe1b5cc38ffee7421ac86520fd.PNG?20xacGX25PGSeNRNGUwjXQVtCKSD6E3UF4_XqFJ8_rVwAPf2qgzcmPcCqDBBL7EriXr5IKbHFwjMYp-RZXZcJwNxlMFWKTQ660NE07I65DX5JxEKxxYhvmM_pWnFGo_qE7BRs4fx-s7putNKsrJFUOvXkvXQtj4ACRFZyCbdkoURA4DCRmy9ZzyglxepARKV7rbSpg"/></a></figure><p id="c6e11f83-3d13-42bb-bc59-c76d7a069c96" class="">Or we can select just the domain if we want to test more labs.</p><figure id="fb4189fc-593b-4544-a7dd-921035784abd" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-04-22-61acb7b3be205fa28fa6803162cac6f3.PNG?obj8iKws386WTEGikCs2j_hWtAwALkxsgpJI3No_5RXnDaGEIcofAVBfSMCNd1WeRHN8Grf1GWVwb9jwurS7DDTySB5zUUSkrqgJINZuL9CQig5mFwf_vZD0KP6AmFLPRfSBsA6L0FOzPGohrYW_JleOcs0uyNnQ0LCcm-nkb9qmyRXF96lO3JLl19Tah1EQiIvfZg"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-04-22-61acb7b3be205fa28fa6803162cac6f3.PNG?obj8iKws386WTEGikCs2j_hWtAwALkxsgpJI3No_5RXnDaGEIcofAVBfSMCNd1WeRHN8Grf1GWVwb9jwurS7DDTySB5zUUSkrqgJINZuL9CQig5mFwf_vZD0KP6AmFLPRfSBsA6L0FOzPGohrYW_JleOcs0uyNnQ0LCcm-nkb9qmyRXF96lO3JLl19Tah1EQiIvfZg"/></a></figure><p id="48f35c07-db05-428e-92ad-fd4326914710" class="">In reality it will heavily depend on the scope of your target what you set here but i will always use the advanced scope control giving me regex capabilities for if need be.</p><p id="69fd23fb-9b3d-4ccf-b64c-6f72ab0ff9bb" class="">Make sure you also set the out of scope section propperly if need be.</p><h3 id="bcf29630-ba92-4cd6-9dda-9c33ca8a61d8" class="">Solving the lab</h3><p id="c0ea84a9-2928-4e85-ac9c-fdd43de97996" class="">To solve this lab we need to visit the homepage and intercept the request. We then need to replace the tracking cookie with the following value:</p><p id="09c985ae-62c3-4ab2-a045-ba06836be013" class="">TrackingId=x&#x27;||pg_sleep(10)--</p><h3 id="ac550d8d-67f2-44e3-9598-7166fbfa9718" class="">How to test for this</h3><p id="02f2b2f0-867d-495a-83e7-e1e31d128526" class="">Since we are talking about blind SQLi we will not be receiving information from the server to even confirm wheter or not we have a SQLi on our hands. In these cases we have several options that allow us to create a noticeable delay (for example a sleep of 10 seconds), however this sleep command will differ from database system to database system.</p><p id="18a0b460-e3c4-405f-9dd4-731ef71fa9b4" class="">Oracle<code>dbms_pipe.receive_message((&#x27;a&#x27;),10)</code></p><p id="e717c7a2-63e7-4f1a-9d44-8f2d54a5224b" class="">Microsoft<code>WAITFOR DELAY &#x27;0:0:10&#x27;</code></p><p id="3310ea1f-e438-41ea-a0af-07ddafd3c1e0" class="">PostgreSQL<code>SELECT pg_sleep(10)</code></p><p id="3dcf58ce-e60b-48c6-8a80-72c25203d8d6" class="">MySQL<code>SELECT sleep(10)</code></p><p id="3e4758f8-f035-4fe5-8d79-818fd9629c4c" class="">We can easily manually test for all of these values</p><p id="e4569b07-e0c0-4cef-9f99-d7c3e890099a" class="">TrackingId=x&#x27;||<code>dbms_pipe.receive_message((&#x27;a&#x27;),10)</code></p><p id="8237e015-3e04-4926-b8af-8804890dd996" class="">TrackingId=x&#x27;||<code>WAITFOR DELAY &#x27;0:0:10&#x27;</code></p><p id="108336f8-bf74-4d7b-b106-6b35895a1cb1" class="">TrackingId=x&#x27;||<code>pg_sleep(10)</code></p><p id="42288148-9f1f-4647-ad4f-4ef6baaf37d3" class="">TrackingId=x&#x27;||<code>sleep(10)</code></p><p id="fa40be50-e9d9-466b-9cef-7088cd89d718" class="">What is happening here is that the server is executing a query in the background. By entering the single quote, we are closing that query, we can then add an OR statement (||). The last step would be to execute our command (see list above).</p><p id="221f0954-f292-49d0-acfb-82ea1dcd02d0" class="">When the page loads for much longer than the other requests, we know we might have a blind SQLi.</p><h3 id="87d47241-e313-4d9d-bf34-1ec8706238e8" class="">Other options</h3><p id="d738121a-a93d-4374-86b5-e54c2acaff15" class="">We might want to try our SQLi with several other options besides our sleep command and maybe with a combination of single and double quote items. I think you can imagine how this can get confusing fast?</p><p id="632fa754-3090-41d7-ac51-60c062e59151" class="">To not have to do this manually for every single request, we can send that request to the intruder.</p><p id="f55d236c-30d2-4a13-a4fc-d4cde3d6679e" class="">Right click on the request and click &quot;Send to Intruder&quot;. Ones in the intruder select the payload location that you want to test for. In our case we left the x&#x27;|| since it will be the same for all requests that we send:</p><figure id="5bf1d5b9-0a35-4966-86b2-7fd4bad166c0" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-26-10-d2af3ae4b561fcbd1ab6de6cd1525af9.PNG?AdF-9nSTxNWkUHhjj0hpzHFtOLd6CvzMaUhc9shq0K6RxCHXU5xoYT6-shBeEr60kCLcjG98c9McbFZR5TrzHcz-AefrIF5w1axQBUYPGaml2xc1yNsLefQuHa5FVrIZlmp0QKz1W0r-qNqy8T0I7TPKsobwwxJLjLqo-r9jAc5M1Um5o6cTyXWtrg5wQ54_un3KhA"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-26-10-d2af3ae4b561fcbd1ab6de6cd1525af9.PNG?AdF-9nSTxNWkUHhjj0hpzHFtOLd6CvzMaUhc9shq0K6RxCHXU5xoYT6-shBeEr60kCLcjG98c9McbFZR5TrzHcz-AefrIF5w1axQBUYPGaml2xc1yNsLefQuHa5FVrIZlmp0QKz1W0r-qNqy8T0I7TPKsobwwxJLjLqo-r9jAc5M1Um5o6cTyXWtrg5wQ54_un3KhA"/></a></figure><p id="8496dfb9-df62-4434-8531-98a48479dc6e" class="">We can then fill our payload options with whatever attack vector we wish.</p><figure id="ac2bad14-a185-44a5-9387-ffc6db9909c6" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-27-19-35b8111dc8f549e39d202cc0ac8874d9.PNG?BZkTTnGEGlH2qVY48mUiPLslYSMEvekzYT3OucRvDFb599xXt7_zTpPiCDVX316zuXR251KWNGefFhXnZDTNSZi-l1SmSQvWi5mwNvurO6aoXtU-tAhsrNDcImR6U3KCCJgCbnFo3Rkq2MLMda3s4lPxl8cUVU9w0w2Zy1ahX9BvZ4cdfsBfqtu4vzyFSwOhRHAo6g"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-27-19-35b8111dc8f549e39d202cc0ac8874d9.PNG?BZkTTnGEGlH2qVY48mUiPLslYSMEvekzYT3OucRvDFb599xXt7_zTpPiCDVX316zuXR251KWNGefFhXnZDTNSZi-l1SmSQvWi5mwNvurO6aoXtU-tAhsrNDcImR6U3KCCJgCbnFo3Rkq2MLMda3s4lPxl8cUVU9w0w2Zy1ahX9BvZ4cdfsBfqtu4vzyFSwOhRHAo6g"/></a></figure><p id="9af41b7b-59d1-4955-a8e0-42aa12ae0503" class="">We will then have to study every request to see if we can find requests that are different from the rest in any way.</p><figure id="5b8dd350-c0df-4bef-9269-3043ae096a86" class="image"><a href="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-28-37-dfa611f89d446df2133c933af2e2074c.PNG?wpUjdspFkIa5F4KESGv2wKOWAsrF00NRlOUC7rr6v4wRk5CNa55L37RzdPQtr3xY5wZ9N7uvKkwwj4YnsH5evc0KaB54JvSQvzjheFurUeJJfPX6P-fJvG824vF63XUQ75Uq8mVnQkHlsGJhLPt8fLI3P_zaxWyU_fWnZhYFMe_lP_kBQp9zDL6HACphfm3o0GrxTA"><img src="https://img-a.udemycdn.com/redactor/raw/article_lecture/2021-03-24_01-28-37-dfa611f89d446df2133c933af2e2074c.PNG?wpUjdspFkIa5F4KESGv2wKOWAsrF00NRlOUC7rr6v4wRk5CNa55L37RzdPQtr3xY5wZ9N7uvKkwwj4YnsH5evc0KaB54JvSQvzjheFurUeJJfPX6P-fJvG824vF63XUQ75Uq8mVnQkHlsGJhLPt8fLI3P_zaxWyU_fWnZhYFMe_lP_kBQp9zDL6HACphfm3o0GrxTA"/></a></figure></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

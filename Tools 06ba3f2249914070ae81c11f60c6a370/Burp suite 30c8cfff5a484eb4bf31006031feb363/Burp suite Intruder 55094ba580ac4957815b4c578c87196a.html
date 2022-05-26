@@ -1,0 +1,642 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Burp suite: Intruder</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="55094ba5-80ac-4957-815b-4c578c87196a" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤖</span></div><h1 class="page-title">Burp suite: Intruder</h1></header><div class="page-body"><nav id="fa773c76-9f46-4f12-bba7-9bb14ac0a416" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#58a9e5f2-a534-4118-8530-ec15e4cd771c">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a0084f8f-cc82-4cf2-8356-8d66b3ea0c12">Sending a request to the intruder</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e7ae52b0-d2b0-44a9-975f-34eff583417b">Target tab</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d6a30fd7-7ce5-4ab1-b13f-865eab1c9593">Positions</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#dec3858f-7fb4-42e7-95c0-ed3d4c0e4902">Payloads</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#862db1de-c38e-4115-8e1e-9201df0bab88">Payload sets</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fe096620-3d6c-4511-afd0-ea78df33272b">Payload options</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1600b571-bf9f-457b-8366-7a9aa48f3761">Payload processing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dd1e3541-acb8-4c21-9dde-3c7725af7e4d">Payload encodings</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#36b914f1-1c0d-46a1-9ba2-2d22ced469e5">Options</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#490e1a3b-f84b-4bf8-a0cd-46558c83e8e9">Request headers</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5d83c70a-49b9-4a4e-a522-1cb0b944f777">Request engine</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#99c5213f-609d-4c68-bbe6-c454666ce85f">Attack results</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#53088cf9-330d-4ef8-ba5c-e4d8433b613b">Redirections</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1c0774b7-c053-4dbd-99c3-88d8e241449b">Grep - Matches</a></div></nav><h1 id="58a9e5f2-a534-4118-8530-ec15e4cd771c" class="">Introduction</h1><p id="53827766-f247-4fa3-a813-90f6d31d77af" class="">When we are hunting, we sometimes find requests that are interesting to us but they might not be directly usefull due to some system filtering our input like a WAF for example or due to a range of other possibilties. In some of these cases, burp intruder might bring rescue. If we want to try many different payloads quickly, intruder is going to be the perfect tool for us as it is very flexible and it has a range of other options. </p><h1 id="a0084f8f-cc82-4cf2-8356-8d66b3ea0c12" class="">Sending a request to the intruder</h1><p id="f6890311-1cac-43e9-9be1-ca2ef34ebee5" class="">We can build the requests we want to send to the intruder manually each time but that would not be very efficient. Instead we have the option to send requests to the intruder from anywhere within burp if we right click them.</p><p id="fd9ddb76-4573-48f6-a0e4-49032b474af3" class="">Note that we can also use the shortcut ctrl - i</p><p id="60d3c3dc-0e02-43c9-8fe9-d55fd886193b" class="">
+</p><figure id="3325b770-888f-4eeb-a111-e5326c62d09d" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled.png"><img style="width:753px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled.png"/></a></figure><p id="d99b2bde-d025-41db-a1cf-2cea2cc2028f" class="">
+</p><figure id="2501ab01-25fe-41c5-8ee4-d11803dae53f" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%201.png"><img style="width:986px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%201.png"/></a></figure><p id="c17a0c4d-8239-4db7-8660-b04c6cda230e" class="">
+</p><figure id="783830b2-edb5-4f1a-9f76-bb018f77c3a5" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%202.png"><img style="width:1134px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%202.png"/></a></figure><h1 id="e7ae52b0-d2b0-44a9-975f-34eff583417b" class="">Target tab</h1><p id="e2d75c94-1708-485c-bc6f-21d8cf85d453" class="">This tab is where we define the properties of our target. We can set things like host or port and whether or not to use HTTPS. This can be usefull for example if we want to execute the same attack but on a different target. (For example a production and a staging subdomain)</p><p id="257560bd-3502-48f3-be20-4dc448e6762e" class="">
+</p><figure id="8b46317f-8721-42f3-972b-ee1ed626d4ed" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%203.png"><img style="width:619px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%203.png"/></a></figure><h1 id="d6a30fd7-7ce5-4ab1-b13f-865eab1c9593" class="">Positions</h1><p id="9af00836-7485-47d1-8c2c-9e0de0cd165a" class="">
+</p><figure id="46c0c030-33fa-41ef-a9ed-a645aa494fc6" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%204.png"><img style="width:1987px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%204.png"/></a></figure><ol id="b248fc95-0112-4c0d-90eb-ef2f3735b12a" class="numbered-list" start="1"><li>The attack type will determine how intruder will handle our payloads. These are the ones i use most<ol id="4b9559e9-5e97-4c80-a152-e19af0595f60" class="numbered-list" start="1"><li>Sniper: One list of payloads which be inserted into every single value. Combinations will be made of all different items on the list. This means that if we have a big list and a lot of parameters we are going to have exponentially more requests and our attack will take a lot longer.</li></ol><ol id="86497816-d122-4937-b231-9043c73eb4d2" class="numbered-list" start="2"><li>Battering ram: It also uses one list but it will insert the same payload into every position. So for example if our list is a,b,c and we have 3 parameters it will first set all parameters to a, then to b and finally to c.</li></ol><ol id="8ed04122-60e7-4180-aaca-2f9bb7bbd1f8" class="numbered-list" start="3"><li>Pitchfork: This attack uses as much lists of payloads as there are parameters. This attack type will go through the lists and put every value into the parameters. For example  if we have 3 parameters, we will need 3 lists. If we have 10 values in our list, the attack will first pick the first value from all the lists and put it in the respective parameter. Next it will move on to the second item in the lists and so on.</li></ol><ol id="cd8226f3-5df5-45b6-a21a-c3ae9e6c0109" class="numbered-list" start="4"><li>Cluster bomb: This also uses as much lists as there are parameters but this method will test every combination of list items possible. This attack takes a long time as you can imagine.</li></ol></li></ol><ol id="964fde9b-2b32-4af9-8ae7-4bb87ac939e6" class="numbered-list" start="2"><li>This is where we define our parameters. By default the cookies are also selected as parameters. I usually click click in the next step and add my parameters from a blank entry.</li></ol><ol id="fbd72623-04ce-4a5c-86b3-d82f97295de7" class="numbered-list" start="3"><li>We can add, remove or clear parameters that we want to test. Auto assigning the template will again assign every parameter burp suite can find.</li></ol><p id="8ba4cd4c-5703-4383-b26e-5c622d017d0e" class="">If our website is really big, we can also search the source code at the bottom of the page.</p><h1 id="dec3858f-7fb4-42e7-95c0-ed3d4c0e4902" class="">Payloads</h1><p id="f5d1b562-437d-4202-bf6e-870519ab3e83" class="">
+</p><figure id="7a0694af-cb3f-4c47-8ed4-91d509cc5276" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%205.png"><img style="width:1917px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%205.png"/></a></figure><h2 id="862db1de-c38e-4115-8e1e-9201df0bab88" class="">Payload sets</h2><p id="7839c821-68aa-4e8d-bd4b-020a09460e61" class="">
+</p><figure id="bb912a5b-4267-40e8-919a-8ba0dc87ab63" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%206.png"><img style="width:1611px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%206.png"/></a></figure><p id="8169b940-b864-437c-a754-e7281cb39250" class="">We will have as many payload sets in here as we selected parameters previously if we picked pitchfork or clusterbomb attack forms. Otherwise we will always only have one list available.</p><p id="bf50d267-f79c-489c-946f-1c187e00fd7f" class="">The type of list can very. I&#x27;m going to go over some popular ones but they speak for themselves.</p><ul id="111f8e00-3f0c-4f4f-ac32-21eb1f252ef0" class="bulleted-list"><li>Simple list</li></ul><ul id="80b0b3cc-ecbb-4054-87eb-73ff47810c40" class="bulleted-list"><li>Runtime file: This is an external file you can use as a list</li></ul><ul id="2c0dcf8b-3550-45b6-9d24-e4ea4ffae001" class="bulleted-list"><li>Numbers: For example if you want to test for all numbers between 0000 and 9999 if you are brute forcing</li></ul><ul id="a066fb01-58ae-4cb8-afe5-a02aa0e3f9bd" class="bulleted-list"><li>Brute forcer</li></ul><ul id="5c0c1692-1213-40c8-8004-c83be611491c" class="bulleted-list"><li>Bit flipper: This is some really cool fuzzing but very hard to understand</li></ul><h2 id="fe096620-3d6c-4511-afd0-ea78df33272b" class="">Payload options</h2><p id="6c46ba00-4ec5-4257-b7c4-4bb86efea87e" class="">Depending on what payload type you pick, this will differ. One noteable option for the simple list is the option to include fuzzing lists created by burp suite.</p><p id="04d0cb55-f55b-4757-a21d-dbb9e9f487cf" class="">
+</p><figure id="d0830810-fc1e-4e6e-a33f-c87670a62d21" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%207.png"><img style="width:571px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%207.png"/></a></figure><h2 id="1600b571-bf9f-457b-8366-7a9aa48f3761" class="">Payload processing</h2><p id="cabc3bb5-54d7-4fdb-b65b-73876123617d" class="">Sometimes we want our payloads to be processed by certain rules before we send them in. For example, some targets require us to base64 encode our payload, this is possible with the payload processings.</p><p id="5eebd28c-32bf-4aa4-b90b-eb413ae4a122" class="">We can pick from several different rule types, most speak for themselved.</p><p id="b1ac44fa-cc90-48fb-959b-ca10e5e2c73a" class="">
+</p><figure id="53ef49a8-94cb-4fa5-a2fa-4a6ccb7ce42d" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%208.png"><img style="width:623px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%208.png"/></a></figure><p id="1b481d2f-c847-4746-819b-f404aa8860ad" class="">One noteable option we have here is that we can invoke Burp extensions which means we can even write our own code to process the payloads if a target uses custom stuff we can&#x27;t do with the already existing options. </p><h2 id="dd1e3541-acb8-4c21-9dde-3c7725af7e4d" class="">Payload encodings</h2><p id="b2d1f4be-7586-4ade-95bc-9b9971ca7860" class="">
+</p><figure id="b2e6aca0-f30a-4569-befe-7b545cc03ba7" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%209.png"><img style="width:796px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%209.png"/></a></figure><p id="cd8e173c-43fc-4c12-909a-cd9a347712fe" class="">By default, burp will url encode a number of characters. This is a good thing as it makes sure we don&#x27;t trigger any errors on the webserver. In rare cases we might want to disable this option but beware that it might trigger a lot of errors if have a bad list.</p><h1 id="36b914f1-1c0d-46a1-9ba2-2d22ced469e5" class="">Options</h1><p id="4d7e2a11-5fd8-496b-b227-ce4c1b383165" class="">
+</p><figure id="51ba9a8a-99bf-4706-a9df-c3bf28f51e63" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2010.png"><img style="width:1919px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2010.png"/></a></figure><h2 id="490e1a3b-f84b-4bf8-a0cd-46558c83e8e9" class="">Request headers</h2><p id="983c3e45-b24e-4b40-81b5-3b51db07a498" class="">If you change something in the body of a request, something headers should change as well like the content length. Burp suite will automatically do this for us and we can find that option here.</p><h2 id="5d83c70a-49b9-4a4e-a522-1cb0b944f777" class="">Request engine</h2><p id="df618b3b-912d-41a0-8f5f-7975e70a15ff" class="">This is the most important setting. Some targets will say things like &quot;No automatic scanners allowed&quot;. This doesn&#x27;t mean we can&#x27;t fuzz perse but we just need to limit our request very much. We can throttle our requests here and tweak several settings such as number of threads or pauses.</p><p id="54a61016-9d34-4ee6-b34a-19277ed996c8" class="">
+</p><figure id="8f61a018-8b60-4b5e-baed-60dfdaa4eb33" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2011.png"><img style="width:587px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2011.png"/></a></figure><h2 id="99c5213f-609d-4c68-bbe6-c454666ce85f" class="">Attack results</h2><p id="1cd5a103-2eb8-4dfe-9bd4-d1b47d984ccc" class="">
+</p><figure id="58e2e808-cbd9-4713-8a43-c5a55556a925" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2012.png"><img style="width:454px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2012.png"/></a></figure><p id="301608d0-31aa-4c62-b014-b911ce73a0c0" class="">This section determines what results are being logged. This can be handy if you are trying to execute a DoS for example. If intruder needs to log stuff, that takes time and if we want to DoS an application, we need to send as much requests as possible. This is something you should rarely if ever do however at full speed as a crashing server in production could spell disaster.</p><h2 id="53088cf9-330d-4ef8-ba5c-e4d8433b613b" class="">Redirections</h2><p id="2fdffdf8-998e-40c2-8787-5877260177f5" class="">
+</p><figure id="8dc49b3b-04ee-467b-ad0a-668072082931" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2013.png"><img style="width:525px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2013.png"/></a></figure><p id="b3abe7bd-3320-4d13-86ea-893a0bd7b5fb" class="">Sometimes a website will return a redirection. If that response is the exact same for logged in users as it is for non logged in uses, we might need to follow that redirect to see a difference in responses, this option makes that possible for us.</p><h2 id="1c0774b7-c053-4dbd-99c3-88d8e241449b" class="">Grep - Matches</h2><p id="ba3df71c-2e76-4373-a25c-a054641e5c6f" class="">This option allows us to flag specific requests if the response has texts matching the ones we give it in the list. This can be useful for example if you are looking for SQli and expecting a SQL error, you might want to look for a word resembling &quot;SQL&quot; automatically and flag the results.</p><p id="f6e2f96f-50ef-46ec-9e41-931f2ec52b39" class="">
+</p><figure id="4ac5d1e8-8ff5-4d04-abc6-662015c3eb41" class="image"><a href="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2014.png"><img style="width:587px" src="Burp%20suite%20Intruder%2055094ba580ac4957815b4c578c87196a/Untitled%2014.png"/></a></figure><ol id="9ff4be6e-2f95-4a2f-b20b-12bfd6ece4f8" class="numbered-list" start="1"><li>Be aware, you do need to activate this function, it&#x27;s not active by default</li></ol><ol id="37f38ad2-d0c4-4610-9c08-101a4c714366" class="numbered-list" start="2"><li>You can Paste a list from your clipboard, load it from a file, remove a specific item from the list or clear the whole list</li></ol><ol id="b024dc15-0c85-439c-80fa-e25230845d86" class="numbered-list" start="3"><li>Add one item to the list</li></ol><ol id="f0a09cff-a291-4934-a498-5204ec5544d5" class="numbered-list" start="4"><li>We can either match for full strings or we can even match regular expressions</li></ol></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

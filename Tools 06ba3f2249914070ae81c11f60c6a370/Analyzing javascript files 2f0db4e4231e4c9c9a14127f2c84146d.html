@@ -1,0 +1,634 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Analyzing javascript files</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2f0db4e4-231e-4c9c-9a14-127f2c84146d" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤖</span></div><h1 class="page-title">Analyzing javascript files</h1></header><div class="page-body"><h1 id="8732a0f6-9507-4e7d-8c1b-b75e05659952" class="">What is JS?</h1><p id="20868274-3d80-4dba-b970-f23392fecb51" class="">Javascript is a client side object oriented scripting language. In essence this has several meanings:</p><ul id="098df862-e7e0-4e65-aa17-d6fc25d4b744" class="bulleted-list"><li>Client side, it runs on the computer of the client (victim)</li></ul><ul id="20ff93a3-0d2e-4f19-a23c-675b44fd2ec0" class="bulleted-list"><li>Object oriented (Programming term)</li></ul><ul id="05dad857-cabb-459c-bf51-dcb200744cd1" class="bulleted-list"><li>Scripting language, this means cross site scripting is also possible</li></ul><p id="9bfd4bb8-5ed2-404e-b303-49b5f990d91e" class="">Developers have used this over the years to make static websites a bit more interactive and beautiful with things like javascript image carrousels but also XHR requests and AJAX requests to the backend server to automatically fill in a page. Javascript can do many things and for this reason it&#x27;s of interest to us.</p><p id="0cde4985-d7f0-4ce9-ab3f-1d959ed57d6b" class="">We can either analyze a javascript file statically (not running it) and dynamically (debugging or running it). We will mostly focus on static analysis here.</p><h1 id="9bd24886-4ce7-438f-8d05-d8e370b2ffeb" class="">What does a JS file contain?</h1><p id="fdaf2fef-207d-406b-80df-41c348f4ac11" class="">Besides the regular cross site scripting sinks (locations where our XSS attack vector is reflected in the JS) we can also find several other juicy secrets in there that we can use. </p><p id="71730e62-0444-4af3-8eef-f593df9fb331" class="">These secrets can contain but are not limited to:</p><ul id="725886aa-523f-479d-b231-8ccdc7e33d68" class="bulleted-list"><li>New endpoints, one time i found a whole list of endpoints in the comments</li></ul><ul id="356318e2-6726-4133-af53-06e0023f4099" class="bulleted-list"><li>Hidden parameters</li></ul><ul id="e5bc67b7-f792-4177-9db6-69e92dca491b" class="bulleted-list"><li>API keys, sometimes they are supposed to be public though, so be careful with these. Verify the impact before you report! <a href="https://github.com/streaak/keyhacks">https://github.com/streaak/keyhacks</a></li></ul><ul id="06398d01-e2e4-45e6-83a0-b709a528f0a0" class="bulleted-list"><li>Business logic, which we might be able to abuse like client side calculations of prizes </li></ul><ul id="c598f67f-7870-404f-8ae7-8e7b892234d3" class="bulleted-list"><li>Secrets/passwords</li></ul><ul id="b7c3b6c5-5e5f-4808-ad7f-90db16fb09bc" class="bulleted-list"><li>Potentially dangerous areas in the javascript code such as eval() or setinnerhtml(). These are DOM sinks and can lead to DOM XSS</li></ul><h1 id="c8f02591-d8e8-45a4-be8e-d15fcad8d382" class="">Attack strategy</h1><p id="515669d3-e6cd-4fae-aaa6-bb364e9d65b4" class="">For our attack stragey we first need to gather all the javascript files from a website. We have several options to do this automatically for us or we can look in the HTML source code manually but this will not catch all the JS files as some files might be called nested (a JS file called from inside another JS file), these would not show up in our initial manual scan. </p><h2 id="92e6e3d9-8003-41c2-988d-250cc6afe846" class="">Using BURP SUITE</h2><p id="34b7652b-7055-47a0-9a50-3fecfb11afda" class="">For our automatic scan we will want to use burp filters later on to explore all of our javascript files. To do this:</p><ul id="2966c7e8-1bdf-4918-8b11-9091290bcb8f" class="bulleted-list"><li>Open burp</li></ul><ul id="341a3e96-b26b-40ca-93db-513becb2dad0" class="bulleted-list"><li>Set your scope right</li></ul><ul id="712485b1-1f61-4b8c-8a9a-6cc1a499cd49" class="bulleted-list"><li>Explore the site manually by clicking around</li></ul><ul id="9675ff99-c3a1-4a33-b101-e56f5d4117cb" class="bulleted-list"><li>Open the burp site map tab</li></ul><ul id="dca1ec5a-b726-47e3-bf19-248e3f2d8caa" class="bulleted-list"><li>Click on the &quot;Filter&quot; Box</li></ul><ul id="099c0cf5-89fd-46ed-8d4f-4d32b696b86c" class="bulleted-list"><li>Click on the &quot;Script&quot; checkbox and make sure it&#x27;s the only one active under &quot;Mime type&quot;</li></ul><ul id="112ab678-f221-4b00-be70-62b8779fa21b" class="bulleted-list"><li>Under &quot;Filter by file extension&quot; , click &quot;Show only&quot; and fill in JS in the box</li></ul><p id="23084a13-ce40-48d0-b60e-c7ad237ab326" class="">
+</p><figure id="4fdb9cc2-4da6-4ae4-8184-1def41342c6e" class="image"><a href="Analyzing%20javascript%20files%202f0db4e4231e4c9c9a14127f2c84146d/Untitled.png"><img style="width:824px" src="Analyzing%20javascript%20files%202f0db4e4231e4c9c9a14127f2c84146d/Untitled.png"/></a></figure><p id="3226fe23-64f1-4233-8b91-ac22786491c6" class=""><strong>If you have burp suite pro</strong>, you can also right click on your target in the site map and under the engagement tools you will the option to &quot;Find scripts&quot;. This will effectively do the same after exploring your target manually but the results will be displayed prettier.</p><p id="2a8970d0-eaff-4d32-98e0-d6a7619545ed" class="">
+</p><figure id="f1ec6b45-7f17-4a3f-bcf6-4fc2fbafbb22" class="image"><a href="Analyzing%20javascript%20files%202f0db4e4231e4c9c9a14127f2c84146d/Untitled%201.png"><img style="width:672px" src="Analyzing%20javascript%20files%202f0db4e4231e4c9c9a14127f2c84146d/Untitled%201.png"/></a></figure><h2 id="fe916f7a-3b26-4a37-b32d-58ac26a00491" class="">Using waybackurls</h2><p id="61c951d6-a004-4ea0-8e8b-ec4ba34b1764" class="">Install waybackurls, using this tool we can also grep for any JS files that might not be linked anymore but still online.</p><pre id="811f252b-bb49-48b3-ba8c-956781ca275e" class="code"><code>go get github.com/tomnomnom/waybackurls</code></pre><pre id="c83e8d77-e8de-4012-985e-0618644bd84d" class="code"><code>waybackurls google.com | grep &quot;\.js&quot; | uniq | sort</code></pre><h1 id="b98092cb-30ae-463f-aabb-a9e8179c98a7" class="">Defense mechanisms</h1><p id="b601fd04-d7be-4350-a863-609d10d93c3b" class="">Developers use a range of defense mechanisms to hold us off but that&#x27;s okay.  We can get around those by being dilligent and making sure that we take our time.</p><p id="9bd2deba-2f3d-4076-8d02-bbe56df320dd" class=""><span style="border-bottom:0.05em solid"><strong>JS Obfuscation</strong></span><div class="indented"><ul id="b2e364cc-1ec8-4913-86d3-d553d1f70a87" class="bulleted-list"><li>This is where developers will make it intenionally hard to read the  code for humans but machines don&#x27;t have any problem reading this code. This is harder to decipher but with some dilligence it can be done.</li></ul><ul id="13598a3e-9be1-428a-94e2-7b9e12788585" class="bulleted-list"><li><a href="https://stackoverflow.com/questions/194397/how-can-i-obfuscate-protect-javascript">https://stackoverflow.com/questions/194397/how-can-i-obfuscate-protect-javascript</a></li></ul><ul id="feec03f1-0c48-4a87-914f-1817d6571615" class="bulleted-list"><li><a href="https://www.dcode.fr/javascript-unobfuscator">https://www.dcode.fr/javascript-unobfuscator</a> (doesn&#x27;t seem to work well)</li></ul></div></p><p id="562859cf-9466-492b-bc51-275d350c95d9" class=""><span style="border-bottom:0.05em solid"><strong>JS Chunking</strong></span><div class="indented"><ul id="f0d1a558-0b99-43a2-82fb-6c11744d7676" class="bulleted-list"><li>This is where the developers chops up the JS into little pieces that all reference eachother. Very annoying to get arround and it&#x27;s just hard work puzzling together the code</li></ul></div></p><p id="bb9ff1d8-b977-4b47-abcf-9add909ea012" class="">If we are trying to defeat these mechanisms it might help to set up a replica of you targets environment and to run the code statically. </p><h1 id="590d8a54-a98c-471f-97b5-50f97ccddb68" class="">Analysing JS files</h1><p id="4c0d7223-6a9d-4e11-950c-177bd6b7dbce" class="">So now that we have a ton of JS files, we can analyse them manually or we can run some tools on them. The cool thing is that these tools don&#x27;t always need to have the JS files downloaded. It is possible for tools like linkfinder to crawl a domain for JS files.</p><p id="dc9cfc25-74b7-4ae4-8a9a-39c81147864b" class="">We basically have a few tools in our toolbelt but today i want to focus on linkfinder and secretfinder. </p><h2 id="6aadc24e-b865-4b16-9152-c549684f2af0" class="">Linkfinder</h2><p id="d97b66aa-d045-458a-8861-652d49b7e4c8" class=""><a href="https://github.com/GerbenJavado/LinkFinder">https://github.com/GerbenJavado/LinkFinder</a></p><p id="1fa8b028-5bf5-4d0d-94be-9d0a24ecec07" class="">Installing linkfinder is super simple</p><pre id="62653737-e154-4955-91ec-f806b7cfc315" class="code"><code>git clone https://github.com/GerbenJavado/LinkFinder.git
+cd LinkFinder
+python setup.py install</code></pre><p id="939093f6-3a65-4d82-906e-d83d17794cc6" class="">We then need to install the dependencies</p><pre id="09f5b4c6-7d6f-4b84-b753-7ce265fd9489" class="code"><code>$ pip3 install -r requirements.txt</code></pre><p id="29eacce9-04bd-4b67-b470-2fe22548d2eb" class="">We can then use linkfinder in a range of different modes.</p><pre id="dd88601c-4ec8-4fc1-8534-207eaf495a4e" class="code"><code>python linkfinder.py -i https://example.com/1.js -o results.html</code></pre><pre id="c2a5e12b-7d95-4851-818a-5a0b6e30bdbe" class="code"><code>python linkfinder.py -i https://example.com -d</code></pre><p id="2a04d3c3-d53b-485e-be5a-b5ec23d5ed4b" class="">The results will consist a TON of new links that we can investigate and either dig deeper into manually or automatically scan them if the target allows it.</p><h2 id="efc88491-275d-4e8a-b358-d1a17c85620d" class="">Secretfinder</h2><p id="ec8e0fd3-4e08-4abd-a71d-19f5401fa19d" class="">Secretfinder builds on linkfinder but focusses on analyzing the JS for things like API keys.</p><p id="ed35bf5f-006f-4618-8cbd-46f8d956b94d" class=""><a href="https://github.com/GerbenJavado/LinkFinder">https://github.com/GerbenJavado/LinkFinder</a></p><p id="5e6666c9-7a28-495b-89cf-10a1379c3a51" class="">Installation is just as simple as with linkfinder</p><pre id="e3c4ef4b-11d7-47ec-be34-f96b256eeae9" class="code"><code>git clone https://github.com/m4ll0k/SecretFinder.git secretfinder
+cd secretfinder
+python -m pip install -r requirements.txt or pip install -r requirements.txt
+python3 SecretFinder.py</code></pre><p id="68a5de64-2c9b-4f4c-a984-d5423e863149" class="">Then we can start using it in the same way as linkfinder</p><pre id="41241587-3af0-45d9-a072-d7572ab3f78a" class="code"><code>python3 SecretFinder.py -i https://example.com/1.js -o results.html</code></pre><pre id="db05f4ba-ce5a-4cf3-bba8-ff46d2303681" class="code"><code>python3 SecretFinder.py -i https://example.com -d</code></pre><p id="f76ee63d-1fa5-44ab-9f1a-fb5eabbde287" class="">The results will consist of a list of sensitive data. The nature of this sensitive data can vary from API keys to litteral passwords. It&#x27;s highly situational on how we can use these and sometimes they don&#x27;t even have a use at all or are supposed to be public so judge carefully.</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

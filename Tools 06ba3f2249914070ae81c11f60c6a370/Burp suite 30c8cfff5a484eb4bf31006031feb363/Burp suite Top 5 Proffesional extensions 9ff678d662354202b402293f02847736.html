@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Burp suite: Top 5 Proffesional extensions</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9ff678d6-6235-4202-b402-293f02847736" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤖</span></div><h1 class="page-title">Burp suite: Top 5 Proffesional extensions</h1></header><div class="page-body"><nav id="b8afda70-0b1f-41b7-b504-fc7fb1ee6f54" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#151f2822-1c1c-404e-a539-0a7d7499b10c">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7bdd321a-6495-4c0c-9612-831c02b28f4e">Active Scan ++</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2dbd910e-125d-48e6-b4fb-ea24b891f8e5">CSRF scanner</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c1f4f238-6905-44fe-ad9f-de1b00127ec1">J2EE scanner</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7c19b651-bf02-42f3-a71c-01926d42c501">Reflected parameters</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3da05acc-dc7f-43f8-8be5-ef02eb5549d6">Software version reporter</a></div></nav><h1 id="151f2822-1c1c-404e-a539-0a7d7499b10c" class="">Introduction</h1><p id="2c2f9bc0-6bfe-41e4-9fdb-20426e55add3" class="">When you buy Burp Suite Proffesional edition, it unlocs several possibilites in terms of extensions we can use. Some of the Proffesional edition extensions can be extremly useful for both bug bounty hunters and penters alike so i&#x27;ve taken the time to go through a few of them for you. They are not ranked in any order, these just stand out as 5 extensions i would always have installed. </p><h1 id="7bdd321a-6495-4c0c-9612-831c02b28f4e" class="">Active Scan ++</h1><p id="7629c03e-2aa1-497e-b72b-a93458a644e1" class="">ActiveScan++ extends Burp Suite&#x27;s active and passive scanning capabilities. Designed to add minimal network overhead, it identifies application behaviour that may be of interest to advanced testers:</p><ul id="090adb52-17c3-4be9-99da-5c4f5fdd5adb" class="bulleted-list"><li>Potential host header attacks (password reset poisoning, cache poisoning, DNS rebinding)</li></ul><ul id="e45a3ba5-e554-4315-8bad-a48c5cefcd94" class="bulleted-list"><li>Edge side includes</li></ul><ul id="668e2540-a63d-482f-b588-3ad3eb8ceb69" class="bulleted-list"><li>XML input handling</li></ul><ul id="dd70d880-8616-4c40-bd82-af39152e2af7" class="bulleted-list"><li>Suspicious input transformation (eg 7*7 =&gt; &#x27;49&#x27;, \x41\x41 =&gt; &#x27;AA&#x27;)</li></ul><ul id="0b19a383-c149-46c4-8e73-e8b7662831ca" class="bulleted-list"><li>Passive-scanner issues that only occur during fuzzing (install the &#x27;Error Message Checks&#x27; extension for maximum effectiveness)</li></ul><p id="3fe41f1d-db9f-47e0-919f-d942ca22a834" class="">It also adds checks for the following issues:</p><ul id="c668be6a-cf14-4dbf-b307-3adf4b2cd406" class="bulleted-list"><li>Blind code injection via expression language, Ruby&#x27;s open() and Perl&#x27;s open()</li></ul><ul id="bb1f8074-0df8-42d6-8d05-1a16fb11446b" class="bulleted-list"><li>CVE-2014-6271/CVE-2014-6278 &#x27;shellshock&#x27; and CVE-2015-2080, CVE-2017-5638, CVE-2017-12629, CVE-2018-11776</li></ul><p id="f1a805f4-9dcb-426b-aaeb-59c001da5bec" class="">It also provides insertion points for HTTP basic authentication. To invoke these checks, just run a normal active scan. The host header checks tamper with the host header, which may result in requests being routed to different applications on the same host. Exercise caution when running this scanner against applications in a shared hosting environment. These attacks are very invasive and can adjust other people&#x27;s data unintended.</p><h1 id="2dbd910e-125d-48e6-b4fb-ea24b891f8e5" class="">CSRF scanner</h1><p id="18ae89f3-480b-465a-a9bd-f3f6b5784f4d" class="">This extension passively scans for CSRF vulnerabilties. It does return a lot of false positives but it beats having to check CSRF manually on every target for every funcationality.</p><h1 id="c1f4f238-6905-44fe-ad9f-de1b00127ec1" class="">J2EE scanner</h1><p id="39640860-2374-4c13-bc4b-fc9720467a48" class="">Sometimes we encounter J2EE applications in the wild, these require a completly differnt tactic from our usual scanning methods and that&#x27;s why this extension has been made. It uses new scanning techniques to identify vulnerabilities in J2EE applications that the normal scanner could not. </p><p id="c48d7aaa-7365-42e9-90b1-8328aac4057d" class="">Test cases:</p><ul id="23d0571f-527b-482d-891f-fe5633d42bb5" class="bulleted-list"><li>Expression Language Injection (CVE-2011-2730)</li></ul><ul id="dfda0970-87ef-4b88-98bb-2731e4d9df25" class="bulleted-list"><li>JBoss SEAM Remote Command Execution (CVE-2010-1871)</li></ul><ul id="87f22843-7d6c-4258-8a1b-e4d6c0e1a536" class="bulleted-list"><li>Java Server Faces Local File Include (CVE-2013-3827 CVE-2011-4367)</li></ul><ul id="23507eab-10ed-4713-bc47-58c575e42ece" class="bulleted-list"><li>Local File include - /WEB-INF/web.xml Retrieved</li></ul><ul id="633be162-a41e-4cb0-80d4-457e0d4d8500" class="bulleted-list"><li>Local File include - Spring Application Context Retrieved</li></ul><ul id="fdb14920-5682-4e07-91f0-186e2d2dcbbd" class="bulleted-list"><li>Local File include - struts.xml Retrieved</li></ul><ul id="3acfcf94-6235-44f6-ac71-5db6df7b863c" class="bulleted-list"><li>Local File include - weblogic.xml Retrieved</li></ul><ul id="b47b0590-6e13-4b36-8423-1ced17f13996" class="bulleted-list"><li>Local File include - ibm-ws-bnd.xml Retrieved</li></ul><ul id="b6814906-bc32-4967-8c17-bff6481360a5" class="bulleted-list"><li>Local File include - ibm-web-ext.xmi Retrieved</li></ul><ul id="56204b75-f150-4071-b060-ac9fef2946f4" class="bulleted-list"><li>Local File include - ibm-web-ext.xml Retrieved</li></ul><ul id="9d557060-1536-4946-b51d-f76867969462" class="bulleted-list"><li>Local File include - /etc/shadow Retrieved</li></ul><ul id="82ccba1a-3bcf-4798-bd75-f66f6fae4eb6" class="bulleted-list"><li>Local File include - /etc/passwd Retrieved</li></ul><ul id="30d54cf9-29e3-4de2-8e08-0eb0af6f9947" class="bulleted-list"><li>Apache Struts 2 S2-016</li></ul><ul id="60647025-b4b3-49e4-bb07-bd6a8d64382c" class="bulleted-list"><li>Apache Struts 2 S2-017</li></ul><ul id="f6d69bbc-4f02-48ae-8d1f-111bddb92e54" class="bulleted-list"><li>Apache Struts 2 S2-020</li></ul><ul id="fb07f67c-1d2a-467b-a19f-7838b211ad50" class="bulleted-list"><li>Apache Struts 2 S2-021</li></ul><ul id="3a6b7a11-a25c-4cf1-a75c-81f208d20890" class="bulleted-list"><li>Apache Struts DevMode Enabled</li></ul><ul id="af315996-181e-4cad-802d-5d44d1359df6" class="bulleted-list"><li>Apache Wicket Arbitrary Resource Access (CVE-2015-2080)</li></ul><ul id="436154e3-d0eb-4171-a466-2f082d125b55" class="bulleted-list"><li>Grails Path Traversal (CVE-2014-0053)</li></ul><ul id="dda3cd68-fa1c-484b-83cd-b80fd6025109" class="bulleted-list"><li>Incorrect Error Handling - JSF</li></ul><ul id="bd84fa66-1972-4d33-9327-de78e34b3e71" class="bulleted-list"><li>Incorrect Error Handling - Apache Struts</li></ul><ul id="80ddc730-429f-4bf6-bb70-9ba3f986ff5a" class="bulleted-list"><li>Incorrect Error Handling - Apache Tapestry</li></ul><ul id="843b2489-e20a-4bb6-b12b-66b4e0ef54bd" class="bulleted-list"><li>Incorrect Error Handling - Grails</li></ul><ul id="bcd7ae8a-3306-45ae-be7f-48404adefa8f" class="bulleted-list"><li>Incorrect Error Handling - GWT</li></ul><ul id="d818cd36-5fb0-44ec-876b-17c2b3b90c2f" class="bulleted-list"><li>Incorrect Error Handling - Java</li></ul><ul id="b9c03848-949f-4aee-a49c-a655e720f665" class="bulleted-list"><li>XML Security - XInclude Support</li></ul><ul id="761290e8-736b-42f7-809a-aa60fe27ba19" class="bulleted-list"><li>XML Security - XML External Entity</li></ul><ul id="bb461482-80e6-4d8e-be75-5f041ee54951" class="bulleted-list"><li>Information Disclosure Issues - Remote JVM version</li></ul><ul id="844ff6e5-ca69-4029-bdd5-efc25d528824" class="bulleted-list"><li>Information Disclosure Issues - Apache Tomcat version</li></ul><ul id="c35a3902-1e1a-4efa-aa13-63ce7bf8c993" class="bulleted-list"><li>Compliance Checks - web.xml - HTTP Verb Tampering</li></ul><ul id="1103432d-da24-4f0b-99ef-501670c3ba15" class="bulleted-list"><li>Compliance Checks - web.xml - URL Parameters for Session Tracking</li></ul><ul id="9dfdaded-3635-4478-af2c-5c633a1b54e7" class="bulleted-list"><li>Compliance Checks - web.xml - Incomplete Error Handling</li></ul><ul id="d49e1ec0-931e-4995-b523-8b6e7ee223de" class="bulleted-list"><li>Compliance Checks - web.xml - Invoker Servlet</li></ul><ul id="4d19e11d-e53a-47ca-a0ba-83997ee1a0f5" class="bulleted-list"><li>Infrastructure Issue - HTTP Weak Password</li></ul><ul id="7a2e13ad-afc0-4ba6-b16c-cbd05e4ac5af" class="bulleted-list"><li>Infrastructure Issue - Tomcat Manager Console Weak Password</li></ul><ul id="20f294e8-ca65-4c75-99ad-c4fad249641f" class="bulleted-list"><li>Infrastructure Issue - Tomcat Host Manager Console Weak Password</li></ul><ul id="71ffe578-cec3-4d46-9ab5-eb06b164d9d4" class="bulleted-list"><li>Infrastructure Issue - WEB-INF Application Configuration Files Retrieved</li></ul><ul id="df8792b9-bd2e-4aa0-9d81-031c77571aeb" class="bulleted-list"><li>Infrastructure Issue - Status Servlet</li></ul><ul id="8876e7a6-63a2-4adc-924d-6e7624e9530f" class="bulleted-list"><li>Infrastructure Issue - Snoop Servlet (CVE-2012-2170)</li></ul><ul id="79d6fada-33be-45a4-87bf-35d42ca9dff1" class="bulleted-list"><li>Infrastructure Issue - Extended Path Traversal Scan</li></ul><ul id="59ef100a-c2a0-4983-bc3a-5470e27b49d6" class="bulleted-list"><li>Infrastructure Issue - JBoss Web Service Enumeration</li></ul><ul id="3f5f5219-a508-4686-994c-12503be6cee7" class="bulleted-list"><li>Infrastructure Issue - JBoss Admin Console Weak Password</li></ul><ul id="b383b459-b1c6-434e-b470-b6e8edce70cc" class="bulleted-list"><li>Infrastructure Issue - JBoss JMX/Web Console Not Password Protected</li></ul><ul id="75474cb1-1e86-4c03-a06a-5acde0b97c2c" class="bulleted-list"><li>Infrastructure Issue - JBoss JMX Invoker Remote Command Execution</li></ul><ul id="34baaa68-2553-4677-abe2-550f83c838b3" class="bulleted-list"><li>Infrastructure Issue - Jetty Remote Leak Shared Buffers (CVE-2015-2080) found by @gdssecurity</li></ul><ul id="05b266c5-972f-46fd-a4cd-9e24c444d67c" class="bulleted-list"><li>Infrastructure Issue - Apache Axis2 - Web Service Enumeration</li></ul><ul id="c781b5de-2b81-46c0-8784-a9d68d08ba40" class="bulleted-list"><li>Infrastructure Issue - Apache Axis2 - Admin Console Weak Password</li></ul><ul id="a5c16ebb-1190-4dc8-ada9-daacd886e863" class="bulleted-list"><li>Infrastructure Issue - Apache Axis2 - Local File Include Vulnerability (OSVDB 59001)</li></ul><h1 id="7c19b651-bf02-42f3-a71c-01926d42c501" class="">Reflected parameters</h1><p id="82bc515b-d99c-463d-ab82-f8fa5ffe7866" class="">This is ofcourse super useful to test for reflected XSS entry points. This extension monitors traffic and looks for request parameter values (longer than 3 characters) that are reflected in the response. The extension monitors in-scope requests made by the Proxy and Spider tools. You can send reported items to other Burp tools. When sending an item to the Scanner, you can choose to scan all reflected parameters or only one reflected parameter.</p><h1 id="3da05acc-dc7f-43f8-8be5-ef02eb5549d6" class="">Software version reporter</h1><p id="20cddb43-99d6-4519-9bef-eb1d9baf94da" class="">This plugin will report any software version that it encounters, this will help in finding vulnerabilities in certain software versions.</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>
