@@ -1,0 +1,629 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Broad scope methodology - Manual</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1097d5c0-8b8a-4da0-907f-d593003272ae" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🤺</span></div><h1 class="page-title">Broad scope methodology - Manual</h1></header><div class="page-body"><nav id="3879529c-746d-415a-8182-7a83472e1110" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cad3b982-3c95-4c3d-ab4f-6ac0d359ac6d">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a447bb5e-ce1b-4566-9c6e-ee36bc4c89c5">Test objectives</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6461d8c0-41d8-49ff-8bc4-948be588eeb8">Disadvantages of tools</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6672cede-1cc9-4089-8f02-542e48748501">How can we do manual recon?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f20f1584-605c-4015-92b7-1590ded6f179">Google dorking</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dc982c0e-6797-446d-b757-5e10eb6c89e1">Waybackmachine</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ae290d67-7ecd-4da4-b478-87b50f54b829">Moving on</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7ca2d9ca-ea5d-431a-b7ad-045f76eebcd5">Other options</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d4374b84-9539-41a3-8028-7711ef775624">Show me your secrets</a></div></nav><h1 id="cad3b982-3c95-4c3d-ab4f-6ac0d359ac6d" class="">Introduction</h1><p id="abf48048-3f9e-4b95-ab02-93d9db5e2770" class="">Before we start running our tools, we need to know what they do in my opinion. Just running a script and expecting magic to happen is script kiddie behavior and we are far beyond that my friends. We are hackers.</p><p id="89ba79ca-8bfe-4daf-a894-ed4be10ffc09" class="">I am not saying you should never use tools, mind that. Tools are very useful in automating our workflows but they miss so much. A tool only checks what you tell it to check while human eyes are unbeatable in detecting details that are odd or off. That&#x27;s what it&#x27;s all about my friends, we need to mind those details very much. We can&#x27;t ignore them. </p><p id="e580863f-49eb-4362-b466-8b30511ad8ce" class="">The other reason i always recommend doing manual recon is that you can not possible program every single scenario into your automation. Life is diverse and so is software. We can&#x27;t rely on automation to find all the bugs. That being said, i am a HEAVY proponent of nuclei from project discovery but not the default templates. More on that later.</p><p id="94ab0c07-2490-4f3a-9cde-85bcd70b9183" class="">Automation is good but automation combined with manual testing ensures we get the best results possible. We also need to know the processes to improve our automation because for me it&#x27;s very important to keep improving. I don&#x27;t know about you friend but i always have new ideas on how i can improve my workflow. If i can implement those into my test automation, i have a big advantage since i won&#x27;t have to manually retest a target every time.</p><h1 id="a447bb5e-ce1b-4566-9c6e-ee36bc4c89c5" class="">Test objectives</h1><p id="6086536a-44ed-47a2-977a-afc4e148364a" class="">We want to achieve the following test objects with our manual recon:</p><ul id="f7b14a79-e391-42f2-92c8-9b7ccc5137ae" class="bulleted-list"><li>Find an asset that is suiteable for our attack strategy</li></ul><ul id="984f43b8-80a7-434d-8523-0a859f7acf5f" class="bulleted-list"><li>Explore our target</li></ul><ul id="a23d882d-176c-44e0-a7f7-8f3a2c15113a" class="bulleted-list"><li>Execute our attack strategy</li></ul><p id="9ea394c6-ca2f-4f89-ac1d-9f14dd59ebe9" class="">This may seem simple  but there is a lot of hidden truth in these simple words. First and foremost, we want to find an asset to execute our attack strategy on. This means that we need an attack strategy first. That&#x27;s the exact reason we started with single scope applications in our course. We want to build a solid strategy before we even  begin thinking about recon, how else would we even recognize a suiteable target if we saw it?</p><p id="b091c3b9-3913-4737-8a26-5ce370e0bbdb" class="">We need to explore the assets we found thouroughly, we can either do this manually or automatically but both aim at different vulnerabilities. </p><ul id="1751b0fb-be0f-4f10-bfc7-0fb1e741c1fc" class="bulleted-list"><li>The manual approach is actually semi automated as we&#x27;ve seen in the main app chapter but in general we need to explore our target&#x27;s assets very thoroughly to actually find vulnerabilities.</li></ul><ul id="77f0e0d1-f23c-4274-b7b4-b7808b468a93" class="bulleted-list"><li>The automated approach aims at things like CVE&#x27;s or misconfigurations. </li></ul><p id="c0c34c0f-bf26-4ef3-98c9-95a8ebdd8656" class="">Whichever approach we pick, we need to be aware that simply running a tool is not going to be enough. </p><h1 id="6461d8c0-41d8-49ff-8bc4-948be588eeb8" class="">Disadvantages of tools</h1><p id="3743b523-e448-4c95-b3dc-616b198af011" class="">I&#x27;m going to list the disadvantages of tools but again, i don&#x27;t recommend against them. I recommend you first learn how to do it yourself.</p><ul id="75658eed-4149-47cf-8490-e9eefb72c7b5" class="bulleted-list"><li>Everyone can run the same tool. It&#x27;s not hard, there&#x27;s usually instructions with the tool and it&#x27;s free online. If everyone runs the same tool, everyone gets the same dupes.</li></ul><ul id="0986be78-9a63-4954-9014-0b9d2ab335c3" class="bulleted-list"><li>If you don&#x27;t know what your tool does you are missing out on a lot of stuff</li></ul><ul id="8c38b751-47c1-4308-bc5a-0b283d97c51c" class="bulleted-list"><li>Running a tool without knowing what it does is stupid. I&#x27;m not going to sugar coat it, it&#x27;s just plain stupid. You could be testing very intrusively without even realising it and your target might not like that.</li></ul><h1 id="6672cede-1cc9-4089-8f02-542e48748501" class="">How can we do manual recon?</h1><p id="4c1a8a3e-92a4-40f2-ba2b-5d2243727617" class="">Google dorking is very important in this process for me. Google indexes websites to a stunning degree and we query those websites if we use the correct syntax. In the following scenario i will be investigating Tesla as they have an excellent bug bounty program. I am making sure i am not showing you guys any vulnerabilities and if i would find them, believe me i would report them myself 😂. This being said, today we will explore how to find a target, not a bug. That will be taken up in other chapters.</p><h1 id="f20f1584-605c-4015-92b7-1590ded6f179" class="">Google dorking</h1><p id="24c17308-17e0-4914-afef-df3837786d26" class="">We will start with some good old google dorking. This is the first step in our process and we will try to emulate &quot;subdomain&quot; enumaration using this method. </p><p id="dc343a34-7eee-4b11-83d5-1710ae76c884" class="">We will start with a basic dork</p><pre id="2ca2afac-c8d9-47bf-a4bf-87b10c78df3c" class="code"><code>site:google.com -www</code></pre><p id="ed81bee7-9ba2-46f0-a3d4-acd1f0a3efca" class="">This will show us all the subdomains from google except the main www subdomain.</p><figure id="ce0559f6-baac-4a52-8863-30da29133343" class="image"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled.png"><img style="width:907px" src="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled.png"/></a></figure><p id="03e248ab-8d43-4872-8a76-e4625c198efc" class="">I will then take on the first subdomain that i see. This is where the testing begins. I explore the subdomain and try to find out what functionality is available via the website. I even go as far as to make a mindmap of all of the functionality so i&#x27;m sure i will remember later on.</p><p id="c4ad0bc8-de90-4f98-86e6-693c37474747" class="">After exploring the subdomain i will go to waybackmachine to find more hidden functionality and even read the javascript file if i like the functionality.</p><h3 id="dc982c0e-6797-446d-b757-5e10eb6c89e1" class="">Waybackmachine</h3><p id="37613f96-4874-428f-8703-6ae52182ce77" class="">We will use this website to emulate waybackurls. Waybackurls will grab all the URI&#x27;s of a certain subdomain from waybackmachine but the waybackmachine has some pretty awesome functionality for us.</p><p id="5c6d4806-86db-47a1-87c9-907980f5e45c" class=""><a href="http://web.archive.org/">http://web.archive.org/</a></p><p id="36a15a90-a307-4cab-ba8c-5c3f34976366" class="">
+</p><figure id="2bfb9f07-f5c3-4915-ad7a-22689041fe48" class="image"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%201.png"><img style="width:927px" src="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%201.png"/></a></figure><p id="5cccd819-1fbc-4ef6-a7ad-ea0870a1430e" class="">I really like the summary tab. In here you will find a distribution by mimetype, if we only see images it might not be interesting to investigate if those images are public for example.</p><p id="6da8b1ff-30af-411d-b5e0-bb1a11492e68" class="">We can also explore all the URLs of our asset.</p><figure id="4dfdc9b9-6c7b-48a4-bee9-b4963e5441c8" class="image"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%202.png"><img style="width:714px" src="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%202.png"/></a></figure><p id="7cc7095c-8c33-4c67-b460-959730c1dd56" class="">Here we can filter by URL or by MIME type</p><figure id="b596b93f-8f79-49af-9dbb-83884abc35a8" class="image"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%203.png"><img style="width:820px" src="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/Untitled%203.png"/></a></figure><p id="2e972616-717b-4c72-ab70-fcadbcffdb45" class="">I also really like the site map as it shows all the URLs in a handy pie chart which allows us to explore the site in a birds-eye view.</p><h3 id="ae290d67-7ecd-4da4-b478-87b50f54b829" class="">Moving on</h3><p id="1beabbbf-c39e-4590-838a-706c5874d610" class="">If we are done with our target we can explore our next target. To get there, i simply remove my current asset from my search results by adepting the google DORK.</p><pre id="7026b03e-629e-45bd-91ed-5e62cf68f5d8" class="code"><code>site:google.com -www -news</code></pre><h2 id="7ca2d9ca-ea5d-431a-b7ad-045f76eebcd5" class="">Other options</h2><p id="25df37da-5b09-4600-a1b8-918f5c60a5db" class="">We can also use yahoo, duck duck go, bing, ... to explore our target more. This is basically what automated tools do. They look at as many sources as possible and try to gather all the subdomans.</p><h1 id="d4374b84-9539-41a3-8028-7711ef775624" class="">Show me your secrets</h1><p id="8483c1d2-5165-40de-ba33-a5d9639e6754" class="">When i&#x27;ve seen all the subdomains i want to see, i move on to trying to find some more secrets. Github is perfect for that, sometimes there&#x27;s things like API keys, secrets or even login data hidden in a repo. </p><p id="76f5c8b4-8c50-4540-a463-4139813fa290" class=""><a href="https://securityonline.info/github-dorks/">https://securityonline.info/github-dorks/</a></p><p id="05a2a3cc-abae-41c6-84ec-f2d30f15d7a0" class="">
+</p><figure id="b9ba6f29-8bf4-4f25-845e-4e0204c9027d" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/0%20Subdomain%20enumeration%20b9ba6f298bf44f25845e4e0204c9027d.html"><span class="icon">🧺</span>0. Subdomain enumeration</a></figure><figure id="380c3bc8-b568-4610-8ce7-8f0062bed869" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/1%20Creating%20our%20list%20of%20subdomains%20380c3bc8b56846108ce78f0062bed869.html"><span class="icon">🎶</span>1. Creating our list of subdomains</a></figure><figure id="6bf06bf7-7058-4289-a8ab-d9e63c7bf2bd" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/2%20Processing%20Our%20List%20Of%20Subdomain%206bf06bf770584289a8abd9e63c7bf2bd.html"><span class="icon">📠</span>2. Processing Our List Of Subdomain</a></figure><figure id="5fe81be6-49ca-4b84-9011-d19ed4e53482" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/3%20Subdomain%20flyover%205fe81be649ca4b849011d19ed4e53482.html"><span class="icon">🕊️</span>3. Subdomain flyover</a></figure><figure id="28f4a661-e49d-4274-8c33-b352ad34dc1a" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/4%20Exploiting%20open%20ports%2028f4a661e49d42748c33b352ad34dc1a.html"><span class="icon">🚧</span>4. Exploiting open ports</a></figure><figure id="713c9132-00be-4fd9-8948-a6d2d6d0f817" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/A%20Vulnerability%20scanning%20713c913200be4fd98948a6d2d6d0f817.html"><span class="icon">👁️‍🗨️</span>A. Vulnerability scanning</a></figure><figure id="b4124e41-647c-49c4-9b11-b70e1fb79cff" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/B%20Vulnerability%20testing%20strategy%20b4124e41647c49c49b11b70e1fb79cff.html"><span class="icon">👁️‍🗨️</span>B. Vulnerability testing strategy</a></figure><figure id="d133b20b-4627-4c8a-8d1c-7b0d894ba31e" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/98%20Running%20your%20scripts%20on%20a%20VPS%20d133b20b46274c8a8d1c7b0d894ba31e.html"><span class="icon">🖥️</span>98 Running your scripts on a VPS</a></figure><figure id="788400d9-c9d1-4a79-b45c-2fb1f6463692" class="link-to-page"><a href="Broad%20scope%20methodology%20-%20Manual%201097d5c08b8a4da0907fd593003272ae/99%20List%20of%20tools%20for%20grabbing%20subdomains%20788400d9c9d14a79b45c2fb1f6463692.html"><span class="icon">🗒️</span>99. List of tools for grabbing subdomains</a></figure><figure id="Zer0DayLab" class="link-to-page"><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></figure></div></article></body></html>
