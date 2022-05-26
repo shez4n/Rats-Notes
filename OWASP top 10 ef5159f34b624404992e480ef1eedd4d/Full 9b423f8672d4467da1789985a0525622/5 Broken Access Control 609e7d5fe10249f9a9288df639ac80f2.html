@@ -1,0 +1,627 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>5. Broken Access Control</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="609e7d5f-e102-49f9-a928-8df639ac80f2" class="page sans"><header><h1 class="page-title">5. Broken Access Control</h1></header><div class="page-body"><nav id="0a968173-9994-429d-9aac-4ac35a519c94" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2e099c03-5d97-4916-a198-ec270703d40a">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#03dc530a-1744-45a0-8d8d-4b2574fd4ee0">Types of BAC</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#890143ba-c87b-4b78-ab4e-a11b5da951dd">Some background information</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7270eb28-ea0f-443c-879c-85bccf4039a7">Mindset over methodology</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1c65ab6a-af34-44cb-9bd7-89ece3b2df91">Passports please</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6b4edaec-70ba-4ba7-8965-8389670a8027">Our checklist so far</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#38151b2c-6297-4c9e-bb29-8fd117a49236">Prevention is better than curing</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8f25818b-1934-46db-a54c-15587ac4d794">How to test for it?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1eb6a4ee-6d3b-42dd-a637-980a72723706">Copy-pasting the URL</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#ce6dccf4-727b-4684-ac28-aa4e59f94849">Method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#c7310e49-958e-4311-b2ad-3cc5a77abbca">What and why</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d2814c35-035b-404f-8d45-ae842e3a1040">Copy- and pasting JS methods</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#24c7e792-1df6-497a-969b-39ec9ef7ddbe">Method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#1bb627c8-d034-49a2-8605-60ec23602378">What and why?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c8dabb17-6623-4023-b049-e127a1ee5e4a">Changing authorisation headers in repeater</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#cb6f325a-342a-49bc-b2d1-076861dd7361">Method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#31dfd514-b915-48ba-b92a-84179ef54fff">What and why?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dd335c94-485a-49f1-b195-644140778c24">Automation with match and replace/authorize/auto-repeater</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6a2e65f8-18ad-411d-b21a-098b39b14b23">Method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#82d02174-2954-4281-8fbe-72842f36223b">What and why?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6b776e9c-4bf5-417f-b42a-320ebd27196e">Changing the request method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0adf8e8c-624f-42ec-b4e4-b87b94c8a661">Method</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#fa1ea3dd-4466-4fe1-a997-04a6d5801194">What and why?</a></div></nav><h1 id="2e099c03-5d97-4916-a198-ec270703d40a" class="">Introduction</h1><figure id="bea19358-2464-459e-bf09-6305c43ca382" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC.png"><img style="width:641px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC.png"/></a></figure><p id="d7492325-2ed0-4bcd-8cc5-39624a0285ce" class="">This vulnerability type involves a lot of logic and in it&#x27;s most basic form it might not as you can see in the screenshot above but then again that situation almost never happens in real life so we have to be a bit more crafty. This basic understanding of Broken Access Control (BAC) is needed though get to the more advanced vulnerabilities though so that&#x27;s why i included it. In it&#x27;s most basic form you are talking having access to functionality that we should not have. </p><h2 id="03dc530a-1744-45a0-8d8d-4b2574fd4ee0" class="">Types of BAC</h2><p id="f068f102-0e60-4fb1-850d-c1aa9ad18cb6" class="">In the first picture i represented vertical BAC since i am execute functionality that can not be executed by any user of my access level. I&#x27;d need a user of a higher privilege level than mine to be able to execute this functionality under normal operations. </p><p id="3d5ef833-9bd5-43c1-8456-78b5fa66c2a4" class="">When we talk about horizontal BAC defects we are talking about functionality that we would normally be able to execute but simply not on that specific object. Depicted below is a horizontal BAC defect but many of you may recognize this as an IDOR (Insecure direct object reference), they are the same thing. </p><figure id="c9b7c683-6726-4af0-9492-ff4683f7135e" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Horizontal_Bac.png"><img style="width:931px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Horizontal_Bac.png"/></a></figure><h1 id="890143ba-c87b-4b78-ab4e-a11b5da951dd" class="">Some background information</h1><p id="ae070917-e5d8-4ecc-80a4-dad5aebbd0aa" class="">You might find it surprising that we have to give all this extra information for a topic that seems so simple at first sight but even as pentesters it will take a whole lot of concentration to test the correct things. </p><p id="2a8c4bc6-30df-4ffc-bd30-7faec348a5f7" class="">Let&#x27;s first imagine a hypothetical scenario where you have 10 different levels of users with 10 different functionalities that each progressively get more access to more functionality. If we want to test all functions we have to test 10 functions with 9 different functionality priviledge levels (Since we will not have to test the admin account). This is one the simplest scenario&#x27;s possible where there is no overlap between different priviledge levels. </p><p id="dae85130-9a98-4a96-8480-a7f6e4cb12a7" class="">In most production environments you will find a situation similar to what we have in the drawing below. </p><figure id="21ce7b1f-6ee5-4203-9c8e-73c99309a8b2" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC_example.png"><img style="width:681px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC_example.png"/></a></figure><p id="bbd9d9bd-cfcb-4c43-b3c3-bd5dc208b13d" class="">The reason most BAC defects happen in these functionalities is because the base functionality is built and only after some time do they start working on the expansions like importing or exporting objects. </p><p id="d4f14c79-5ead-4266-a42b-97e9c03fb705" class="">When we want to test for these types of vulnerabilities we can use several execution strategies but like with anything our attacks success will depend on our preparation to a big extend. We will have to take the time to map our target very carefully and even create a permissions matrix if our target has not done this for us. All of this is not as hard as it seems but you do have to be very diligent and know your target well. </p><h1 id="7270eb28-ea0f-443c-879c-85bccf4039a7" class="">Mindset over methodology</h1><p id="cd36afdc-b117-4eba-add9-16374feb14b9" class="">These types of vulnerabilities are all about testing every single piece of functionality with every single privilege level that you can find. For me this starts with taking good notes and ends with taking good notes. </p><p id="a58806be-44d0-4308-8683-86e368bd73aa" class="">I usually take notes for this vulnerability type in excel since it&#x27;s easier to create tables there but any note taking tool can be sufficient. On my X-axis i note down all the privilege levels (Columns) and on the Y-axis i will start noting down what functionality exists. I will then indicate if a user of that specified privilege level should be able to perform Create Read Update or Delete actions (CRUD actions)</p><figure id="e8d58cdc-c6df-4a98-b1c0-70f6c7278695" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled.png"><img style="width:741px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled.png"/></a></figure><p id="4e70c4d1-6657-4ac3-bd52-69c45bf908d5" class="">I can then use this later on to test my application with one of the testing techniques but first we need to talk about how these types of vulnerabilities can exist so we can better go into some of the testing techniques. </p><h2 id="1c65ab6a-af34-44cb-9bd7-89ece3b2df91" class="">Passports please</h2><p id="3083f831-c3cb-4a38-a8ef-3ab6a8f90bc2" class="">When you want to cross over a border you are asked to show a passport to show you are authorised to do that action. We can sort of look at access control like we are checking if a user can cross a border we are executing a check for their passport and we can either check if the user is logged in (has a passport at all) or if he authorised to pass (Has an immigration passport). The keen eyed among you may have spotted a third option as well and that would be see if that passport isn&#x27;t falsified or forged which we can also do by forging a JWT token for example if the encryption algorithm isn&#x27;t set properly. </p><figure id="4d02c43b-fac9-4e3c-9747-68643d9e50c5" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC_at_server_level_(1).png"><img style="width:831px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/BAC_at_server_level_(1).png"/></a></figure><h2 id="6b4edaec-70ba-4ba7-8965-8389670a8027" class="">Our checklist so far</h2><p id="67d47a8f-4db7-4444-89d3-6e269ea7ad8e" class="">To summarise we can test for the following:</p><ul id="93db8c76-b7e3-4ab5-abca-832dfca51f17" class="bulleted-list"><li>BAC to see if the user is even logged in at all (Vertical)</li></ul><ul id="40fcf960-c5f2-4821-ae74-909a09866156" class="bulleted-list"><li>BAC defect in checking if usertype is supposed to be able to access objects (Horizontal)</li></ul><ul id="4f259f83-4d56-4105-8def-98804111e88c" class="bulleted-list"><li>BAC defect in checking if usertype is supposed to be able to access functionality (vertical)</li></ul><ul id="6c9daa34-f7a8-4431-8866-b934cce8c5ef" class="bulleted-list"><li>BAC defect in the logic checking which user is logged in by for example using the none encryption algorithm on a JWT token. (Business logic flaw)</li></ul><ul id="c87b7459-20a4-4927-8f66-d3102e65f3a5" class="bulleted-list"><li>BAC defect because user can access functionality which in return will grab other functionality or objects. The system might see that another component from itself is executing the calls and not check the originator or their privileges any further. (Can be vertical or horizontal)</li></ul><ul id="989d759a-621e-4cde-bbed-33825e55f307" class="bulleted-list"><li>BAC on other methods than the ones used by the application. For example the application might be using a POST call which can be well secured but if we change that POST to a GET method we might not get the same strict checks for BAC defects. </li></ul><h1 id="38151b2c-6297-4c9e-bb29-8fd117a49236" class="">Prevention is better than curing</h1><p id="21ba1467-df02-45af-ace1-000766ed9bec" class="">So as you might be able to see we do have quite a lot of things we can already test for and we are not even done yet. While it&#x27;s hard to describe every situation into detail there are a few general we can give to prevent this vulnerability and we will go much deeper into the testing aspect. </p><ul id="d1f52328-47ee-4762-b4b8-5f74b725a719" class="bulleted-list"><li>Deny access to any resources by default and only allow access on resources where it should be accessible (White listing principle) </li></ul><ul id="968eb55a-27da-4e3a-8c76-939987ebd71d" class="bulleted-list"><li>Create a re-useable method for authorisation and implement it throughout the application so you can ensure authorisation controls are implemented consistently. </li></ul><ul id="d6c2edcd-aa6d-4575-85d5-2c285c7e2e14" class="bulleted-list"><li>There should be a matrix displaying which users are able to access what functionality and we should not assume everyone should be able to see any data. </li></ul><ul id="66661cc2-437e-4e54-a11b-4440e64bff15" class="bulleted-list"><li>Make sure you disable directory listings on your webserver and that no metadata information like .git files are visible. </li></ul><ul id="72427b01-65af-43ef-b0fc-9edea2544ccb" class="bulleted-list"><li>Any failed login attempt or even failed attempt at accesing functionality that is not allowed should be logged and if appropriate an admin should be warned by mailing them for example. </li></ul><ul id="56bd374b-1915-4d0d-882a-7cf644fae440" class="bulleted-list"><li>Rate limit any API&#x27;s but make sure this does not interfere with normal operations to negate the threat of automated tools a little bit. </li></ul><ul id="2076443b-6dd4-4b46-9e9c-0d8856b3e382" class="bulleted-list"><li>Any authorisation headers should have a limited validity and should be disbaled upon logging out the user. </li></ul><p id="5b638bd7-34e2-458c-a6da-8c76ce4e3946" class="">If we follow all of these tips we already negate a lot of the attempts of abusing BAC defects but ofcourse these do not guarantee success. Sometimes even the smallest oversight might lead to a vulnerability and we should always test these requirements very well before deploying them to production. </p><p id="68fec35d-c68a-4c04-b97e-4104c0b7c89a" class="">Despite it seeming like this is always tested very well before hitting a production environment I can assure you that this is often not the case. Because BAC issues seem so simple a lot of hackers underestimate how prevalent they are. </p><h1 id="8f25818b-1934-46db-a54c-15587ac4d794" class="">How to test for it?</h1><p id="1b9881e1-e12c-48fb-9ad3-4b899512dad5" class="">Testing for Broken Access Control can happen in several ways and i do think it&#x27;s important we test all off them. We will go over several methods and explain how and why they work. </p><h2 id="1eb6a4ee-6d3b-42dd-a637-980a72723706" class="">Copy-pasting the URL</h2><h3 id="ce6dccf4-727b-4684-ac28-aa4e59f94849" class="">Method</h3><ul id="477ac78b-71d0-4aaf-ace0-733115592f2f" class="bulleted-list"><li>Log in as an admin</li></ul><ul id="145d531b-5d6e-41da-9ac2-d3df86a161aa" class="bulleted-list"><li>Open functionality only an admin can see</li></ul><ul id="865beaea-38b7-4158-a7f6-aba0b6206f3f" class="bulleted-list"><li>Copy URL</li></ul><ul id="219fe61b-4a08-414f-8d60-66b5f1d35041" class="bulleted-list"><li>Log into incognito window as low priv user</li></ul><ul id="85e4386d-d7f4-4212-81f1-78a431a3d838" class="bulleted-list"><li>Paste URL in incognito windows</li></ul><h3 id="c7310e49-958e-4311-b2ad-3cc5a77abbca" class="">What and why</h3><p id="ee2d10ca-d500-42fa-b92d-e69b0f7b5bf2" class="">We are copying the URLs from a browser where we are logged in as the highest privilege user to make it easier to see all the functionality. We only want to do this because need the URL to reach functionality which should include Access control. </p><figure id="ca843dfd-6069-48c6-8830-5291d4c71ce3" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/URL_copy.png"><img style="width:551px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/URL_copy.png"/></a></figure><p id="6a905154-699b-4fd8-b0ce-2b83ee762cca" class="">This is the simplest way to test for broken access control but we have to take into account that we only test functions that should not be executed by low priv user but it&#x27;s also important we try this with every type of user. </p><figure id="d9273cb3-7e88-4672-b9f4-03a4476b256b" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/URL_copy_(1).png"><img style="width:1111px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/URL_copy_(1).png"/></a></figure><p id="e20c755e-cd4d-4403-bd48-41e065a14b60" class="">To help aid with this type of testing we can use plugins like &quot;pwnfox&quot; to containerise our tabs. If we do that we can simple open a new tab and log in as another user in the same browser. This will also allow us to test a lot faster since we can test with more than 1 account type at a time. </p><h2 id="d2814c35-035b-404f-8d45-ae842e3a1040" class="">Copy- and pasting JS methods</h2><h3 id="24c7e792-1df6-497a-969b-39ec9ef7ddbe" class="">Method</h3><ul id="6537f67b-faa0-4bf6-bc95-7bc2b4e9036a" class="bulleted-list"><li>Log in as an admin</li></ul><ul id="bfd3bc2a-3ec8-4d77-866d-2d7704b8a607" class="bulleted-list"><li>Look for a UI element that only admins can see and has a JS function</li></ul><ul id="0a10ea42-1094-4250-be3a-441a6e55b052" class="bulleted-list"><li>Copy JS function</li></ul><ul id="7454c027-7309-482d-a5bc-dc4565f2481f" class="bulleted-list"><li>Paste in developer console of low priv users</li></ul><h3 id="1bb627c8-d034-49a2-8605-60ec23602378" class="">What and why?</h3><p id="2496e303-7c2e-420c-9aad-8313023f8b2b" class="">Sometimes one of our greatest allies in the battle for Broken Access Control is simple the developer console. We can apply the same principle but this time we copy javascript methods and paste those in the developer console of the low priv user. </p><p id="ea051855-93ac-4051-82f6-3be84f189ddd" class="">This works because sometimes developers will simply disable the UI elements but they might forget to do the same for the JS functions. </p><p id="92a9808a-f13c-4286-8304-02ea804f4b8c" class="">You have to be careful though since for this you need to check out that you did not get a 403 status code response. </p><figure id="786b31f3-863f-49e5-8dc0-51adc265110f" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/JS_methods_copy.png"><img style="width:1151px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/JS_methods_copy.png"/></a></figure><h2 id="c8dabb17-6623-4023-b049-e127a1ee5e4a" class="">Changing authorisation headers in repeater</h2><h3 id="cb6f325a-342a-49bc-b2d1-076861dd7361" class="">Method</h3><ul id="4ec9fe3f-1764-4058-bca4-2999c4cd51a4" class="bulleted-list"><li>You should open a MiTM proxy such as burp suite</li></ul><ul id="ddc2f0b7-924e-44ef-9b76-6f9518ba5908" class="bulleted-list"><li>You should login as a low privilege user</li></ul><ul id="bc24b11a-64ba-4470-8bdb-cebfd564b7db" class="bulleted-list"><li>You should copy their authorisation headers</li></ul><ul id="a2046878-2577-4d70-8f2e-99cfae67fbd6" class="bulleted-list"><li>You should then login as an admin</li></ul><ul id="183dde00-5811-47ce-b7ce-24cf5a52e96d" class="bulleted-list"><li>You should navigate to functionality that only high privilege users can access</li></ul><ul id="24682a68-1373-4a82-88ab-a193874ab624" class="bulleted-list"><li>You should replace the authorisation header of the high priv user with the headers of the low priv user<ul id="b14c2c64-a083-4d5e-ae13-a96622d87c12" class="bulleted-list"><li>This can be cookies</li></ul><ul id="81c553fe-850a-44fc-8604-63a633dff508" class="bulleted-list"><li>This can bearer header</li></ul><ul id="b3a14344-705f-456d-a406-7d6852c4f5bc" class="bulleted-list"><li>This can be custom token</li></ul><ul id="152673b7-fdad-4477-b991-0642c2755144" class="bulleted-list"><li>This can be sessionID </li></ul></li></ul><figure id="1120f215-419e-4bc8-9dda-025f53fdaf46" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled_Diagram.png"><img style="width:551px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled_Diagram.png"/></a></figure><h3 id="31dfd514-b915-48ba-b92a-84179ef54fff" class="">What and why?</h3><p id="26390532-7eca-4ac0-bd7a-3677dba3fc33" class="">This vulnerability is only possible because the server checks the authentication headers that we send along. A lot of you might be wondering &quot;How can i get these cookies in a PRD enviornment? I can&#x27;t steal others people&#x27;s cookies unless i perform an XSS attack.&quot; and i want you to stop focussing on the headers. It&#x27;s not about the headers but if we want to automate or even semi automate BAC defect hunting we will have to use the authorisation headers methods. </p><p id="a3b554d8-9ef8-451b-a74c-da4009b2e441" class="">What is important to remember is that we will execute functions with users that should not be able to execute those functions. This is the position an attacker will find themselves in as well but you have to remember that it&#x27;s going to be hard for an attacker to know these URLs unless they are described in a JS document or something similar. This will significantly lower the impact as it will be much harder to perform a succesfull attack or even realise there is any weaknesses to be had. </p><p id="a692589d-2a7e-46d7-9cd2-8050a3113469" class="">If we would be testing for IDORs for example we could also replace the identifiers but that would not be universal for our target since we could have an adressID, a userID, an invoiceID etc... and these would all need to be replaced if we want to test automatically. </p><p id="fd6cedef-8221-4582-a2ab-d7ee4f3fac18" class="">This method still requires a lot of manual interaction so we can just replace any identifiers as they pop up but make sure that you only try to access data that belongs to one of your accounts. It&#x27;s definitly not ok to test on random production data. </p><h2 id="dd335c94-485a-49f1-b195-644140778c24" class="">Automation with match and replace/authorize/auto-repeater</h2><h3 id="6a2e65f8-18ad-411d-b21a-098b39b14b23" class="">Method</h3><ul id="aa6c4960-0df7-4c54-ba16-1f7e3a66fa5f" class="bulleted-list"><li>You should open a MiTM proxy such as burp suite</li></ul><ul id="73b4161c-ccd3-42dd-9782-402a0933aecd" class="bulleted-list"><li>You should login as a low privilege user</li></ul><ul id="dda17822-74d6-4178-9ad0-e3156ede8550" class="bulleted-list"><li>You should copy their authorisation headers</li></ul><ul id="b9880bd8-098e-448e-bfd8-c4404f5d5f93" class="bulleted-list"><li>You should then login as an admin</li></ul><ul id="650c1ec8-9d79-4b3c-b4b5-f2d3f590da99" class="bulleted-list"><li>You should set up your tool to auto replace authorisation headers</li></ul><ul id="bf62480e-7c03-4d3c-8936-58fd4d70bbb8" class="bulleted-list"><li>You can then start clicking around</li></ul><h3 id="82d02174-2954-4281-8fbe-72842f36223b" class="">What and why?</h3><p id="ed029bbd-bc17-4ef1-8376-b6c95d12644b" class="">We can use any of the tools in the title of this topic to automatically replace the authorisation headers. All we have to do is set it up properly before we can start clicking around and automatically test for IDORs/BAC defects. </p><h2 id="6b776e9c-4bf5-417f-b42a-320ebd27196e" class="">Changing the request method</h2><figure id="83a35c2f-3ec3-491e-8776-32c3808c6804" class="image"><a href="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled%201.png"><img style="width:496px" src="5%20Broken%20Access%20Control%20609e7d5fe10249f9a9288df639ac80f2/Untitled%201.png"/></a></figure><h3 id="0adf8e8c-624f-42ec-b4e4-b87b94c8a661" class="">Method</h3><p id="fa7f06bf-2d6a-4064-a016-3b52d2ca1182" class="">Perform the same method as in &quot;Changing authorisation headers in repeater&quot; but now add to also change the request method. Even though the server might never use the request method you are trying, it might be supported and possibly even less secure than the supported methods. </p><h3 id="fa1ea3dd-4466-4fe1-a997-04a6d5801194" class="">What and why?</h3><p id="0268543e-8964-415e-8856-fa816d620707" class="">This works because by default a webserver will accept all HTTP methods unless the developers turn that option off. This combined with the fact that developers will sometimes write general methods that support different types of operations within 1 algorithm leads to oversights in the access control of some features. </p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

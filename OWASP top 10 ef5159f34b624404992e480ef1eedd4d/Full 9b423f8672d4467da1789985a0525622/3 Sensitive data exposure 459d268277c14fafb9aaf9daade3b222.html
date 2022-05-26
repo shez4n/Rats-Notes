@@ -1,0 +1,630 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>3. Sensitive data exposure</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="459d2682-77c1-4faf-b9aa-f9daade3b222" class="page sans"><header><h1 class="page-title">3. Sensitive data exposure</h1></header><div class="page-body"><nav id="cb563536-b284-441a-9c91-c378ff3940b3" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#91f00969-710b-4698-9fbe-0fd6c2e2bf65">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d8adb263-2a65-4b67-8207-4d1d11925dbf">How does it occur</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5b77fceb-6fe0-424c-9d26-f98998bb1a1f">Physical threats</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b2d2d390-66a4-43d2-a7d0-c744886253bc">Debug information</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7435dff3-c691-4f86-904c-0497126360d6">Git Gud</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#838180ec-54b0-47ef-8a89-d6dd0a39ba2d">Blue bird OSINT by chain linking - Twitter + LinkedIn</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c3936eb4-f76b-4d78-a537-092a21fe9f9d">configuRATion</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a6fd35db-c9b9-4ef9-b5b3-22930bac265d">JavaScript commentary</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#03c634cc-481e-4689-a28c-81b07aa178d9">Building a list and checking it twice</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a6243d68-ed65-48d2-8d2b-88544aab2e09">BACK UP! This is your last warning!</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#810293ee-bb7b-4224-9ccd-56a1bbcbd351">How to test for information disclosure</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#22f4cbba-4ea8-4f54-b064-a138253ddf4f">Checklist</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4e2f8f8e-f532-4051-98f5-ed67f53572dc">Conclusion</a></div></nav><h1 id="91f00969-710b-4698-9fbe-0fd6c2e2bf65" class="">Introduction</h1><p id="d5f6399d-a106-4e1c-9914-c49e2653fa81" class="">I feel like a lot of mystery surrounds this topic. A lot of people seem to wonder which data is sensitive when exposed. Some people seem to think every single API key disclosed in a JS file is a vulnerability but ofcourse this is not the case! Some API keys are supposed to be used by XHR requests and they are supposed to be public. When it comes to information disclosers we always have to keep in mind that what we see should be private and even then it&#x27;s not guaranteed to be a vulnerability. Depending on which viewpoint you take (Pentesters or Bug Bounty Hunters) you should be less or more careful with what you report. We will go much deeper into this when we talk what to report and what not to report. </p><p id="1920db11-8fef-4b4f-9729-92d9b9495a08" class="">In this article we will talk about kinds of information disclosure going from debug information to admin passwords.</p><h1 id="d8adb263-2a65-4b67-8207-4d1d11925dbf" class="">How does it occur</h1><p id="eca60cad-aeea-46ea-b022-66179e3e18cd" class="">There are several places we can go looking for sensitive information. let&#x27;s start by listing all the ways sensitive data exposure can occur.</p><ul id="4d17fc1d-8087-4acc-a8bc-c4a097250bed" class="bulleted-list"><li>A post-it on the monitor with a password. This one is pretty obvious.</li></ul><ul id="eed13bb7-f414-4978-ab03-5b3cc60e4cde" class="bulleted-list"><li>Debug information is very useful for both pentesters and bug bounty hunters. </li></ul><ul id="55840103-3bff-47e7-8676-27dad9930fde" class="bulleted-list"><li>Github repository with either passwords directly committed into a public repo or other sensitive information. Github can also be used to get an overview of the application as it might contain the code that is being used.</li></ul><ul id="d5f33a2d-cc08-4a96-903b-a3ed1912a484" class="bulleted-list"><li>Twitter might contain some tweets with sensitive information by employees</li></ul><ul id="2860b1a0-3c2f-46d0-843e-b1a0322466f7" class="bulleted-list"><li>The webserver itself might contain configuration files which are visible to visitors of the webserver</li></ul><ul id="f251617d-792d-4a4d-afe2-ff3908ff1011" class="bulleted-list"><li>LinkedIn might contain information that it should not on the timelines of the employees</li></ul><ul id="5d3cd201-b772-41de-9979-eb8fc7162401" class="bulleted-list"><li>Comments left by the developers</li></ul><ul id="6578a8f4-8247-41b0-8c1e-310d92ec025d" class="bulleted-list"><li>Javascript files</li></ul><ul id="9bb8ff75-f582-4ea2-9432-b2e7c2f340f9" class="bulleted-list"><li>Directory listings are sometimes exposed to the public which allows attackers to view the internal structure of a website but even worse is when the directory listing is not secured at all and the attacker can just freely browse every file of the website.</li></ul><ul id="904fb9d0-c3d5-4f52-a994-9cb69811a5a2" class="bulleted-list"><li>Directory listings can lead to backup files being exposed and if the attacker can download and analyse this, they can investigate the source code and get a better idea of how the application works and sometimes even find secrets.</li></ul><h2 id="5b77fceb-6fe0-424c-9d26-f98998bb1a1f" class="">Physical threats</h2><p id="9d33ad14-70fa-4a6b-a5e4-4fe562891318" class="">When it comes to pentesting, i think a lot of hackers forget the physical aspect of pentesting. I&#x27;ve worked with numerous clients that i offered a physical pentesting packages as well and i&#x27;ve been able to just walk in with employees by just pretending like i belonged there. I observed the dress code, bought a fluo vest and a helmet and walked right into a high security construction zone like nothing wrong was going on. I took one of their keyboards to show i was at the main frame and i turned in my assignment to get a hefty bonus. All of this would not have mattered if i would not have found the password to the mainframe on a physical post-it note on the server rack which i took a picture off. </p><p id="417fe871-c9d9-4b05-85ac-1a24d802fe58" class="">This is a cool story from my experiences but the point i am trying to make is that physical entry does need to be considered when creating a security plan. When a pentester is on an assignment but not assigned to do physical pentesting, he/she should report any infractions they see though as it&#x27;s not part of the scope but as long as you do not do intrusive testing, an observed defect can be reported like a door that is always open. </p><p id="39a8ffa7-a3d0-4fac-bc19-ab7532811a85" class="">As a bug bounty hunter this is less useful to us but it can still have some consequences. An example i can give is when i found a post-it note in a picture of all the employees of my target in front of someone&#x27;s desk. That note had the master password the back-end admin account on it. You can guess what happened from there. </p><h2 id="b2d2d390-66a4-43d2-a7d0-c744886253bc" class="">Debug information</h2><p id="631b7c95-40f4-49e7-bcb6-c160ac72042f" class="">Developers have the option of enabling debug information when they create an application and add that into their code. This information can be used to find and fix any flaws that still exist in the application and they are very useful however when the developer forgets to disable them in production, we can use them to gather information from.</p><p id="1b89064c-fa57-4c7c-bc63-197a24487dcc" class="">Sometimes this information might be very simple useless information for example</p><pre id="2aa4c836-1e77-4371-a226-b82e586e909b" class="code"><code>DEBUG Wrong email or password entered</code></pre><p id="81fe00f6-6f24-4153-8f1e-d3bbcd411513" class="">Sometimes however, valuable things can be found in those debug messages. An example i found was when i tried to change my userType parameter from &quot;user&quot; to &quot;administrator&quot;. This was the following message i got</p><pre id="8f4d5c46-fbaf-473e-8bc5-5e87a99ed97a" class="code"><code>DEBUG Unable to find enum value &quot;administrator&quot; in userTypes Enum. Possible values are
+- Admin
+- User
+- Reporter</code></pre><p id="30b6c0d8-99ee-466b-a9fe-4b643f9aac8c" class="">Ofcourse i fixed my mistake and collected my bounty. It is so nice when your targets tell you exactly what to do. Depending on the context you should report this as a bug bounty hunter but only if you can prove impact with this vulnerability. As a pentesters you should definitely report any information disclosure you find.</p><p id="1db9916b-348a-4671-a3fa-7adc297d5e38" class="">We can possibly also find the following information in debug messages</p><ul id="f372b18b-4786-4ebe-a467-ed88d4bf4cb1" class="bulleted-list"><li>Values for key session variables that can be manipulated via user input, for example the JWT encryption key allowing you to craft your own JWT</li></ul><ul id="fada1635-4bae-4c83-b9ed-19b5b2d69ec9" class="bulleted-list"><li>Hostnames and credentials for back-end components, for example admin login credentials. The hostnames should be noted but the credentials should be reported by bug bounty hunters. Again pentesters should always report information disclosure but the hostnames will be a medium/low bug while the account data will be a high/critical, depending on how you can exploit them or low if there is no way to exploit them at all.</li></ul><ul id="2d33f8c7-1369-40d6-b30e-411ae4f15601" class="bulleted-list"><li>File and directory names on the server. This should not always be reported by bug bounty hunters but for pentesters, this is something you should always report. It can help hunters find files for LFI for example.</li></ul><ul id="39108d37-0672-45d8-bd19-3db2af3ea23e" class="bulleted-list"><li>Keys used to encrypt data transmitted via the client. This can be used to decrypt data but it requires the attacker to already have access to that data so for bug bounty hunters this might help us understand things a little bit better by being able to decrypt our transmissions but this is not worthy of reporting in general. A pentester will probably report this as a medium/high vulnerability.</li></ul><h2 id="7435dff3-c691-4f86-904c-0497126360d6" class="">Git Gud</h2><p id="36a6a958-53e1-4ab6-a676-d094364259de" class="">Git is an amazing source for information disclosure and often people don&#x27;t realise how big of a rabbit hole github can be. Often the developers that work at our target will create public repositories and without realising commit sensitive information. </p><p id="b90d87d7-d449-4c1c-8ffb-947e5bb9a771" class="">Usually config files are interesting as they might contain passwords and api keys to back-end services, however this is not always the case. Most developers these days are smarter than this and put their passwords in the CI/CD pipeline&#x27;s enviornment variable. This means that we can&#x27;t find it in the config file anymore but just a reference to it</p><p id="5a64b8dd-36aa-4dac-88e4-9a71243a4eee" class="">Something else we might be able to find is source code which is always a good thing, source code is like a map to find our treasure and can help us understand the application on a while new level. </p><p id="b1be05c0-4095-4532-919b-e928159b77e7" class="">A lot of hunters realise that github is a good source of information or maybe even privately hosted Git instances that are open to the public. What a lot of hunters miss though is that the commit history might be one of the best sources for information. A developer might have commited sensitive information and realised his mistake but if he commited a fix to remove that data, the commit history will still show the first version with sensitive information. </p><h2 id="838180ec-54b0-47ef-8a89-d6dd0a39ba2d" class="">Blue bird OSINT by chain linking - Twitter + LinkedIn</h2><p id="adb9f552-d09a-4775-980a-644383021aa7" class="">A lot of developers will possibly not even realise this but they might tweet sensitive information which is ofcourse an issue. This might include things like pictures with post-its that contain passwords or even just screenshots of source code that contains things things like credentials or api keys or maybe even just URLs which lead to new endpoints you did not know about.</p><p id="dc31917b-c579-4ee7-b240-5f4076907595" class="">Even if the developer realises their mistake, it can often be too late as waybackmachine might have already indexed that tweet. In this case the developer will also need to remove that snapshot from the waybackmachine but this is something that is often forgotten.</p><p id="934c41eb-c392-48d5-a356-8910a7a4014f" class="">Any information about the company or the products that is posted on social media should be reported as a pentester as informative but we have to mention that if they want to remove it fully, they might have to remove the waybackmachine entry as well.</p><p id="4636ea13-946f-4220-8355-cb3cf0ddea69" class="">As a pentester, this is something you can use to further pivot other exploits but usually this is not something we report.</p><p id="b17774a4-35a6-4db0-9529-f711fe2776b7" class="">For linkedIn exactly the same behavior applies.</p><h2 id="c3936eb4-f76b-4d78-a537-092a21fe9f9d" class="">configuRATion</h2><p id="b7bb042b-8281-4ab4-9912-588b77223b21" class="">Sometimes a misconfiguration can lead to information disclosure as well. An example of this can be when the phpinfo() page is displayed fully to anyone, even unauthenticated users. This can tell the attacker for example that the eval() function might not be allowed, giving the attacker an attack plan for free.</p><p id="ad27aa69-1bca-460b-9a12-748af0d16034" class="">Another example can be when the developer leaves the HTTP method &quot;trace&quot; enabled. This HTTP method usually does not lead to much information disclosure but might occasionally lead to the leaking of security headers.</p><p id="02696653-cb82-4716-82d1-81d5b747efa2" class="">As a pentester, we will report any misconfiguration we see, depending on the severity we will rate the bug accordingly but often the defect will be &#x27;informative&#x27; or &#x27;low&#x27; unless we are able to exploit it to pivot further into more impactful issue like RCE but then the issue will be about the RCE and not about the information disclosure anymore.</p><p id="dcd5cc1d-0e45-4918-80d2-e381ce21a787" class="">As bug bounty hunters, this information will rarely lead to a report and can only be reported is we can actually exploit the information we found.</p><h2 id="a6fd35db-c9b9-4ef9-b5b3-22930bac265d" class="">JavaScript commentary</h2><p id="6fc96b2a-f041-46bd-9b4c-587632e18b6d" class="">Comments left in by the developers are often a goldmine of information about how the application works. There are also times when a developer will even leave an API key or credentials in the comments and forget to remove them before committing them.</p><p id="fa8b7f55-c31e-47f4-b793-140c9f112790" class="">You can find these comments by inspecting the source code of a webpage or if you have burp suite professional, you can also use the engagement tools by simply right clicking our target in the site map and selecting &#x27;Engagement tools &gt; Find comments&#x27;. </p><p id="06d70ef7-ff5d-404a-8fe7-e0e037fe701f" class="">As a pentester, this is one of the few things that you will rarely report unless we are talking about secrets or credentials ofcourse.</p><p id="49a96c95-88d3-4a9b-8f28-d816dedd2c86" class="">As a bug bounty hunter, these comments can be very useful to us as they lay out how the application works. This map of our target should be used and appraised but instead a lot of hunters tend to ignore it because it&#x27;s tedious work to check all the comments but i find that it&#x27;s usually well worth it to gain insight in how my target works.</p><p id="e2e60af5-a769-4e0d-8547-c321aa321c11" class="">These comments can usually be found in HTML but also in the javascript files at times and much more. </p><p id="fcfe5d5b-4f61-4b52-8a62-2a1728dcb937" class="">In the javascript files, we can also find things like API keys and credentials though we have to realise most API keys in javaScript files are actually supposed to be public like google maps API keys though if those keys to a third party exists, all is not lost.</p><p id="637ad622-602a-4526-81a2-f8039eb9190d" class="">If we a third party connection which chargers us per request, we need to rate limit the amount of requests a user can make, otherwise an attacker can make a lot of automated requests and racking up our bill. As a pentester and bug bounty hunter, we have to report issues like this but build a very clear PoC and case. </p><p id="9dfa5c46-76a8-48f6-bf67-cd47cd9cfe83" class="">The severity of this issue can be pretty devestating to a company. For example a company that is just starting up can not handle a 100 000$ bill out of nowhere.</p><h2 id="03c634cc-481e-4689-a28c-81b07aa178d9" class="">Building a list and checking it twice</h2><p id="374ecdf6-f31f-4980-a3cf-920f7b3de2aa" class="">Some webservers have a directory listing enabled by default. If this happens, an attacker can at least view the internal structure of a website, often allowing them to find new endpoints without doing much effort. </p><p id="8b38acf1-1309-4e7c-9e78-0f579e48422d" class="">As a pentester this should be reported as a best practice but as a bug bounty hunter we will have to find some decent impact to this before we can report it, if there is any at all. As a pentester ofcourse we also need to check if we can exploit the functionality to increase the severity.</p><h2 id="a6243d68-ed65-48d2-8d2b-88544aab2e09" class="">BACK UP! This is your last warning!</h2><p id="5208dd7c-aded-4d96-89f5-ecd026b6a625" class="">Directory listings can lead to backup files which can contain source code. This is a great source of information for both pentesters and bug bounty hunters though probably not directly be exploited. This information will give attackers a better overview of the inner workings of the application. Information is one of the most important things we can have in hacking.</p><p id="ced6ac04-b55f-4668-9eb2-7dd880a5b81f" class="">As a pentester i would report this as a low/medium issue unless i would be able to elevate my severity. As a bug bounty hunter i would only report this if i would find a way to elevate the information disclosure.</p><h1 id="810293ee-bb7b-4224-9ccd-56a1bbcbd351" class="">How to test for information disclosure</h1><p id="187c0185-3d39-4e26-ac10-119bfb504c8b" class="">This is really hard to define, there are some general strategies you can follow which we will outline right here:</p><ul id="65428474-8538-4e36-bea1-4c721b757cb2" class="bulleted-list"><li>It is generally important to not focus too much on one thing because you might not see some other obvious issues which have been hidden by drawing your attention into a rabbit hole.</li></ul><ul id="9677e23a-f05f-477c-8b4c-91a85ca456da" class="bulleted-list"><li>Look everywhere you can for sensitive data, do not just keep it to the topics covered in this article but if you can think of any other places to look for sensitive data, definitely add it to your methodology.</li></ul><ul id="ef1d248b-52cf-472e-955d-4435926b60a7" class="bulleted-list"><li>Usually you will not find information when you are specifically looking for it but when you are doing other activities. This means that you need to pretty decent at recognising what sensitive data looks like. This requires some pretty deep understanding of the target you are attacking, otherwise you can&#x27;t know what is supposed to be sensitive information</li></ul><h1 id="22f4cbba-4ea8-4f54-b064-a138253ddf4f" class="">Checklist</h1><ul id="3ba8d786-c65e-4c27-ab68-248fc9bd8671" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">If possible check for physical threats</span></li></ul><ul id="afd7f3ab-745b-43c3-88af-8b2e218cc1a3" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">If the target disclosed debug information, explore it</span></li></ul><ul id="67f2ab4e-7ff5-4271-9174-0c02095cff1f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Explore Git, both the company profiles and the employees</span></li></ul><ul id="badff152-9fac-44f6-8c37-8deb3c9d3c48" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Explore social media such as twitter, facebook and linkedIn. both the company profiles and the employees</span></li></ul><ul id="3d742712-f90b-45a2-bab6-bad6d60a8ac5" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Check the comments of the HTML and javascript file</span></li></ul><ul id="e52d76bd-f045-4254-8b4b-29bc225eb0c5" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Check for directory listings</span></li></ul><ul id="40fee2bb-db46-4e26-860c-cc8241784425" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Check for backups, if possible by directory tree or by brute forcing and fuzzing looking for .bak files</span></li></ul><h1 id="4e2f8f8e-f532-4051-98f5-ed67f53572dc" class="">Conclusion</h1><p id="81835d0f-ceff-42b9-87fc-9c64498d5305" class="">Sensitive information disclosure is one of the bugs that rarely leads to a report as a bug bounty hunter and rarely leads to a report with more than a medium/low severity rating. When it comes to the leaking of </p><ul id="9d47a3b9-f9a4-4e93-aa8d-800731189e6d" class="bulleted-list"><li>88Account information</li></ul><ul id="ae57375c-19eb-4eae-b290-1903a277e06c" class="bulleted-list"><li>edentials3e2ia</li></ul><ul id="aa7fad8d-b98b-4b35-93c4-43e04a87897f" class="bulleted-list"><li>API keys</li></ul><p id="3f3bdfbc-d19b-4f11-891f-c2d46f75e710" class="">Usually information disclosure is used to pivot to a much more impactful vulnerability. Information in and off itself is useless if we can&#x27;t use it after all.</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

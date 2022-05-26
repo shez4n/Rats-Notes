@@ -1,0 +1,631 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Injection</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="299ca260-cd4e-4c5e-9afc-f191d2b8f1e9" class="page sans"><header><h1 class="page-title">1. Injection</h1></header><div class="page-body"><nav id="c507a488-190e-4ad9-b2dd-e5de51eb105d" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ad25c188-a621-4b77-8945-2f56f265c77b">Introductions</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#db61948b-3639-4beb-92cb-569ac170f836">What is it? </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#56c9e73a-fc44-4209-9f57-5bc35ff6f92a">SQL injection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a3085db3-603e-4416-8c63-4776d1e1900c">Hacker&#x27;s POV</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b4ba4cee-012a-4568-bd18-416770772220">Developer&#x27;s POV</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8700bff6-65ed-46bb-9bc4-88eb31f4815f">OS Command injection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ef564d52-4b4f-4267-a3dd-8097dc9c92ab">What is it?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e601781f-4f74-4e7b-b429-a5b4ef56b76b">Attack strategy</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#434d958b-6757-4a46-92a0-15ac2eae7a65">Separators</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2fddfb32-5392-4c0b-9278-7c17a7767f98">Commands</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#74daf026-b956-4f89-8675-1a1e83285276">fuzzing list</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#77faee02-d02c-4fc3-82a2-3955e8dbf02d">Blind command injection</a></div></nav><h1 id="ad25c188-a621-4b77-8945-2f56f265c77b" class="">Introductions</h1><p id="59a1d909-df75-4fdc-9206-a76c4c0d05ae" class="">When OWASP talks about injection flaws it&#x27;s refering to flaws that allow for anything ranging from low impact issues (HTML injection) to critical bugs (SQLi allowing for dropping of table). Basically anything in between can also be mentioned here like LDAP injection, OS command injection, ... . These vulnerabilities all have one thing in common, their root cause. They all occur because developer pass unsanitised data from the user to an interpreter.  </p><h1 id="db61948b-3639-4beb-92cb-569ac170f836" class="">What is it? </h1><p id="bb5a861b-1820-4ee1-8b37-1656a0065d50" class="">If you are a developer you&#x27;ve probably written some queries by now, these queries might sometimes take user input as well, for example:</p><pre id="ca153e7a-20c3-4a09-ba9f-529d16a61ec8" class="code"><code>SELECT * FROM PRODUCTS WHERE TEXT LIKE &#x27;%&quot; . $_GET[&#x27;q&#x27;] . &quot;%&#x27;;</code></pre><p id="6feb7192-bb23-4201-8aa8-a703bd70d97f" class="">This innocent looking line of code can mess up a lot if we don&#x27;t sanitize the user input properly. A malicious user might enter a quote here which would interrupt the SQL statement and allow for the execution of user submitted queries. As you can imagine this is not something desireable and we have many different types of injection. Today we will be going over several of them and we will be looking at the from different viewpoints. We also need to note SQL injection is just a small part of this puzzel and we will go over command injection as well.</p><h1 id="56c9e73a-fc44-4209-9f57-5bc35ff6f92a" class="">SQL injection</h1><h2 id="a3085db3-603e-4416-8c63-4776d1e1900c" class="">Hacker&#x27;s POV</h2><p id="4607fd97-8c1f-4184-9574-096e5ce3ff0a" class="">As a hacker, my point of view is going to be one of trying to rely on the fact that the developer will need to sanitize all my data and if they forget to do that at even just 1 point i might have a possible entry point for attacks. This is why my strategy as a test will depend very heavily on testing every single parameter that i see and and even the ones i don&#x27;t see directly. </p><p id="97d5e16a-a633-450a-8cc2-9ae128557313" class="">Since we can test for both SQLi and blind SQLi, this complicates matters. Blind SQLi is where the server will not return any values for us to process, we can only test this method by sending a query which is known to cause a delay but this has several issues that come along:</p><ul id="27ccdc2c-dc31-403f-a209-8b303f7efd4f" class="bulleted-list"><li>Any lag can cause a delay in the response making it seem like the blind SQLi triggered while it did not </li></ul><ul id="373fb1e4-3f63-4b97-9975-57003bb0773d" class="bulleted-list"><li>You need to know what DB your target uses so you can specificy a command for that server</li></ul><ul id="f8f383e1-19a9-43c7-b129-7645038a1a3c" class="bulleted-list"><li>Blind SQLi testing is harder on calls that are already slow by nature, you will have to implement a very long wait to see if it is applied correctly</li></ul><p id="70e477ba-e8e7-4550-bc77-f43de23a4060" class="">With this in mind, we will try to test every single parameter we can find for SQLi if we have a suspiscion of database queries being executed which we can control. A typical practical example you will find out there is SQLi on login and while this may happen on a pentest, it never does on a bug bounty target. That would just be way too obvious, we will have to look for those hidden parameters in javascript files, hidden form fields, waybackmachine and whatever else we can think of.</p><p id="956ef7d4-9ea1-4fe9-9931-69c532d11c5e" class="">We typically test with a single and double quote </p><pre id="3f935a9b-c8fd-4f92-86fa-a6bdb3892cc2" class="code"><code>&#x27;&quot;</code></pre><p id="1932eaff-f6e9-4176-b754-458268bbbdcb" class="">When we see a SQL error, we will investigate further, either with tools like <a href="http://sqlmap.py">SQLmap.py</a> or manually, though we have to note this does not work for blind SQLi.</p><h2 id="b4ba4cee-012a-4568-bd18-416770772220" class="">Developer&#x27;s POV</h2><p id="159b9492-d6f2-439a-8946-9a5abdb71092" class="">A developer has a really tough job when it comes to SQLi protection, not only do they have to sanitize every parameter the user can control directly but they also have to think about indirect influence over their application. For example there might be batch jobs running that pick up files, the contents of those files often do need to be sanitized but that&#x27;s not always easy. </p><p id="68ced9b7-d8a8-45f7-a82a-8d785f44feba" class="">When third part applications start sending our application data, it becomes a total mess very easily and it&#x27;s super easy to slip up and forget to sanitize one piece of information which could set off a chain reaction that you do not want to get deducted from your paycheque. </p><p id="12c2d7f8-84e7-4dc1-9acb-c0755d974f61" class="">As a developer you would do wise to follow some basic security principles to negate or avoid these kinds of attacks.</p><ul id="349eed99-b470-4643-a06d-eb8e977e67f7" class="bulleted-list"><li>Principle of least needed privilidges: If you have a query that needs to read from the database only, then maybe we don&#x27;t need a user for that which can write or even delete data. If possible, we should always keep our users seperate wherever possible so that if we do get hacked, the hacker might have the least amount of priviledges possible</li></ul><ul id="5926fd59-8ee7-4e19-9ee0-b81c5810ae1b" class="bulleted-list"><li>Objection relationship mapping: What the developer can also do is create objects and then map those to certain database fields. When a query then needs to get executed, the query will happen on the collection of data objects and no longer on the database itself, taking away a big attack vector for SQLi</li></ul><ul id="b6f24e9f-d658-46e2-aed2-8c333cc1dacf" class="bulleted-list"><li>Prepared statements: For places where you do need to interact with the database directly, it is always recommend to use prepared statements. They will be safer to use than to straight up create a database request.</li></ul><ul id="f67ab379-e9f2-4599-a40b-7c24970051ce" class="bulleted-list"><li>Whatever we decide to do, it is vital to sanitize user input wherever it interacts with our program</li></ul><h1 id="8700bff6-65ed-46bb-9bc4-88eb31f4815f" class="">OS Command injection</h1><h2 id="ef564d52-4b4f-4267-a3dd-8097dc9c92ab" class="">What is it?</h2><p id="b7522b46-5cfc-4591-b30e-bede6b413070" class="">Command injection happens when we can control a parameter that gets passed into a shell. If that input is not handled safely and sanitised properly, we can insert a command into our input and have that executed by the shell. Depending on the capabilities and privilidges of that shell, we can execute various commands.</p><p id="d89ffc77-7321-4aad-9b09-1ac5f6107320" class="">The theory sounds very simple however it&#x27;s not simple at all to find this kind of vulnerability.</p><p id="a09525f4-8bd7-4409-9ede-e38def64ed02" class="">
+</p><figure id="be9472e2-d55e-44b3-8293-28d704f7f153" class="image"><a href="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled.png"><img style="width:1030px" src="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled.png"/></a></figure><h2 id="e601781f-4f74-4e7b-b429-a5b4ef56b76b" class="">Attack strategy</h2><p id="66d1bcbf-4b28-4f46-82d0-17d854cd81b6" class="">The reason command injection is so hard to find is because we never really know which of our processes will trigger a back-end shell to execute. This means we will need to fuzz every parameter we find but you might be wondering what characters to fuzz with. To determine this, we first need to talk about which command separators can possibly be used and also which commands.</p><h3 id="434d958b-6757-4a46-92a0-15ac2eae7a65" class="">Separators</h3><p id="239ffb7c-4362-4d9b-9338-2a293b3fa7e4" class="">The following command separators work on both Windows and Unix-based systems:</p><ul id="de615724-8741-4cd6-85e7-859e4217d264" class="bulleted-list"><li><code>&amp;</code></li></ul><ul id="520d64c3-257c-4c4c-9b4f-07cd852635c3" class="bulleted-list"><li><code>&amp;&amp;</code></li></ul><ul id="815c523c-fe93-45d1-a372-5537db3e9169" class="bulleted-list"><li><code>|</code></li></ul><ul id="1714fc53-e74e-40f5-854d-ee6b5e8bfe39" class="bulleted-list"><li><code>||</code></li></ul><p id="80060c6b-75a9-4c05-9c08-9c5571988e62" class="">The following command separators work only on Unix-based systems:</p><ul id="43092b93-14a3-4e63-a412-3e1c68a9b28e" class="bulleted-list"><li><code>;</code></li></ul><ul id="4c7f6711-e2f0-423c-9343-3191d957e1bc" class="bulleted-list"><li>Newline (<code>0x0a</code> or <code>\n</code>)</li></ul><p id="f6763728-52f1-4d93-8bad-22e0022bdccf" class="">On Unix-based systems, you can also use backticks or the dollar character to perform inline execution of an injected command within the original command:</p><ul id="942db484-6b9e-4ffb-93be-f12fcb685941" class="bulleted-list"><li><code>`</code> injected command <code>`</code></li></ul><ul id="93c8727d-2d5d-4414-ae51-730b6dfa844f" class="bulleted-list"><li><code>$(</code> injected command <code>)</code></li></ul><h3 id="2fddfb32-5392-4c0b-9278-7c17a7767f98" class="">Commands</h3><p id="1201f364-1f92-415b-a15f-20f478ecfe07" class="">Below is a summary of some commands that are useful on Linux and Windows platforms:</p><div id="00be2c96-ca4a-45b5-adfa-d32224ecfcdf" class="collection-content"><h4 class="collection-title">Copy of Linux and windows commands</h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z"></path></svg></span>Purpose of command</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>Linux</th><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z"></path></svg></span>Windows</th></tr></thead><tbody><tr id="0ab7d535-bb13-4758-980b-cecddb4c0071"><td class="cell-title"><a href="1%20Injection%20299ca260cd4e4c5e9afcf191d2b8f1e9/Copy%20of%20Linux%20and%20windows%20commands%2000be2c96ca4a45b5adfad32224ecfcdf/Name%20of%20current%20user%200ab7d535bb134758980bcecddb4c0071.html">Name of current user</a></td><td class="cell-_}Ww"><code>whoami</code></td><td class="cell-^xtv"><code>whoami</code></td></tr><tr id="9f593773-3618-4570-91ea-5bf25b95ec81"><td class="cell-title"><a href="1%20Injection%20299ca260cd4e4c5e9afcf191d2b8f1e9/Copy%20of%20Linux%20and%20windows%20commands%2000be2c96ca4a45b5adfad32224ecfcdf/Operating%20system%209f5937733618457091ea5bf25b95ec81.html">Operating system</a></td><td class="cell-_}Ww"><code>uname -a</code></td><td class="cell-^xtv"><code>ver</code></td></tr><tr id="3a10ef04-443e-4d84-bf60-c93da2e7d88a"><td class="cell-title"><a href="1%20Injection%20299ca260cd4e4c5e9afcf191d2b8f1e9/Copy%20of%20Linux%20and%20windows%20commands%2000be2c96ca4a45b5adfad32224ecfcdf/Network%20configuration%203a10ef04443e4d84bf60c93da2e7d88a.html">Network configuration</a></td><td class="cell-_}Ww"><code>ifconfig</code></td><td class="cell-^xtv"><code>ipconfig /all</code></td></tr><tr id="591bc10a-2870-4c5d-ae42-eb086c9f3d04"><td class="cell-title"><a href="1%20Injection%20299ca260cd4e4c5e9afcf191d2b8f1e9/Copy%20of%20Linux%20and%20windows%20commands%2000be2c96ca4a45b5adfad32224ecfcdf/Network%20connections%20591bc10a28704c5dae42eb086c9f3d04.html">Network connections</a></td><td class="cell-_}Ww"><code>netstat -an</code></td><td class="cell-^xtv"><code>netstat -an</code></td></tr><tr id="642fb168-7317-4dde-9fbf-7ce898295e58"><td class="cell-title"><a href="1%20Injection%20299ca260cd4e4c5e9afcf191d2b8f1e9/Copy%20of%20Linux%20and%20windows%20commands%2000be2c96ca4a45b5adfad32224ecfcdf/Running%20processes%20642fb16873174dde9fbf7ce898295e58.html">Running processes</a></td><td class="cell-_}Ww"><code>ps -ef</code></td><td class="cell-^xtv"><code>tasklist</code></td></tr></tbody></table></div><h2 id="74daf026-b956-4f89-8675-1a1e83285276" class="">fuzzing list</h2><p id="3c63952a-e73e-4b56-81de-aa1267bc1f43" class="">Based on this, we can create a fuzzing list that contains all the seperators togheter with all the possible commands. I will leave this up to you as it should be a good exercise. Feel free to contact me on discord if you have issues with this however. </p><p id="46a2307a-84f8-45cb-9783-fb72ab43c310" class="">Fuzz every single parameter you can find with this worldlist by using burp intruder.</p><p id="5d292b49-34d2-48d2-8639-4fec47d12226" class="">
+</p><figure id="adc243bb-0eda-4b93-b54b-25eb57acfcd4" class="image"><a href="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled%201.png"><img style="width:2322px" src="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled%201.png"/></a></figure><p id="2618f938-e5bb-4bd7-b9de-05140e384ce4" class="">
+</p><figure id="73b2066c-f4b8-4435-8eee-25160876fb85" class="image"><a href="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled%202.png"><img style="width:1226px" src="../../Vulnerability%20types%20d6487b7204244f159482be2dfb025fea/Command%20injection%20f3446f65fdc9437b9c16ef96b33edc36/Untitled%202.png"/></a></figure><p id="9e60a230-bc99-4d66-84c3-c163ab43515e" class="">As you can see in the screenshot, we load in our fuzzing list and mark the parameters we want to test.</p><h2 id="77faee02-d02c-4fc3-82a2-3955e8dbf02d" class="">Blind command injection</h2><p id="aa27741f-a856-4406-bd8c-5d55e3a34f72" class="">We can test for blind command injection by launching a request that will execute a ping command to the loopback adress. </p><pre id="f7d4cde8-c7c9-4b08-bcb8-bf7e5aca86c1" class="code"><code>&amp; ping -c 10 127.0.0.1 &amp;</code></pre><p id="37b6ca80-eb8a-4ba9-a441-b65ce46b3ee8" class="">Again, add this to your fuzzing list and mind the response time for this attack vector. If it&#x27;s longer than 10 seconds, we probably have a blind command injection but be mindful as lag might occur and give a false positive.</p><p id="8bff1a58-7660-412f-b4c7-9c7511640748" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>

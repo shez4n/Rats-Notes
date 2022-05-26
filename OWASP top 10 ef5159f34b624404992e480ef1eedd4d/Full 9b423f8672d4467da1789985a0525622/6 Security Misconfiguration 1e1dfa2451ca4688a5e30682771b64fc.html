@@ -1,0 +1,629 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>6. Security Misconfiguration</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1e1dfa24-51ca-4688-a5e3-0682771b64fc" class="page sans"><header><h1 class="page-title">6. Security Misconfiguration</h1></header><div class="page-body"><nav id="cee38540-48b6-4d79-a5e3-3fc16f864be5" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f479e362-33db-4a42-bedc-534580ce8f61">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#fafd8fee-4caf-4f1d-9209-d09c4bdec58f">Is my target vulnerable?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6dc0cbe4-51cc-4c45-bd7f-0bf6ad5f2f9d">Mitigations</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#85dccb0c-92fe-4014-afb3-df09fe6fca12">What are we hunting for?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a4ba03bb-ff32-4d8c-b1cf-5ad9e99e1d73">Test network infrastructure configuration</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#b04410db-83ad-4053-9dfc-83255b73e355">Cloud storage misconfigurations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9bfb0b8a-0ae2-4e94-b656-3d9af6c13b2d">Testing alternative HTTP methods</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8de4a257-f753-4099-883a-a158938f5c16">Test HTTP Strict Transport Security</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8800ff32-1d02-4714-8711-0c60d9f2d04c">So how do we hunt for this?</a></div></nav><h1 id="f479e362-33db-4a42-bedc-534580ce8f61" class="">Introduction</h1><p id="0d7ed0f8-882b-4df7-84b9-37ec8c08de9b" class="">I believe this name was chosen to be as ambigious as possible. It can encompass anything and everything related to configurations but if we do some effort it is possible to define a general testing guide for security misconfigurations by looking at the common properties of all the vulnerabilities we can find in writeups and hacktivities. </p><h1 id="fafd8fee-4caf-4f1d-9209-d09c4bdec58f" class="">Is my target vulnerable?</h1><p id="f63a7b91-7e5c-46fa-81f5-40fa69c94d5b" class="">The following properties of a system will indicate a likely vulnerability though some of these properties are a bit more ambigious and harder to test. </p><ul id="e9b55360-a566-430a-9291-4d3c95ac4d2b" class="bulleted-list"><li>Missing appropriate security hardening across any part of the application stack. Most applications these days consists of complete technical solutions and issues might arise in any of these components. To test for this properly we need to have a good overview of our system under test though. </li></ul><ul id="6e385fb4-143f-4bc6-b71c-3831539a72ac" class="bulleted-list"><li>When our target uses cloud services, they need to make sure to configure the authentication and authorisation on those properly as well. </li></ul><ul id="7dca286a-9d80-487b-9689-624ea4df74c0" class="bulleted-list"><li>If features are enabled that are not being used this can lead to some serious security impact in certain cases. An example we can think of is leaving a port open that is not needed while having vulnerable software running on there. </li></ul><ul id="ee4930e1-257a-40f3-9d8a-dcba28dd4c5a" class="bulleted-list"><li>Some admins are very lazy and they might leave passwords default or super easy to guess like test/test. This is also a security misconfiguration of course. </li></ul><ul id="b65c3c2c-d622-40ad-a793-b4dadb2a845b" class="bulleted-list"><li>Our target needs to keep it&#x27;s systems and dependencies up to date. Besides keeping them up-to-date we need to make sure these components are enabled and configured properly.</li></ul><ul id="557de170-32d9-4834-ad48-964380d48179" class="bulleted-list"><li>If any of the settings surrounding security is set to an insecure value. </li></ul><ul id="a958f72f-f9d0-4c41-93fd-1b54316ad8c4" class="bulleted-list"><li>The server does not send security headers or directives or they are not set to secure values</li></ul><p id="1ba5c7a7-9c81-4f6e-8779-9ab928f35176" class="">To prevent these kinds of vulnerabilities, we can implement some mitigations. </p><h2 id="6dc0cbe4-51cc-4c45-bd7f-0bf6ad5f2f9d" class="">Mitigations</h2><ul id="073e6ce4-d32a-46f0-8c00-7ce26459a847" class="bulleted-list"><li>Automated systems need to be in place to easily deploy a new testing enviornment that is identical to the PRD enviornement in regards to security and configuration. </li></ul><ul id="0bc716e1-b349-478b-9be0-c3732d59f036" class="bulleted-list"><li>The DTAP (Development, testing, acceptance and production) enviornments should ideally be identical with different credentials used in each enviornment. </li></ul><ul id="4b410aad-8f67-4ffa-8f6c-c28315f31039" class="bulleted-list"><li>We need to have the minimum amount of functionality possible enabled. If we don&#x27;t strictly need a component for our application, we should disable those components. This includes shadow-api&#x27;s which are api&#x27;s that are online but which nobody knows they exist off. </li></ul><ul id="5797b15b-e9bf-438e-901d-3f3d2c8e3b49" class="bulleted-list"><li>We need to implement a process to do a periodic security review that focusses on cloud storage strategies (i. e. s3 buckets)</li></ul><ul id="372dcddf-0f8e-4169-bb2b-17fd39d79bd6" class="bulleted-list"><li>A good seperation of components with attention to seperating tenants if they use the same hardware. </li></ul><ul id="b6f16b31-edaa-48f9-bc45-06110359f793" class="bulleted-list"><li>Every components needs to have a very well defined security profile</li></ul><ul id="4b25b0c0-838e-4170-9650-09a7bc65d131" class="bulleted-list"><li>Our applications should always send security directives like headers</li></ul><ul id="cc961414-d797-4209-b24f-c37a953f5a75" class="bulleted-list"><li>We should automate the verification of our security settings as much as possible so we can pick up on issues before they make it to the production enviornment. Static code reviews can also help. </li></ul><h1 id="85dccb0c-92fe-4014-afb3-df09fe6fca12" class="">What are we hunting for?</h1><p id="e103a92a-d0ba-4ce4-b5c4-a92cf4e963ec" class="">All of these best practices serve to cover a particular goal but we also need to know what these goals are so we can test with precision. </p><ul id="fc6d116f-7ce5-47d4-8fd8-9c14e52f4915" class="bulleted-list"><li>Cloud storage misconfigurations</li></ul><ul id="f1468d2e-ad51-4553-9cf3-1f5a6051d632" class="bulleted-list"><li>Test network infrastructure configuration</li></ul><ul id="ebf74768-7c67-4a39-8bec-c11ae8f8b578" class="bulleted-list"><li>Test Application Platform Configuration</li></ul><ul id="a998e66e-dd3b-4b05-ac2e-caac82f93f18" class="bulleted-list"><li>Testing alternative HTTP methods</li></ul><ul id="5fa74f20-4197-44c3-a52f-169a885f44f3" class="bulleted-list"><li>Test HTTP Strict Transport Security</li></ul><h2 id="a4ba03bb-ff32-4d8c-b1cf-5ad9e99e1d73" class="">Test network infrastructure configuration</h2><p id="f3ad02c0-1542-4cf2-b896-6555c907f76a" class="">This can be anything from an exposed admin panel to known server vulnerabilities. Pretty much any attack that can be performed over the network and relies on configuration can be put into this category. </p><h2 id="b04410db-83ad-4053-9dfc-83255b73e355" class="">Cloud storage misconfigurations</h2><p id="e394e498-3c0d-4d7e-b4eb-cf410f6e6494" class="">Companies often use services like S3 buckets from amazon without properly understanding them. This might lead to misconfigurations happening which could allow things like unauthenticated access. </p><h2 id="9bfb0b8a-0ae2-4e94-b656-3d9af6c13b2d" class="">Testing alternative HTTP methods</h2><p id="f31d9d7d-8d5e-41a2-bfa4-7b4de1a2604e" class="">Just like we already talked about in chapter 5 (Broken access control), we can use the OPTIONS http method to find out which http methods we are able to execute and sometimes this might concern http methods which are not fully implemeted on the server. </p><h2 id="8de4a257-f753-4099-883a-a158938f5c16" class="">Test HTTP Strict Transport Security</h2><p id="4fd5faa6-5ccd-4d22-9228-bfcf9c30bd3e" class="">This is not interesting at all for bug bounty hunters but pentesters should reports this as a best practice. A website should always force the user onto the https version of the website. </p><h1 id="8800ff32-1d02-4714-8711-0c60d9f2d04c" class="">So how do we hunt for this?</h1><p id="a776be0a-0ce5-4216-83f5-f6f64229c068" class="">Hunting for security misconfigurations requires some special conditions because you need to either have a confirmeable guess at a certain configuration or have access to how a system works by for example looking at it&#x27;s source code on github. You will also need to confirm these findings though since an unconfirmed vulnerability isn&#x27;t really one at all. </p><p id="49c00b09-883f-409b-b6bf-2f620401d2d0" class="">We can start by doing some google dorking and looking for conf file or yaml or xml or anything related to configurations. </p><pre id="0237957b-6f8d-4c27-98bf-e961730cd4fe" class="code"><code>filtype:cfg or filetype:yml or filetype:xml or intitle:&quot;Config&quot; or ...</code></pre><p id="953caa0d-e239-4357-8c86-33823fc7e2b3" class="">besides google dorking we can do the exact same thing for github where we might have some more luck as usually developers will mask things like passwords by putting them into environment variables but they leave all the other settings in plain sight. </p><p id="37a84fbd-5158-4609-bb2f-f5def7b7b2fe" class="">whenever you come across a configuration file it is up to you to find out exactly what every setting is for and if that setting can be unsafe by simply googling around and even just reading the manuals of the components for which those config files serve. </p><p id="af80008b-292c-4c08-893e-50922750f3a5" class="">
+</p><p id="d354cb51-5e41-43a5-a7dd-a080bb772d9f" class="">
+</p></div></article><a href="https://hide01.ir"><span class="icon">🎩</span>Hide01</a></body></html>
